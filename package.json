@@ -1,0 +1,24 @@
+{
+  "name": "discord-games",
+  "version": "1.0.0",
+  "description": "a Discord bot that offers various multiplayer games in french",
+  "main": "index.js",
+  "dependencies": {
+    "discord.js": "^12.2.0",
+    "node.js": "^0.0.1-security"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shirlawalex/discord-games.git"
+  },
+  "author": "shirlawalex",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shirlawalex/discord-games/issues"
+  },
+  "homepage": "https://github.com/shirlawalex/discord-games#readme"
+}
