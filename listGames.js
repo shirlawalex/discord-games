@@ -1,5 +1,8 @@
-const Avalon = require('./Games/avalon.js')
+//const Avalon = require('./Games/avalon.js')
 
-module.exports = matchEmoji (message) {
-  return message.content.startsWith('!avalon')
+var parseAll = function(message) {
+  let commandUsed =
+  //Avalon.parse(message) // || Uno.parse(message)
 }
+
+exports.parseAll = parseAll;

@@ -4,17 +4,18 @@ module.exports  = class Games {
 
   static parse (message) {
     if (this.matchEmoji(message)) {
-      this.newChannel(message)
+      this.helloWorld(message)
+      //this.newChannel(message)
       return true
     }
     return false
   }
 
   static newChannel (message) {
-    let number = Math.random() * 65535 //max 4 hexa digit
-    let nmaeChannel = 'Games' + number.toString(16);
+    let number = Math.random() / 65535 //max 4 hexa digit
+    let nameChannel = 'Games' + number.toString(4);
     let guild = message.guild;  //Get guild from the message
-    guild.channels.create('Games',{
+    guild.channels.create(nameChannel,{
       type: 'text',
       permissionOverwrites: [
         {
@@ -38,4 +39,12 @@ module.exports  = class Games {
       return false
     }
 
+    static helloWorld (message) {
+      message.reply('Hello World !')
+    }
+
+    static nameChannel () {
+      let number = Math.floor((Math.random() * 65535) + 4096) //a random number with 4 hexa digit
+      return 'UndefinedGame-' + number.toString(16);
+    }
   }
