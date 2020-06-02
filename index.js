@@ -9,8 +9,9 @@ var jsonText = JSON.parse(fs.readFileSync("./json/text.json"));
 var jsonGames = JSON.parse(fs.readFileSync("./json/games.json"));
 var lang = "Fr"
 var idMain = 0
-var menu = "menu"
+var main = "main"
 let nameMainChannel = "presentation-channel"
+var listGamesMessage = new Map() //Map of games launcher { message.id : "name" }
 
 var displayText = function (context,key){
   // console.log(text[context][key][lang])
@@ -27,18 +28,18 @@ bot.on('ready', () => {
 Create the main Channel
 Display the presentation
 */
-//aux function Presentation
+//auxiliary function Presentation
 var displayPresentation = (channel) => {
   // Display Presentation
-  channel.send(displayText(menu,"presentation"))
+  channel.send(displayText(main,"presentation"))
 
   //Display list of Games and add reaction
-  channel.send(displayText(menu,"listGames"))
+  channel.send(displayText(main,"listGames"))
   jsonGames.forEach( element => {
     channel.send(element)
     .then( message => {
       message.react("🆕")
-      listGamesMessage.push(message)
+      listGamesMessage.set(message.id,element)
     })
   })
 }
@@ -46,9 +47,9 @@ var displayPresentation = (channel) => {
 //main function Presentation
 bot.on('guildCreate', (server) => {
   console.log("Bot add to the Guild");
-  let topicChannel = displayText(menu,"topic")
-  let reasonChannel = displayText(menu,"reason")
-  listGamesMessage = [] //empty the list
+  let topicChannel = displayText(main,"topic")
+  let reasonChannel = displayText(main,"reason")
+  listGamesMessage.clear() //empty the Map
   //if already exist just clean et display again
   // console.log(server.channels)
   let bool = false
@@ -76,12 +77,20 @@ bot.on('guildCreate', (server) => {
 Start a new game
 check if it's not the Bot that react to the message
 */
-// Games.parseAll(message);
+bot.on('messageReactionAdd', (reaction, user) => {
+  const message = reaction.message
+  const guild = message.guild
+  // const member = message.guild.members.get(user.id)
+  if(user.bot) return
+
+  if(listGamesMessage.has(message.id)){
+    Games.launch(guild,listGamesMessage.get(message.id));
+  }
+})
 
 
-
-//When User send a message
 /*
+When User send a message
 Execute the command called
 */
 bot.on('message', (message) => {
@@ -94,7 +103,7 @@ bot.on('message', (message) => {
     console.log("lang to Fr")
   }
   if(message.content === "!presentation"){
-    console.log(displayText(menu,"presentation",lang))
+    console.log(displayText(main,"presentation",lang))
   }
   //Display again the Presentation text
   if(message.content === "!restart"){
