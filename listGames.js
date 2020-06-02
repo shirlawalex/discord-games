@@ -1,7 +1,7 @@
 //const Avalon = require('./Games/avalon.js')
 
 var parseAll = function(message) {
-  let commandUsed =
+  // let commandUsed =
   //Avalon.parse(message) // || Uno.parse(message)
 }
 

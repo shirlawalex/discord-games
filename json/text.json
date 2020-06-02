@@ -1,0 +1,34 @@
+{
+  "menu" : {
+    "welcome" :
+    {
+      "En" : "Welcome",
+      "Fr" : "Bienvenue"
+    },
+    "topic" :
+    {
+      "En" : "The Presentation's Channel of \"Discord Games\"",
+      "Fr" : "Le Channel de Presentation de \"Discord Games\""
+    },
+    "reason" :
+    {
+      "En" : "The Presentation's Channel is a nice GUI for \"Discord Games\", easier than by commands",
+      "Fr" : "Le Channel de Presentation est une jolie interface pour \"Discord Games\", plus simple que par des commandes"
+    },
+    "presentation" :
+    {
+      "En" : "Discord games offers a various choice of games",
+      "Fr" : "Discord games vous proposes divers choix de jeux"
+    },
+    "listGames" :
+    {
+      "En" : "To start a game, you need to react with \"🆕\" under a game. \n We have : Avalon, Uno, Mascarade, Dictateur, ...",
+      "Fr" : "Pour lancer une partie, il suffit de cliquer l'emoji \"🆕\" sous le nom du jeux. \n Nous avons : Avalon, Uno, Mascarade, Dictateur, ..."
+    },
+    "credit":
+    {
+      "En" : "Author : Alex Shirlaw (shirlawalex@gmail.com)",
+      "Fr" : "Auteur : Alex Shirlaw (shirlawalex@gmail.com)"
+    }
+  }
+}
