@@ -1,5 +1,5 @@
-//const Avalon = require('./Games/Avalon/avalon.js')
 const GameTemplate = require('./Games/GameTemplate/gameTemplate.js')
+const Avalon = require('./Games/Avalon/avalon.js')
 
 var launchGames = function(guild,nameGame) {
   switch (nameGame) {
@@ -7,7 +7,7 @@ var launchGames = function(guild,nameGame) {
       GameTemplate.launch(guild)
       break;
     case "Avalon":
-      // Avalon.launch(guild)
+      Avalon.launch(guild)
       break;
     // case "Dictateur":
       //   Dictateur.launch(guild)
@@ -19,4 +19,4 @@ var launchGames = function(guild,nameGame) {
   //Avalon.parse(message) // || Uno.parse(message)
 }
 
-exports.launch = launchGames;
+exports.launcher = launchGames;

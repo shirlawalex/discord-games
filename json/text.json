@@ -5,12 +5,22 @@
       "En" : "Welcome",
       "Fr" : "Bienvenue"
     },
-    "topic" :
+    "topicParent" :
+    {
+      "En" : "The parent category for all Channels of \"Discord Games\"",
+      "Fr" : "La catégory parent de tous les Channels de \"Discord Games\""
+    },
+    "reasonParent" :
+    {
+      "En" : "Is better to have all Channels in a same category.",
+      "Fr" : "C'est mieux d'avoir tous les Channels sous la même catégorie."
+    },
+    "topicMain" :
     {
       "En" : "The Presentation's Channel of \"Discord Games\"",
       "Fr" : "Le Channel de Presentation de \"Discord Games\""
     },
-    "reason" :
+    "reasonMain" :
     {
       "En" : "The Presentation's Channel is a nice GUI for \"Discord Games\", easier than by commands",
       "Fr" : "Le Channel de Presentation est une jolie interface pour \"Discord Games\", plus simple que par des commandes"
@@ -24,6 +34,11 @@
     {
       "En" : "To start a game, you need to react with \"🆕\" under a game. \n We have : Avalon, Uno, Mascarade, Dictateur, ...",
       "Fr" : "Pour lancer une partie, il suffit de cliquer l'emoji \"🆕\" sous le nom du jeux. \n Nous avons : Avalon, Uno, Mascarade, Dictateur, ..."
+    },
+    "donation" :
+    {
+      "En" : "utip, paypal",
+      "Fr" : "utip, paypal"
     },
     "credit":
     {

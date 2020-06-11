@@ -10,7 +10,9 @@ var jsonGames = JSON.parse(fs.readFileSync("./json/games.json"));
 var lang = "Fr"
 var idMain = 0
 var main = "main"
+let nameParentChannel = "GAME CHANNELS"
 let nameMainChannel = "presentation-channel"
+
 var listGamesMessage = new Map() //Map of games launcher { message.id : "name" }
 
 var displayText = function (context,key){
@@ -45,30 +47,63 @@ var displayPresentation = (channel) => {
 }
 
 //main function Presentation
-bot.on('guildCreate', (server) => {
+bot.on('guildCreate', (guild) => {
   console.log("Bot add to the Guild");
-  let topicChannel = displayText(main,"topic")
-  let reasonChannel = displayText(main,"reason")
+  let topicParent = displayText(main,"topicParent")
+  let reasonParent = displayText(main,"reasonParent")
+  let topicChannel = displayText(main,"topicMain")
+  let reasonChannel = displayText(main,"reasonMain")
   listGamesMessage.clear() //empty the Map
-  //if already exist just clean et display again
-  // console.log(server.channels)
+
+  // Bool test of existing
   let bool = false
-  server.channels.cache.each(channel =>{
-    if(channel.name === nameMainChannel){
-      displayPresentation(channel)
+  let parentChannelPromise;
+
+  // Creation of the repository/category for the games
+  // If already exist do nothing
+  guild.channels.cache.each(channel => {
+
+    if(channel.type === 'category' && channel.name === nameParentChannel){
+      console.log("Category already existing")
       bool = true
+      parentChannelPromise = new Promise((resolve,reject) => {resolve(channel)});
     }
   })
-  if(bool == true){return true}
 
-  // Create a new channel for the Presentation of the games
-  server.channels.create(nameMainChannel, {
-    type : "text",
-    topic : topicChannel,
-    reason : reasonChannel
-  })
-  .then( (channel) => {
-    displayPresentation(channel)
+  // Else create the Parent Category
+  if(bool == false){
+    parentChannelPromise = guild.channels.create(nameParentChannel, {
+      type : "category",
+      topic : topicParent,
+      reason : reasonParent
+    })
+  }
+
+  // Reset of bool test of existing
+  bool = false
+
+  // Wait for the parent category to be created
+  parentChannelPromise.then( parentChannel => {
+
+    // If Presentation Channel already exist just clean et display again
+    parentChannel.children.each( channel => {
+      if(channel.name === nameMainChannel ){
+        displayPresentation(channel)
+        bool = true
+      }
+    })
+    if(bool == true){return true}
+
+    // Create a new channel for the Presentation of the games
+    guild.channels.create(nameMainChannel, {
+      type : "text",
+      topic : topicChannel,
+      reason : reasonChannel,
+      parent : parentChannel
+    })
+    .then( (channel) => {
+      displayPresentation(channel)
+    })
   })
 })
 
@@ -84,7 +119,9 @@ bot.on('messageReactionAdd', (reaction, user) => {
   if(user.bot) return
 
   if(listGamesMessage.has(message.id)){
-    Games.launch(guild,listGamesMessage.get(message.id));
+    Games.launcher(guild,listGamesMessage.get(message.id));
+    reaction.remove();
+    message.react("🆕")
   }
 })
 
@@ -105,11 +142,29 @@ bot.on('message', (message) => {
   if(message.content === "!presentation"){
     console.log(displayText(main,"presentation",lang))
   }
-  //Display again the Presentation text
+  // Delete all channel in the Category "Game Channels"
+  if(message.content === "!deleteAll"){
+    let guild = message.guild;
+    // Delete the channel
+    parentChannel = guild.channels.cache.find(channel => channel.name === nameParentChannel)
+    if(parentChannel !== undefined){
+      parentChannel.children.each(channel => {
+        channel.delete('making room for new channels')
+        .catch(console.error);
+      })
+    }
+  }
+  // Delete the current channel
+  if(message.content === "!deleteThisChannel"){
+    let channel = message.channel;
+    // Delete the channel
+    channel.delete('making room for new channels').catch(console.error)
+  }
+  // Display again the Presentation text
   if(message.content === "!restart"){
     bot.emit("guildCreate",message.guild);
   }
-  //Rename old main channel and create a new one
+  // Rename old main channel and create a new one
   if(message.content === "!newPresentationChannel"){
     message.guild.channels.cache.each(channel =>{
       if(channel.name === nameMainChannel){

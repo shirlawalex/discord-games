@@ -3,7 +3,7 @@ const Games = require("./../games")
 module.exports  = class GameTemplate extends Games {
 
     //Customized function
-    var nameGame = "Avalon"
+    static nameGame = "GameTemplate"
 
     static match(message) {
       // return (message.content == "Test")
@@ -15,8 +15,4 @@ module.exports  = class GameTemplate extends Games {
       console.log("Hello World ! Game Template")
     }
 
-    static nameChannel () {
-      let number = Math.floor((Math.random() * 65535) + 4096) //a random number with 4 hexa digit
-      return nameGame+ '-' + number.toString(16);
-    }
   }
