@@ -10,10 +10,14 @@ var jsonGames = JSON.parse(fs.readFileSync("./json/games.json"));
 var lang = "Fr"
 var idMain = 0
 var main = "main"
+var prefix = "!"
 let nameParentChannel = "GAME CHANNELS"
 let nameMainChannel = "presentation-channel"
+let idMainChannel = 0;
 
+// Collection of Data
 var listGamesMessage = new Map() //Map of games launcher { message.id : "name" }
+var gamesOngoing = new Map() // Map of the games ongoing { channel.id : Object Game }
 
 var displayText = function (context,key){
   // console.log(text[context][key][lang])
@@ -88,6 +92,7 @@ bot.on('guildCreate', (guild) => {
     // If Presentation Channel already exist just clean et display again
     parentChannel.children.each( channel => {
       if(channel.name === nameMainChannel ){
+        idMainChannel = channel.id;
         displayPresentation(channel)
         bool = true
       }
@@ -102,6 +107,7 @@ bot.on('guildCreate', (guild) => {
       parent : parentChannel
     })
     .then( (channel) => {
+      idMainChannel = channel.id;
       displayPresentation(channel)
     })
   })
@@ -114,14 +120,29 @@ check if it's not the Bot that react to the message
 */
 bot.on('messageReactionAdd', (reaction, user) => {
   const message = reaction.message
+  const idChannel = message.channel.id
   const guild = message.guild
+  const parent = message.channel.parent
   // const member = message.guild.members.get(user.id)
   if(user.bot) return
 
-  if(listGamesMessage.has(message.id)){
-    Games.launcher(guild,listGamesMessage.get(message.id));
-    reaction.remove();
-    message.react("🆕")
+  // Parse by channel, first the Main Channel
+  if(idChannel === idMainChannel){
+    if(listGamesMessage.has(message.id)){
+
+      newGame = Games.launcher(parent,listGamesMessage.get(message.id));
+      newGame.channel.then( channel => {
+        // add to the Map of the Game Channel
+        gamesOngoing.set(channel.id,newGame)
+      })
+      reaction.remove();
+      message.react("🆕")
+    }
+  }else{
+    // The Game handle the reaction
+    if (gamesOngoing.has(idChannel)){
+      gamesOngoing.get(idChannel).handleReaction(reaction,user)
+    }
   }
 })
 

@@ -6,6 +6,10 @@ module.exports  = class Games {
   static nameGame = "UndefinedGame"
   static jsonFile = './Games/UndefinedJson.json'
 
+  static privateConstructor(channel){
+    return new Games (channel)
+  }
+
   static match(message) {
     return false
   }
@@ -19,20 +23,39 @@ module.exports  = class Games {
     console.log("Fill with the action")
   }
 
+  handleReaction(reaction,user){
+    console.log("to do : handle reaction")
+  }
+
+  handleMessage(message,user){
+    console.log("to do : handle message")
+  }
+
 
   //////// Common function
   static jsonTextGame = JSON.parse(fs.readFileSync(this.jsonFile));
 
-  //Constructeur
-  constructor(channel) {
-    this.lang = "Fr"
-    this.channel = channel
+  //Constructor
+  constructor(currentChannel) {
+    this._lang = "Fr"
+    this._channel = currentChannel
   }
 
   //getters
-  get id(){return this.channel.id}
+  get id(){
+    return this.channel.id
+  }
+  get lang(){return this._lang}
+  get channel(){
+    return this._channel
+  }
 
-  //displayers of text
+  // fetch the promises of the channel
+  // fetch(){
+  //   return this._channel.fetch()
+  // }
+
+  // displayers of text
   displayText(context,key){
     return jsonText[context][key][this.lang]
   }
@@ -60,9 +83,10 @@ module.exports  = class Games {
   }
 
   //launcher
-  static launch(guild){
-    this.helloWorld(guild)
-    this.newChannel(guild)
+  static launch(parent){
+    const guild = parent.guild
+    // this.helloWorld(guild)
+    return this.newChannel(parent)
   }
 
   //Create the channel name
@@ -72,9 +96,12 @@ module.exports  = class Games {
   }
 
   //Create the Channel game
-  static newChannel (guild) {
-    guild.channels.create(this.nameChannel(),{
+  static newChannel (parent) {
+    const guild = parent.guild
+    const channel = guild.channels.create(this.nameChannel(),{
       type: 'text',
+      topic : "Gaming channel",
+      parent : parent,
       permissionOverwrites: [
         {
           id: guild.id,
@@ -89,7 +116,7 @@ module.exports  = class Games {
       .catch(err => {console.log("error : cannot create channel")})
 
       //new Object => action
-      return true
+      return this.privateConstructor(channel)
     }
 
 

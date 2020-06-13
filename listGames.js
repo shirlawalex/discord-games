@@ -1,18 +1,19 @@
 const GameTemplate = require('./Games/GameTemplate/gameTemplate.js')
 const Avalon = require('./Games/Avalon/avalon.js')
 
-var launchGames = function(guild,nameGame) {
+var launchGames = function(parent,nameGame) {
   switch (nameGame) {
     case "GameTemplate":
-      GameTemplate.launch(guild)
+      return GameTemplate.launch(parent)
       break;
     case "Avalon":
-      Avalon.launch(guild)
+      return Avalon.launch(parent)
       break;
     // case "Dictateur":
       //   Dictateur.launch(guild)
       //   break;
     default:
+      return undefined;
 
   }
   // let commandUsed =
