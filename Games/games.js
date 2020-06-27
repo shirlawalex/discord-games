@@ -1,13 +1,13 @@
-var fs = require("fs");
+const { Discord, fs } = require(`./../function.js`)
+const nameGame = "UndefinedGame"
+const jsonFile = './Games/UndefinedJson.json'
 
 module.exports  = class Games {
 
   //////// Customized function
-  static nameGame = "UndefinedGame"
-  static jsonFile = './Games/UndefinedJson.json'
 
   static privateConstructor(channel){
-    return new Games (channel)
+    return new Games (nameGame,jsonFile,channel)
   }
 
   static match(message) {
@@ -19,7 +19,7 @@ module.exports  = class Games {
     console.log("Hello World !")
   }
 
-  action(guild){
+  action(channel){
     console.log("Fill with the action")
   }
 
@@ -33,22 +33,25 @@ module.exports  = class Games {
 
 
   //////// Common function
-  static jsonTextGame = JSON.parse(fs.readFileSync(this.jsonFile));
 
   //Constructor
-  constructor(currentChannel) {
+  constructor(name,jsonfile,currentChannel) {
     this._lang = "Fr"
-    this._channel = currentChannel
+    this.channel = currentChannel
+    this._name = name //UndefinedGame
+    this._jsonFile = jsonfile //'./Games/UndefinedJson.json'
   }
 
   //getters
-  get id(){
-    return this.channel.id
-  }
+  get name(){return this._name}
+
+  get jsonText(){ return JSON.parse(fs.readFileSync(this._jsonFile)); }
+
+  get id(){ return this.channel.id }
+
   get lang(){return this._lang}
-  get channel(){
-    return this._channel
-  }
+
+  // get channel(){ return this._channel }
 
   // fetch the promises of the channel
   // fetch(){
@@ -57,7 +60,7 @@ module.exports  = class Games {
 
   // displayers of text
   displayText(context,key){
-    return jsonText[context][key][this.lang]
+    return this.jsonText[context][key][this.lang]
   }
 
 
@@ -83,7 +86,7 @@ module.exports  = class Games {
   }
 
   //launcher
-  static launch(parent){
+  static launch(bot,parent){
     const guild = parent.guild
     // this.helloWorld(guild)
     return this.newChannel(parent)
@@ -92,7 +95,7 @@ module.exports  = class Games {
   //Create the channel name
   static nameChannel () {
     let number = Math.floor((Math.random() * 65535) + 4096) //a random number with 4 hexa digit
-    return this.nameGame + '-' + number.toString(16);
+    return this.name + '-' + number.toString(16);
   }
 
   //Create the Channel game
