@@ -1,6 +1,6 @@
 const { Discord, fs } = require(`./../function.js`)
 const nameGame = "UndefinedGame"
-const jsonFile = './Games/UndefinedJson.json'
+const jsonFile = './Games/games-text.json'
 
 module.exports  = class Games {
 

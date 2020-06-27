@@ -14,14 +14,12 @@ const launchGames = function(bot,parent,nameGame) {
       return Avalon.launch(bot,parent)
       break;
     // case "Dictateur":
-      //   Dictateur.launch(guild)
-      //   break;
+    //     Dictateur.launch(guild)
+    //     break;
     default:
       return undefined;
 
   }
-  // let commandUsed =
-  //Avalon.parse(message) // || Uno.parse(message)
 }
 
 exports.launcher = launchGames;
@@ -38,4 +36,4 @@ const commandsGames = function () {
   });
   return collection
 }
-exports.launcher = commandsGames;
+exports.commandsGames = commandsGames;

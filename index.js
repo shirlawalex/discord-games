@@ -152,14 +152,11 @@ bot.on(`messageReactionAdd`, (reaction, user) => {
   // Parse by channel, first the Main Channel
   if(idChannel === bot.idMainChannel){
     if(bot.listGamesMessage.has(message.id)){
-      const nameGame = bot.listGamesMessage.get(message.id)
-      newGame = Games.launcher(bot,parent,nameGame);
-      console.log("newGame :",newGame)
+      newGame = Games.launcher(bot,parent,bot.listGamesMessage.get(message.id));
       if(newGame !== undefined){
         newGame.channel.then( channel => {
           // add to the Map of the Game Channel
           bot.gamesOngoing.set(channel.id,newGame)
-          console.log(bot.gamesOngoing,'ACTION')
           newGame.action();
         })
       }else{
@@ -193,8 +190,6 @@ bot.on(`message`, (message) => {
 
   // in a game channel
   const id = message.channel.id
-  console.log(bot.gamesOngoing)
-  console.log(id)
   if(bot.gamesOngoing.has(id)) console.log("in channel game")
 
   // any channel
