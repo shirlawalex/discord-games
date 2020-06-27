@@ -1,32 +1,52 @@
-const config = require('./config.json');
-const Discord = require('discord.js');
-const Games = require('./listGames.js');
-const bot = new Discord.Client();
+// Require (module,files)
+const { Discord, fs, displayText, arrayOfFile } = require(`./function.js`)
+const config = require(`./config.json`);
+const Games = require(`./listGames.js`);
 
-//import JSON file: the text content
-var fs = require("fs");
-var jsonText = JSON.parse(fs.readFileSync("./json/text.json"));
-var jsonGames = JSON.parse(fs.readFileSync("./json/games.json"));
-var lang = "Fr"
-var idMain = 0
-var main = "main"
-var prefix = "!"
-let nameParentChannel = "GAME CHANNELS"
-let nameMainChannel = "presentation-channel"
-let idMainChannel = 0;
+
+// Initialisation and new Proprieties
+const bot = new Discord.Client();
+bot.jsonFiles = new Discord.Collection();
+bot.commands = new Discord.Collection();
+bot.lang = `Fr`
+bot.idMainChannel = 0;
+
+// Constantes
+const PREFIX = config.prefix
+bot.main = `main`
+bot.nameParentChannel = `GAME CHANNELS`
+bot.nameMainChannel = `presentation-channel`
+
+// import JSON file: the text content and put in a Collection
+const jsonPath =  arrayOfFile('./json','.json',true);
+jsonPath.forEach( pathFile => {
+  const key = pathFile.split("/").pop().slice(0,-5);
+  bot.jsonFiles.set(key,JSON.parse(fs.readFileSync(pathFile)));
+});
+
+// import of commands from main-commands
+const commandPath =  arrayOfFile('.','commands.js',false);
+commandPath.forEach( pathFile => {
+  const listCommands = require(pathFile);
+  listCommands.commands.forEach( (command) => {
+    console.log(command.name,command)
+    bot.commands.set(command.name,command);
+  });
+});
+
+
+
 
 // Collection of Data
-var listGamesMessage = new Map() //Map of games launcher { message.id : "name" }
-var gamesOngoing = new Map() // Map of the games ongoing { channel.id : Object Game }
+bot.listGamesMessage = new Map() //Map of games launcher { message.id : `name` }
+bot.gamesOngoing = new Map() // Map of the games ongoing { channel.id : Object Game }
 
-var displayText = function (context,key){
-  // console.log(text[context][key][lang])
-  return jsonText[context][key][lang]
-}
+
+////////////////  HANDLERS
 
 //When Bot ready
-bot.on('ready', () => {
-  console.log('I am ready!');
+bot.on(`ready`, () => {
+  console.log(`I am ready!`);
 });
 
 //When Bot add to the guild
@@ -37,27 +57,30 @@ Display the presentation
 //auxiliary function Presentation
 var displayPresentation = (channel) => {
   // Display Presentation
-  channel.send(displayText(main,"presentation"))
+  channel.send( displayText(bot,`text`,bot.main,`presentation`,bot.lang))
 
   //Display list of Games and add reaction
-  channel.send(displayText(main,"listGames"))
+  channel.send( displayText(bot,`games`,bot.main,`listGames`,bot.lang));
+  const jsonGames = bot.jsonFiles.get(`games`)
   jsonGames.forEach( element => {
     channel.send(element)
     .then( message => {
-      message.react("🆕")
-      listGamesMessage.set(message.id,element)
+      message.react(`🆕`)
+      bot.listGamesMessage.set(message.id,element)
     })
   })
 }
 
 //main function Presentation
-bot.on('guildCreate', (guild) => {
-  console.log("Bot add to the Guild");
-  let topicParent = displayText(main,"topicParent")
-  let reasonParent = displayText(main,"reasonParent")
-  let topicChannel = displayText(main,"topicMain")
-  let reasonChannel = displayText(main,"reasonMain")
-  listGamesMessage.clear() //empty the Map
+bot.on(`guildCreate`, (guild) => {
+  console.log(`Bot add to the Guild`);
+
+  // Loading content of variables
+  const topicParent =  displayText(bot,`text`,bot.main,`topicParent`,bot.lang)
+  const reasonParent =  displayText(bot,`text`,bot.main,`reasonParent`,bot.lang)
+  const topicChannel =  displayText(bot,`text`,bot.main,`topicMain`,bot.lang)
+  const reasonChannel =  displayText(bot,`text`,bot.main,`reasonMain`,bot.lang)
+  bot.listGamesMessage.clear() //empty the Map
 
   // Bool test of existing
   let bool = false
@@ -67,8 +90,8 @@ bot.on('guildCreate', (guild) => {
   // If already exist do nothing
   guild.channels.cache.each(channel => {
 
-    if(channel.type === 'category' && channel.name === nameParentChannel){
-      console.log("Category already existing")
+    if(channel.type === `category` && channel.name === bot.nameParentChannel){
+      console.log(`Category already existing`)
       bool = true
       parentChannelPromise = new Promise((resolve,reject) => {resolve(channel)});
     }
@@ -76,8 +99,8 @@ bot.on('guildCreate', (guild) => {
 
   // Else create the Parent Category
   if(bool == false){
-    parentChannelPromise = guild.channels.create(nameParentChannel, {
-      type : "category",
+    parentChannelPromise = guild.channels.create(bot.nameParentChannel, {
+      type : `category`,
       topic : topicParent,
       reason : reasonParent
     })
@@ -91,8 +114,8 @@ bot.on('guildCreate', (guild) => {
 
     // If Presentation Channel already exist just clean et display again
     parentChannel.children.each( channel => {
-      if(channel.name === nameMainChannel ){
-        idMainChannel = channel.id;
+      if(channel.name === bot.nameMainChannel ){
+        bot.idMainChannel = channel.id;
         displayPresentation(channel)
         bool = true
       }
@@ -100,14 +123,14 @@ bot.on('guildCreate', (guild) => {
     if(bool == true){return true}
 
     // Create a new channel for the Presentation of the games
-    guild.channels.create(nameMainChannel, {
-      type : "text",
+    guild.channels.create(bot.nameMainChannel, {
+      type : `text`,
       topic : topicChannel,
       reason : reasonChannel,
       parent : parentChannel
     })
     .then( (channel) => {
-      idMainChannel = channel.id;
+      bot.idMainChannel = channel.id;
       displayPresentation(channel)
     })
   })
@@ -116,9 +139,9 @@ bot.on('guildCreate', (guild) => {
 //When User react to a Emoji
 /*
 Start a new game
-check if it's not the Bot that react to the message
+check if it`s not the Bot that react to the message
 */
-bot.on('messageReactionAdd', (reaction, user) => {
+bot.on(`messageReactionAdd`, (reaction, user) => {
   const message = reaction.message
   const idChannel = message.channel.id
   const guild = message.guild
@@ -127,22 +150,33 @@ bot.on('messageReactionAdd', (reaction, user) => {
   if(user.bot) return
 
   // Parse by channel, first the Main Channel
-  if(idChannel === idMainChannel){
-    if(listGamesMessage.has(message.id)){
-
-      newGame = Games.launcher(parent,listGamesMessage.get(message.id));
-      newGame.channel.then( channel => {
-        // add to the Map of the Game Channel
-        gamesOngoing.set(channel.id,newGame)
-      })
+  if(idChannel === bot.idMainChannel){
+    if(bot.listGamesMessage.has(message.id)){
+      const nameGame = bot.listGamesMessage.get(message.id)
+      newGame = Games.launcher(bot,parent,nameGame);
+      console.log("newGame :",newGame)
+      if(newGame !== undefined){
+        newGame.channel.then( channel => {
+          // add to the Map of the Game Channel
+          bot.gamesOngoing.set(channel.id,newGame)
+          console.log(bot.gamesOngoing,'ACTION')
+          newGame.action();
+        })
+      }else{
+        console.log("game undefined")
+      }
       reaction.remove();
-      message.react("🆕")
+      message.react(`🆕`)
     }
   }else{
-    // The Game handle the reaction
-    if (gamesOngoing.has(idChannel)){
-      gamesOngoing.get(idChannel).handleReaction(reaction,user)
+    // handle a reaction in a Game channel
+    if (bot.gamesOngoing.has(idChannel)){
+      bot.gamesOngoing.get(idChannel).handleReaction(reaction,user)
     }
+
+    // handle reaction in private channel
+    // if ( user.channnel ){}
+
   }
 })
 
@@ -151,52 +185,21 @@ bot.on('messageReactionAdd', (reaction, user) => {
 When User send a message
 Execute the command called
 */
-bot.on('message', (message) => {
-  if(message.content === "!langEn"){
-    lang = "En";
-    console.log("lang to En")
-  }
-  if(message.content === "!langFr"){
-    lang = "Fr";
-    console.log("lang to Fr")
-  }
-  if(message.content === "!presentation"){
-    console.log(displayText(main,"presentation",lang))
-  }
-  // Delete all channel in the Category "Game Channels"
-  if(message.content === "!deleteAll"){
-    let guild = message.guild;
-    // Delete the channel
-    parentChannel = guild.channels.cache.find(channel => channel.name === nameParentChannel)
-    if(parentChannel !== undefined){
-      parentChannel.children.each(channel => {
-        channel.delete('making room for new channels')
-        .catch(console.error);
-      })
-    }
-  }
-  // Delete the current channel
-  if(message.content === "!deleteThisChannel"){
-    let channel = message.channel;
-    // Delete the channel
-    channel.delete('making room for new channels').catch(console.error)
-  }
-  // Display again the Presentation text
-  if(message.content === "!restart"){
-    bot.emit("guildCreate",message.guild);
-  }
-  // Rename old main channel and create a new one
-  if(message.content === "!newPresentationChannel"){
-    message.guild.channels.cache.each(channel =>{
-      if(channel.name === nameMainChannel){
-        channel.setName("\[previous\]\_"+nameMainChannel)
-      }
-    })
-    console.log(message.guild.channels)
-    message.guild.fetch().then( guild =>
-      bot.emit("guildCreate",guild)
-    )
-  }
+bot.on(`message`, (message) => {
+  if(!message.content.startsWith(PREFIX) || message.author.bot) return;
+
+  const args = message.content.slice(PREFIX.length).split(/ +/);
+  const command = args.shift().toLowerCase();
+
+  // in a game channel
+  const id = message.channel.id
+  console.log(bot.gamesOngoing)
+  console.log(id)
+  if(bot.gamesOngoing.has(id)) console.log("in channel game")
+
+  // any channel
+  if(!bot.commands.has(command)) return;
+  bot.commands.get(command).execute(bot,message,args);
 
 });
 
