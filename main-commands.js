@@ -1,10 +1,10 @@
-const { Discord, fs, displayText, arrayOfFile } = require(`./function.js`)
+const { Discord, fs, displayText, arrayOfFile, displayCommands } = require(`./function.js`)
 
 module.exports  =  {
   commands : [
     {
       name : 'lang',
-      description : 'lang to En',
+      description : 'lang arguement : argument is the language to change',
       execute(bot,message, args) {
         if(args.length == 0){
           message.channel.send(bot.lang);
@@ -32,8 +32,16 @@ module.exports  =  {
       }
     }
     ,{
+      name : 'commands',
+      description : 'Display all commands loaded (You need to launch a game to have the commands)',
+      execute(bot,message, args) {
+        // message.channel.send(bot);
+        displayCommands(bot,message);
+      }
+    }
+    ,{
       name : 'deleteall',
-      description : ' Delete all channel in the Category `Game Channels`',
+      description : `Delete all channel in the Category Game Channels`,
 
       execute(bot,message,args) {
         const guild = message.guild;

@@ -7,7 +7,7 @@ const Games = require(`./listGames.js`);
 // Initialisation and new Proprieties
 const bot = new Discord.Client();
 bot.jsonFiles = new Discord.Collection();
-bot.commands = new Discord.Collection();
+bot.commands = new Map(); //Map each key is for a game
 bot.lang = `Fr`
 bot.idMainChannel = 0;
 
@@ -26,11 +26,13 @@ jsonPath.forEach( pathFile => {
 
 // import of commands from main-commands
 const commandPath =  arrayOfFile('.','commands.js',false);
+bot.commands.set("main",new Discord.Collection());
 commandPath.forEach( pathFile => {
   const listCommands = require(pathFile);
   listCommands.commands.forEach( (command) => {
-    console.log(command.name,command)
-    bot.commands.set(command.name,command);
+    // console.log(command.name,command)
+    // bot.commands.set(command.name,command);
+    bot.commands.get("main").set(command.name,command);
   });
 });
 
@@ -190,11 +192,15 @@ bot.on(`message`, (message) => {
 
   // in a game channel
   const id = message.channel.id
-  if(bot.gamesOngoing.has(id)) console.log("in channel game")
-
+  if(bot.gamesOngoing.has(id)) {
+    const name = bot.gamesOngoing.get(id).name
+    if(!bot.commands.has(name)) return;
+    if(!bot.commands.get(name).has(command)) return;
+    bot.commands.get(name).get(command).execute(bot,message,args);
+  }
   // any channel
-  if(!bot.commands.has(command)) return;
-  bot.commands.get(command).execute(bot,message,args);
+  if(!bot.commands.get("main").has(command)) return;
+  bot.commands.get("main").get(command).execute(bot,message,args);
 
 });
 

@@ -37,7 +37,7 @@ module.exports  = class Games {
   //Constructor
   constructor(name,jsonfile,currentChannel) {
     this._lang = "Fr"
-    this.channel = currentChannel
+    this._channel = currentChannel
     this._name = name //UndefinedGame
     this._jsonFile = jsonfile //'./Games/UndefinedJson.json'
   }
@@ -51,7 +51,7 @@ module.exports  = class Games {
 
   get lang(){return this._lang}
 
-  // get channel(){ return this._channel }
+  get channel(){ return this._channel }
 
   // fetch the promises of the channel
   // fetch(){

@@ -25,3 +25,16 @@ var arrayOfFile = function (directory,extension,recursive) {
 }
 
 exports.arrayOfFile = arrayOfFile;
+
+var displayCommands = function(bot,message){
+  bot.commands.forEach((k,v) => {
+    message.channel.send(`\n=${v} function=`)
+    bot.commands.get(v).forEach((obj,name) => {
+      message.channel.send(`\`!${name}\``)
+      message.channel.send(obj.description)
+    });
+  });
+  return;
+}
+
+exports.displayCommands = displayCommands;

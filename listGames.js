@@ -8,16 +8,17 @@ const Avalon = require('./Games/Avalon/avalon-main.js')
 const launchGames = function(bot,parent,nameGame) {
   switch (nameGame) {
     case "GameTemplate":
-      return GameTemplate.launch(bot,parent)
-      break;
+    return GameTemplate.launch(bot,parent)
+    break;
     case "Avalon":
-      return Avalon.launch(bot,parent)
-      break;
+    bot.commands.set("Avalon",commandsGames("Avalon"));
+    return Avalon.launch(bot,parent)
+    break;
     // case "Dictateur":
     //     Dictateur.launch(guild)
     //     break;
     default:
-      return undefined;
+    return undefined;
 
   }
 }
@@ -27,13 +28,17 @@ exports.launcher = launchGames;
 
 // import of commands from all Games
 
-const commandsGames = function () {
+const commandsGames = function (nameGame) {
   const collection = new Discord.Collection()
-  const commandPath =  arrayOfFile('./Games','commands.js',true);
+  const commandPath =  arrayOfFile(`./Games/${nameGame}`,'commands.js',false);
   commandPath.forEach( pathFile => {
-    const key = pathFile.split("/").pop().slice(0,-12);
-    collection.set(key,fs.readFileSync(pathFile));
+    const listCommands = require(pathFile);
+    listCommands.commands.forEach( (command) => {
+      console.log(command.name,command)
+      collection.set(command.name,command);
+    });
   });
   return collection
 }
+
 exports.commandsGames = commandsGames;
