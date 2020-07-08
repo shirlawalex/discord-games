@@ -37,8 +37,6 @@ commandPath.forEach( pathFile => {
 });
 
 
-
-
 // Collection of Data
 bot.listGamesMessage = new Map() //Map of games launcher { message.id : `name` }
 bot.gamesOngoing = new Map() // Map of the games ongoing { channel.id : Object Game }
@@ -60,9 +58,10 @@ Display the presentation
 var displayPresentation = (channel) => {
   // Display Presentation
   channel.send( displayText(bot,`text`,bot.main,`presentation`,bot.lang))
+  channel.send( displayText(bot,`text`,bot.main,`help`,bot.lang))
 
   //Display list of Games and add reaction
-  channel.send( displayText(bot,`games`,bot.main,`listGames`,bot.lang));
+  channel.send( displayText(bot,`text`,bot.main,`listGames`,bot.lang));
   const jsonGames = bot.jsonFiles.get(`games`)
   jsonGames.forEach( element => {
     channel.send(element)
@@ -134,6 +133,7 @@ bot.on(`guildCreate`, (guild) => {
     .then( (channel) => {
       bot.idMainChannel = channel.id;
       displayPresentation(channel)
+
     })
   })
 })
@@ -144,15 +144,16 @@ Start a new game
 check if it`s not the Bot that react to the message
 */
 bot.on(`messageReactionAdd`, (reaction, user) => {
-  const message = reaction.message
-  const idChannel = message.channel.id
-  const guild = message.guild
-  const parent = message.channel.parent
+  const message = reaction.message;
+  const idChannel = message.channel.id;
+  const guild = message.guild;
+  const parent = message.channel.parent;
   // const member = message.guild.members.get(user.id)
-  if(user.bot) return
+  if(user.bot) return;
 
   // Parse by channel, first the Main Channel
   if(idChannel === bot.idMainChannel){
+    // Emoji to start new games
     if(bot.listGamesMessage.has(message.id)){
       newGame = Games.launcher(bot,parent,bot.listGamesMessage.get(message.id));
       if(newGame !== undefined){
@@ -160,12 +161,13 @@ bot.on(`messageReactionAdd`, (reaction, user) => {
           // add to the Map of the Game Channel
           bot.gamesOngoing.set(channel.id,newGame)
           newGame.action();
-        })
+        });
       }else{
-        console.log("game undefined")
+        console.log("game undefined");
       }
       reaction.remove();
-      message.react(`🆕`)
+      message.react(`🆕`);
+      return;
     }
   }else{
     // handle a reaction in a Game channel
@@ -180,8 +182,8 @@ bot.on(`messageReactionAdd`, (reaction, user) => {
 })
 
 
+//When User send a message
 /*
-When User send a message
 Execute the command called
 */
 bot.on(`message`, (message) => {
@@ -191,16 +193,22 @@ bot.on(`message`, (message) => {
   const command = args.shift().toLowerCase();
 
   // in a game channel
+  /*
+  homonym commands from game rewrite the main commands
+  */
   const id = message.channel.id
   if(bot.gamesOngoing.has(id)) {
-    const name = bot.gamesOngoing.get(id).name
-    if(!bot.commands.has(name)) return;
-    if(!bot.commands.get(name).has(command)) return;
-    bot.commands.get(name).get(command).execute(bot,message,args);
+    const games = bot.gamesOngoing.get(id);
+    const name = games.name;
+    if(bot.commands.has(name)){
+      if(bot.commands.get(name).has(command)){
+        bot.commands.get(name).get(command).execute(bot,games,message,args);
+      }
+    }
   }
   // any channel
   if(!bot.commands.get("main").has(command)) return;
-  bot.commands.get("main").get(command).execute(bot,message,args);
+  bot.commands.get("main").get(command).execute(bot,undefined,message,args);
 
 });
 

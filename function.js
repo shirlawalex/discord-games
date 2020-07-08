@@ -5,7 +5,7 @@ const fs = require(`fs`)
 exports.fs = fs;
 
 const displayText = function (client,name,context,key,lang){
-  return client.jsonFiles.get(`text`)[context][key][lang]
+  return client.jsonFiles.get(name)[context][key][lang]
 }
 
 exports.displayText = displayText;
