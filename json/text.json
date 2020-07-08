@@ -1,49 +1,44 @@
 {
-  "main" : {
-    "welcome" :
-    {
-      "En" : "Welcome",
-      "Fr" : "Bienvenue"
+  "main": {
+    "welcome": {
+      "En": "Welcome",
+      "Fr": "Bienvenue"
     },
-    "topicParent" :
-    {
-      "En" : "The parent category for all Channels of \"Discord Games\"",
-      "Fr" : "La catégory parent de tous les Channels de \"Discord Games\""
+    "topicParent": {
+      "En": "The parent category for all Channels of \"Discord Games\"",
+      "Fr": "La catégory parent de tous les Channels de \"Discord Games\""
     },
-    "reasonParent" :
-    {
-      "En" : "Is better to have all Channels in a same category.",
-      "Fr" : "C'est mieux d'avoir tous les Channels sous la même catégorie."
+    "reasonParent": {
+      "En": "Is better to have all Channels in a same category.",
+      "Fr": "C'est mieux d'avoir tous les Channels sous la même catégorie."
     },
-    "topicMain" :
-    {
-      "En" : "The Presentation's Channel of \"Discord Games\"",
-      "Fr" : "Le Channel de Presentation de \"Discord Games\""
+    "topicMain": {
+      "En": "The Presentation's Channel of \"Discord Games\"",
+      "Fr": "Le Channel de Presentation de \"Discord Games\""
     },
-    "reasonMain" :
-    {
-      "En" : "The Presentation's Channel is a nice GUI for \"Discord Games\", easier than by commands",
-      "Fr" : "Le Channel de Presentation est une jolie interface pour \"Discord Games\", plus simple que par des commandes"
+    "reasonMain": {
+      "En": "The Presentation's Channel is a nice GUI for \"Discord Games\", easier than by commands",
+      "Fr": "Le Channel de Presentation est une jolie interface pour \"Discord Games\", plus simple que par des commandes"
     },
-    "presentation" :
-    {
-      "En" : "Discord games offers a various choice of games",
-      "Fr" : "Discord games vous proposes divers choix de jeux"
+    "presentation": {
+      "En": "Discord games offers a various choice of games",
+      "Fr": "Discord games vous proposes divers choix de jeux"
     },
-    "listGames" :
-    {
-      "En" : "To start a game, you need to react with \"🆕\" under a game. \n We have : Avalon, Uno, Mascarade, Dictateur, ...",
-      "Fr" : "Pour lancer une partie, il suffit de cliquer l'emoji \"🆕\" sous le nom du jeux. \n Nous avons : Avalon, Uno, Mascarade, Dictateur, ..."
+    "listGames": {
+      "En": "To start a game, you need to react with \"🆕\" under a game. \nWe have : ",
+      "Fr": "Pour lancer une partie, il suffit de cliquer l'emoji \"🆕\" sous le nom du jeux. \nNous avons : "
     },
-    "donation" :
-    {
-      "En" : "utip, paypal",
-      "Fr" : "utip, paypal"
+    "donation": {
+      "En": "utip, paypal",
+      "Fr": "utip, paypal"
     },
-    "credit":
-    {
-      "En" : "Author : Alex Shirlaw (shirlawalex@gmail.com)",
-      "Fr" : "Auteur : Alex Shirlaw (shirlawalex@gmail.com)"
+    "credit": {
+      "En": "Author : Alex Shirlaw (shirlawalex@gmail.com)",
+      "Fr": "Auteur : Alex Shirlaw (shirlawalex@gmail.com)"
+    },
+    "help": {
+      "En": "To get the list of all commands do \"!commandes\"",
+      "Fr": "Pour avoir la liste des commandes faites !commandes"
     }
   }
 }
