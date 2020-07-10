@@ -198,11 +198,11 @@ bot.on(`message`, (message) => {
   */
   const id = message.channel.id
   if(bot.gamesOngoing.has(id)) {
-    const games = bot.gamesOngoing.get(id);
-    const name = games.name;
+    const game = bot.gamesOngoing.get(id);
+    const name = game.name;
     if(bot.commands.has(name)){
       if(bot.commands.get(name).has(command)){
-        bot.commands.get(name).get(command).execute(bot,games,message,args);
+        bot.commands.get(name).get(command).execute(bot,game,message,args);
       }
     }
   }

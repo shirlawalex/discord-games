@@ -19,7 +19,7 @@ module.exports  = class Games {
     console.log("Hello World !")
   }
 
-  action(channel){
+  action(){
     console.log("Fill with the action")
   }
 
