@@ -1,4 +1,22 @@
 {
+  "log": {
+    "forbiden": {
+      "En": "This action is forbiden",
+      "Fr": "Cette action est interdite"
+    },
+    "register": {
+      "En": "players register",
+      "Fr": "joueurs enregistrés"
+    },
+    "start": {
+      "En": "Start of the game with",
+      "Fr": "Lancement de la partie avec"
+    },
+    "players": {
+      "En": "players",
+      "Fr": "joueurs"
+    }
+  },
   "menu": {
     "welcome": {
       "En": "Welcome",
@@ -70,6 +88,10 @@
       "En": "",
       "Fr": " L'équipe n'a pas été approuvé. Le leader passe la main au prochain qui devra à son tour désigné une équipe."
     },
+    "countDenied": {
+      "En": "denied of leader ",
+      "Fr": "refus de leader consécutifs"
+    },
     "questSucceed": {
       "En": "",
       "Fr": "Félicitation ! la quête est un succès "
@@ -114,9 +136,35 @@
     }
   },
   "rules": {
-    "msg1": {
-      "En": "",
-      "Fr": ""
+    "roundPin": {
+      "En": "2 failed required to failed the quest ",
+      "Fr": "2 échec requis pour faire échouer la quête"
+    }
+  },
+  "players": {
+    "5": {
+      "En": "5 players (3 Good, 2 Bad)",
+      "Fr": "5 joueurs (3 Bien, 2 Mal)"
+    },
+    "6": {
+      "En": "6 players (4 Good, 2 Bad)",
+      "Fr": "6 joueurs (4 Bien, 2 Mal)"
+    },
+    "7": {
+      "En": "7 players (4 Good, 3 Bad)",
+      "Fr": "7 joueurs (4 Bien, 3 Mal)"
+    },
+    "8": {
+      "En": "8 players (5 Good, 3 Bad)",
+      "Fr": "8 joueurs (5 Bien, 3 Mal)"
+    },
+    "9": {
+      "En": "9 players (6 Good, 3 Bad)",
+      "Fr": "9 joueurs (6 Bien, 3 Mal)"
+    },
+    "10": {
+      "En": "10 players (6 Good, 4 Bad)",
+      "Fr": "10 joueurs (6 Bien, 4 Mal)"
     }
   },
   "private": {

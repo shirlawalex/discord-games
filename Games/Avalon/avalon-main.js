@@ -4,6 +4,26 @@ const nameGame = "Avalon"
 const jsonFile = './Games/Avalon/avalon-text.json'
 const jsonBoard = JSON.parse(fs.readFileSync("./Games/Avalon/board.json"));
 
+var printBoard = function (game) {
+  const nb = game.players.size.toString();
+  game.channel.send("```" +game.displayText("players",nb)+ "```")
+  let msg = ""
+  game.board = jsonBoard[nb]
+  console.log(game.board)
+  let info = false;
+  Object.values(game.board).forEach(val => {
+    msg = msg + ":"+val[0]+":"
+    if(val[1]) {msg = msg + ":pushpin:";info = true;}
+  });
+  game.channel.send(msg)
+  if (info){
+    game.channel.send(":four::pushpin: "+game.displayText("rules","roundPin"))
+  }
+  const msgDenied = "```" + game.countRejected +
+  game.displayText("gameAction","countDenied") + "```";
+  game.channel.send(msgDenied);
+  return;
+}
 
 module.exports  = class Avalon extends Games {
 
@@ -16,12 +36,14 @@ module.exports  = class Avalon extends Games {
   constructor(channel) {
     super(nameGame,jsonFile,channel)
     // this.board = [(0,false),(0,false),(0,false),(0,false),(0,false)]
-    this.board = jsonBoard["0"]
+    this.step = 0;
+    this.board = jsonBoard["0"];
     this.round = 1;
     this.countRejected = 0;
     this.questSucceed = 0;
     this.questFailed = 0;
-    this.players = new Map() // {id : [role, 'option role, ... ']}
+    this.players = new Map(); // {id : [role, 'option role, ... ']}
+    this.order = [];
   }
 
   static match(message) {
@@ -40,23 +62,45 @@ module.exports  = class Avalon extends Games {
   }
 
   action(){
-    this.channel.then( channel => {
-      channel.send(this.displayText("menu","welcome"))
-      channel.send(this.displayText("menu","players"))
-      console.log(this.board);
-      // channel.send(this.displayText("menu","introduction"))
-      // channel.send(this.displayText("menu","summary"))
-      // channel.send(this.displayText("menu","goals"))
-      // channel.send(this.displayText("menu","command"))
-      let step = 0;
-      switch (step) {
+    this.promiseChannel.then( channel => {
+      console.log("step is:",this.step)
+      switch (this.step) {
         case 0:
-          break;
-        case 1: // Logging players
+          channel.send(this.displayText("menu","welcome"))
+          channel.send(this.displayText("menu","players"))
+          console.log(this.board);
+          // channel.send(this.displayText("menu","introduction"))
+          // channel.send(this.displayText("menu","summary"))
+          // channel.send(this.displayText("menu","goals"))
+          // channel.send(this.displayText("menu","command"))
+          this.step = 1;
+          console.log("step => 1");
           break;
         case 2: // Starting party
+        /*
+        !start to launch the game with the players already register
+        */
+        // message.channel.send({`${game.displayText("log","start")} ${game.players.size} ${game.displayText("log","players")}`});
+        // message.channel.send()
+        // console.log("Number of people atteint lol")
+        //   printBoard(game)
+        case 1: // Logging players
+          /*
+          !add @mention [@mention ...] to add one or sevreal players to the partie
+          check if number of players is between 5 and 10
+          */
+          if(this.players.size >= 5 && this.players.size <= 10){
+            this.step = 2;
+            console.log("step => 2");
+          }else{
+            this.step = 1;
+            console.log("step => 1");
+          }
           break;
         case 3: // Sorting randomly players
+          printBoard(this)
+          console.log(game.players)
+
           break;
         case 4: // give Role to players
           break;
@@ -94,6 +138,7 @@ module.exports  = class Avalon extends Games {
       }
     }).catch(err => {
       console.error("cannot do action from avalon.js");
+      console.error(err)
     })
 
   }
