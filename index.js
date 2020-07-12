@@ -157,7 +157,7 @@ bot.on(`messageReactionAdd`, (reaction, user) => {
     if(bot.listGamesMessage.has(message.id)){
       newGame = Games.launcher(bot,parent,bot.listGamesMessage.get(message.id));
       if(newGame !== undefined){
-        newGame.channel.then( channel => {
+        newGame.promiseChannel.then( channel => {
           // add to the Map of the Game Channel
           bot.gamesOngoing.set(channel.id,newGame)
           newGame.action();

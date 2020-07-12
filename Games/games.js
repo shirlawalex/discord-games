@@ -35,9 +35,10 @@ module.exports  = class Games {
   //////// Common function
 
   //Constructor
-  constructor(name,jsonfile,currentChannel) {
+  constructor(name,jsonfile,promiseChannel) {
     this._lang = "Fr"
-    this._channel = currentChannel
+    promiseChannel.then((channel)=>{this._channel = channel});
+    this._promiseChannel = promiseChannel
     this._name = name //UndefinedGame
     this._jsonFile = jsonfile //'./Games/UndefinedJson.json'
   }
@@ -52,6 +53,8 @@ module.exports  = class Games {
   get lang(){return this._lang}
 
   get channel(){ return this._channel }
+
+  get promiseChannel(){ return this._promiseChannel }
 
   // fetch the promises of the channel
   // fetch(){
@@ -105,16 +108,16 @@ module.exports  = class Games {
       type: 'text',
       topic : "Gaming channel",
       parent : parent,
-      permissionOverwrites: [
-        {
-          id: guild.id,
-          deny: ['VIEW_CHANNEL'],
-        },
+      // permissionOverwrites: [
+      //   {
+      //     id: guild.id,
+      //     allow: ['VIEW_CHANNEL'],
+      //   },
         // {
         //   id: message.author.id,
         //   allow: ['VIEW_CHANNEL'],
         // },
-      ],
+      // ],
       reason: 'New channel for the game!' })
       .catch(err => {console.log("error : cannot create channel")})
 
