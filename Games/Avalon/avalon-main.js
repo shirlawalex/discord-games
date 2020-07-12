@@ -4,14 +4,11 @@ const nameGame = "Avalon"
 const jsonFile = './Games/Avalon/avalon-text.json'
 const jsonBoard = JSON.parse(fs.readFileSync("./Games/Avalon/board.json"));
 
-var printBoard = function (game) {
-  const nb = game.players.size.toString();
-  game.channel.send("```" +game.displayText("players",nb)+ "```")
-  let msg = ""
-  game.board = jsonBoard[nb]
-  console.log(game.board)
+
+var displayBoard = function (game,board){
+  let msg = "";
   let info = false;
-  Object.values(game.board).forEach(val => {
+  Object.values(board).forEach(val => {
     msg = msg + ":"+val[0]+":"
     if(val[1]) {msg = msg + ":pushpin:";info = true;}
   });
@@ -19,6 +16,13 @@ var printBoard = function (game) {
   if (info){
     game.channel.send(":four::pushpin: "+game.displayText("rules","roundPin"))
   }
+}
+
+var printBoard = function (game) {
+  const nb = game.players.size.toString();
+  game.channel.send("```" +game.displayText("players",nb)+ "```")
+  game.board = jsonBoard[nb]
+  displayBoard(game,game.board)
   const msgDenied = "```" + game.countRejected +
   game.displayText("gameAction","countDenied") + "```";
   game.channel.send(msgDenied);
@@ -68,7 +72,6 @@ module.exports  = class Avalon extends Games {
         case 0:
           channel.send(this.displayText("menu","welcome"))
           channel.send(this.displayText("menu","players"))
-          console.log(this.board);
           // channel.send(this.displayText("menu","introduction"))
           // channel.send(this.displayText("menu","summary"))
           // channel.send(this.displayText("menu","goals"))
@@ -77,13 +80,9 @@ module.exports  = class Avalon extends Games {
           console.log("step => 1");
           break;
         case 2: // Starting party
-        /*
-        !start to launch the game with the players already register
-        */
-        // message.channel.send({`${game.displayText("log","start")} ${game.players.size} ${game.displayText("log","players")}`});
-        // message.channel.send()
-        // console.log("Number of people atteint lol")
-        //   printBoard(game)
+          /*
+          !start to launch the game with the players already register
+          */
         case 1: // Logging players
           /*
           !add @mention [@mention ...] to add one or sevreal players to the partie
@@ -92,6 +91,8 @@ module.exports  = class Avalon extends Games {
           if(this.players.size >= 5 && this.players.size <= 10){
             this.step = 2;
             console.log("step => 2");
+            const nb = this.players.size.toString()
+            displayBoard(this,jsonBoard[nb])
           }else{
             this.step = 1;
             console.log("step => 1");
@@ -99,8 +100,14 @@ module.exports  = class Avalon extends Games {
           break;
         case 3: // Sorting randomly players
           printBoard(this)
-          console.log(game.players)
+          console.log(this.players)
+          this.players.forEach((k, v) => {
+            this.order.push(v)
+          });
 
+          this.order.sort(function(){
+            return 0.5-Math.random();
+          })
           break;
         case 4: // give Role to players
           break;
