@@ -92,6 +92,28 @@ module.exports  =  {
         game.action()
       }
     }
+    ,{
+      name : 'role',
+      description : "During step 4, choose roles ",
+      execute(bot,game,message, args) {
+        if(!commandAllow(game,message,"remove",[4])) return;
+
+        if(args.length == 0){
+          console.log("number of arg < 1")
+          return;
+        }
+
+        if(args[0] != game.players.size.toString() ){
+          console.log("wrong number of players"); return;
+        }
+
+        args.toString().replace(","," ")
+        // if(game.jsonBoard.role.)
+
+
+        // game.action()
+      }
+    }
   ]
 }
 

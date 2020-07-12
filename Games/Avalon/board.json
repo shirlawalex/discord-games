@@ -1,156 +1,253 @@
 {
-  "0": {
-    "1": [
-      "zero",
-      false
-    ],
-    "2": [
-      "zero",
-      false
-    ],
-    "3": [
-      "zero",
-      false
-    ],
-    "4": [
-      "zero",
-      false
-    ],
-    "5": [
-      "zero",
-      false
-    ]
+  "board": {
+    "0": {
+      "1": [
+        "zero",
+        false
+      ],
+      "2": [
+        "zero",
+        false
+      ],
+      "3": [
+        "zero",
+        false
+      ],
+      "4": [
+        "zero",
+        false
+      ],
+      "5": [
+        "zero",
+        false
+      ]
+    },
+    "5": {
+      "1": [
+        "two",
+        false
+      ],
+      "2": [
+        "three",
+        false
+      ],
+      "3": [
+        "two",
+        false
+      ],
+      "4": [
+        "three",
+        false
+      ],
+      "5": [
+        "three",
+        false
+      ]
+    },
+    "6": {
+      "1": [
+        "two",
+        false
+      ],
+      "2": [
+        "three",
+        false
+      ],
+      "3": [
+        "four",
+        false
+      ],
+      "4": [
+        "three",
+        false
+      ],
+      "5": [
+        "four",
+        false
+      ]
+    },
+    "7": {
+      "1": [
+        "two",
+        false
+      ],
+      "2": [
+        "three",
+        false
+      ],
+      "3": [
+        "three",
+        false
+      ],
+      "4": [
+        "four",
+        true
+      ],
+      "5": [
+        "four",
+        false
+      ]
+    },
+    "8": {
+      "1": [
+        "three",
+        false
+      ],
+      "2": [
+        "four",
+        false
+      ],
+      "3": [
+        "four",
+        false
+      ],
+      "4": [
+        "five",
+        true
+      ],
+      "5": [
+        "five",
+        false
+      ]
+    },
+    "9": {
+      "1": [
+        "three",
+        false
+      ],
+      "2": [
+        "four",
+        false
+      ],
+      "3": [
+        "four",
+        false
+      ],
+      "4": [
+        "five",
+        true
+      ],
+      "5": [
+        "five",
+        false
+      ]
+    },
+    "10": {
+      "1": [
+        "three",
+        false
+      ],
+      "2": [
+        "four",
+        false
+      ],
+      "3": [
+        "four",
+        false
+      ],
+      "4": [
+        "five",
+        true
+      ],
+      "5": [
+        "five",
+        false
+      ]
+    }
   },
-  "5": {
-    "1": [
-      "two",
-      false
+  "role": {
+    "5 v1": [
+      "Merlin",
+      "Good",
+      "Good",
+      "Mordred",
+      "Evil Assassin"
     ],
-    "2": [
-      "three",
-      false
+    "5 v2": [
+      "Merlin",
+      "Perceval",
+      "Good",
+      "Mordred",
+      "Morgane Assassin"
     ],
-    "3": [
-      "two",
-      false
+    "6 v1": [
+      "Merlin",
+      "Perceval",
+      "Good",
+      "Good",
+      "Mordred",
+      "Morgane Assassin"
     ],
-    "4": [
-      "three",
-      false
+    "7 v1": [
+      "Merlin",
+      "Perceval",
+      "Good",
+      "Good",
+      "Mordred",
+      "Morgane",
+      "Evil Assassin"
     ],
-    "5": [
-      "three",
-      false
-    ]
-  },
-  "6": {
-    "1": [
-      "two",
-      false
+    "7 v2": [
+      "Merlin",
+      "Good",
+      "Good",
+      "Good",
+      "Mordred",
+      "Oberon",
+      "Evil Assassin"
     ],
-    "2": [
-      "three",
-      false
+    "7 v3": [
+      "Merlin",
+      "Perceval",
+      "Good",
+      "Good",
+      "Mordred",
+      "Evil",
+      "Evil Assassin"
     ],
-    "3": [
-      "four",
-      false
+    "8 v1": [
+      "Merlin",
+      "Perceval",
+      "Good",
+      "Good",
+      "Good",
+      "Mordred",
+      "Morgane",
+      "Evil Assassin"
     ],
-    "4": [
-      "three",
-      false
+    "9 v1": [
+      "Merlin",
+      "Perceval",
+      "Good",
+      "Good",
+      "Good",
+      "Good",
+      "Mordred",
+      "Morgane",
+      "Evil Assassin"
     ],
-    "5": [
-      "four",
-      false
-    ]
-  },
-  "7": {
-    "1": [
-      "two",
-      false
+    "9 v2": [
+      "Merlin",
+      "Good",
+      "Good",
+      "Good",
+      "Good",
+      "Good",
+      "Mordred",
+      "Evil",
+      "Evil Assassin"
     ],
-    "2": [
-      "three",
-      false
-    ],
-    "3": [
-      "three",
-      false
-    ],
-    "4": [
-      "four",
-      true
-    ],
-    "5": [
-      "four",
-      false
-    ]
-  },
-  "8": {
-    "1": [
-      "three",
-      false
-    ],
-    "2": [
-      "four",
-      false
-    ],
-    "3": [
-      "four",
-      false
-    ],
-    "4": [
-      "five",
-      true
-    ],
-    "5": [
-      "five",
-      false
-    ]
-  },
-  "9": {
-    "1": [
-      "three",
-      false
-    ],
-    "2": [
-      "four",
-      false
-    ],
-    "3": [
-      "four",
-      false
-    ],
-    "4": [
-      "five",
-      true
-    ],
-    "5": [
-      "five",
-      false
-    ]
-  },
-  "10": {
-    "1": [
-      "three",
-      false
-    ],
-    "2": [
-      "four",
-      false
-    ],
-    "3": [
-      "four",
-      false
-    ],
-    "4": [
-      "five",
-      true
-    ],
-    "5": [
-      "five",
-      false
+    "10 v1": [
+      "Merlin",
+      "Perceval",
+      "Good",
+      "Good",
+      "Good",
+      "Good",
+      "Mordred",
+      "Morgane",
+      "Evil Assassin",
+      "Oberon"
     ]
   }
 }

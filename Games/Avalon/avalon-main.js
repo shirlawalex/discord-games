@@ -2,7 +2,12 @@ const { Discord, fs } = require(`./../../function.js`)
 const Games = require("./../games.js")
 const nameGame = "Avalon"
 const jsonFile = './Games/Avalon/avalon-text.json'
-const jsonBoard = JSON.parse(fs.readFileSync("./Games/Avalon/board.json"));
+const map  = JSON.parse(fs.readFileSync("./Games/Avalon/board.json"));
+const jsonBoard = new Map(Object.entries(map))
+
+
+console.log(jsonBoard.get("board"));
+
 
 
 var displayBoard = function (game,board){
@@ -21,12 +26,24 @@ var displayBoard = function (game,board){
 var printBoard = function (game) {
   const nb = game.players.size.toString();
   game.channel.send("```" +game.displayText("players",nb)+ "```")
-  game.board = jsonBoard[nb]
+  game.board = jsonBoard["board"][nb]
   displayBoard(game,game.board)
   const msgDenied = "```" + game.countRejected +
   game.displayText("gameAction","countDenied") + "```";
   game.channel.send(msgDenied);
   return;
+}
+
+var role = function(game,nb){
+  ret = []
+
+  for (const [key, value] of Object.entries(jsonBoard.role)) {
+    console.log(`${key}: ${value}`);
+  }
+
+  // game.channel.send(game.displayText("wsh"))
+  // ret = jsonBoard["role"][]
+
 }
 
 module.exports  = class Avalon extends Games {
@@ -41,7 +58,7 @@ module.exports  = class Avalon extends Games {
     super(nameGame,jsonFile,channel)
     // this.board = [(0,false),(0,false),(0,false),(0,false),(0,false)]
     this.step = 0;
-    this.board = jsonBoard["0"];
+    this.board = jsonBoard["board"]["0"];
     this.round = 1;
     this.countRejected = 0;
     this.questSucceed = 0;
@@ -92,7 +109,7 @@ module.exports  = class Avalon extends Games {
             this.step = 2;
             console.log("step => 2");
             const nb = this.players.size.toString()
-            displayBoard(this,jsonBoard[nb])
+            displayBoard(this,jsonBoard["board"][nb])
           }else{
             this.step = 1;
             console.log("step => 1");
@@ -100,7 +117,6 @@ module.exports  = class Avalon extends Games {
           break;
         case 3: // Sorting randomly players
           printBoard(this)
-          console.log(this.players)
           this.players.forEach((k, v) => {
             this.order.push(v)
           });
@@ -108,39 +124,46 @@ module.exports  = class Avalon extends Games {
           this.order.sort(function(){
             return 0.5-Math.random();
           })
-          break;
+
+          let msg = this.displayText("gameAction","leaderOrder")
+          this.order.forEach((id) => {
+            msg = msg + channel.members.get(id).user.username + "/n";
+          });
+          channel.send(msg)
+          this.step = 4; //no break go direct to next step
         case 4: // give Role to players
-          break;
+          role(this,this.players.size)
+        break;
         case 5: // New Leader
-          break;
+        break;
         case 6: // Leader start tour
-          break;
+        break;
         case 7: // Players vote
-          break;
+        break;
         case 8: // Majority of No : Quest doesnt go !
-          break;
+        break;
         case 9: // Majority of Yes : Quest go !
-          break;
+        break;
         case 10: // Quest Failed : 1 point for Evil
-          break;
+        break;
         case 11: // Quest Suceed : 1 point for Good
-          break;
+        break;
         case 12: // Number of Quest check
-          break;
+        break;
         case 13: // 3 in a row : Ends of Quest
-          break;
+        break;
         case 14: // Assassination of Merlin
-          break;
+        break;
         case 15: // Evil win
-          break;
+        break;
         case 16: // Good win
-          break;
+        break;
         case 17: // Credit
-          break;
+        break;
         case 18: //
-          break;
+        break;
         default:
-          //this case is not implemented
+        //this case is not implemented
 
       }
     }).catch(err => {
