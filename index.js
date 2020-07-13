@@ -89,6 +89,7 @@ bot.on(`guildCreate`, (guild) => {
 
   // Creation of the repository/category for the games
   // If already exist do nothing
+  
   guild.channels.cache.each(channel => {
 
     if(channel.type === `category` && channel.name === bot.nameParentChannel){

@@ -1,5 +1,9 @@
 {
   "log": {
+    "game": {
+      "En": "This message is for the game :",
+      "Fr": "Ce message concerne la Partie :"
+    },
     "forbiden": {
       "En": "This action is forbiden",
       "Fr": "Cette action est interdite"
@@ -28,7 +32,7 @@
     },
     "players": {
       "En": "you want to play ? put a reaction thumbs in the air",
-      "Fr": "Vous voulez participer à la partie ? Réagissez à ce message avec l'emoji "
+      "Fr": "Vous voulez participer à la partie ? tappez la commande !add suivis des mentions des joueurs "
     },
     "summary": {
       "En": "summary",
@@ -44,17 +48,25 @@
     }
   },
   "gameAction": {
+    "selectRole": {
+      "En": "",
+      "Fr": "Choissiez les rôles de la partie. \n selectionné la config avec la commande !role  \"nom config\" ou alors crée une config custom avec la commande !custom."
+    },
     "giveRole": {
       "En": "",
-      "Fr": "Les rôles vous ont été attribués aléatoirement par message privée. Veuillez prendre connaissance de votre rôle."
+      "Fr": "Les rôles vous ont été attribués aléatoirement par message privée. Veuillez prendre connaissance de votre rôle par message privé."
     },
     "leaderOrder": {
       "En": "",
       "Fr": "Voici l'ordre de passage des joueurs en tant que leaders"
     },
-    "leaderFirst": {
+    "leader": {
       "En": "",
-      "Fr": "Le premier Leader/Meneur est choisit aléatoirement"
+      "Fr": "Le leader est :"
+    },
+    "leaderChoose": {
+      "En": "",
+      "Fr": "Leader choississez votre équipe avec la commande !select suivi des mentions des joueurs"
     },
     "rejectedCount": {
       "En": "",
@@ -126,9 +138,9 @@
       "En": "",
       "Fr": ""
     },
-    "role": {
+    "predefinedRole": {
       "En": "",
-      "Fr": ""
+      "Fr": "Voici des rôles prédéfinis pour votre nombre de joueurs, si vous voulez changez les roles tapez la commande !custom, sinon pour selectionné une des combinaisons tapez !role \"nom combinaison\""
     },
     "election": {
       "En": "",
@@ -172,23 +184,23 @@
       "En": "You are ",
       "Fr": "Attention ! Il est interdit de communiquer de quelconque manière, notament par message privé et/ou en dehors de la Partie ! Tout ce qui se dit doit l'etre publiquement"
     },
-    "mordred": {
+    "Mordred": {
       "En": "You are ",
       "Fr": "Tu es le térrifant Mordred"
     },
-    "assassin": {
+    "Assassin": {
       "En": "You are ",
       "Fr": "Tu es l'impitoyable Assassin"
     },
-    "morgane": {
+    "Morgane": {
       "En": "You are ",
       "Fr": "Tu es la Sorcière Morgane"
     },
-    "oberon": {
+    "Oberon": {
       "En": "You are ",
       "Fr": "Tu es le fou Oberon"
     },
-    "evilSoldier": {
+    "EvilSoldier": {
       "En": "You are ",
       "Fr": "Tu es un serviteur du Mal (sans pouvoir)"
     },
@@ -200,9 +212,21 @@
       "En": "You are ",
       "Fr": "Tu es le vayant Perceval"
     },
-    "goodSoldier": {
+    "GoodSoldier": {
       "En": "You are ",
       "Fr": "Tu es un serviteur du Bien (sans pouvoir)"
+    },
+    "1role": {
+      "En": "You have 1 role",
+      "Fr": "Tu as 1 rôle"
+    },
+    "2role": {
+      "En": "You have 2 roles",
+      "Fr": "Tu as 2 rôles"
+    },
+    "3role": {
+      "En": "You have 3 roles",
+      "Fr": "Tu as 3 rôles"
     }
   },
   "punchline": {

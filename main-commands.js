@@ -80,7 +80,9 @@ module.exports  =  {
       name : 'restart',
       description : 'Restart the Main Channel Presentation Text and create it if needed',
       execute(bot, game, message, args) {
-        bot.emit(`guildCreate`,message.guild);
+        if(message.channel.type == "text"){
+          bot.emit(`guildCreate`,message.guild);
+        }
       }
     }
     ,{
