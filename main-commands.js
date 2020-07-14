@@ -43,6 +43,7 @@ module.exports  =  {
       description : 'Pong !',
       execute(bot, game, message, args) {
         message.channel.send("Pong!");
+
       }
     }
     ,{

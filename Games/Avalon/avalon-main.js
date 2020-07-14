@@ -70,11 +70,13 @@ module.exports  = class Avalon extends Games {
     this.questFailed = 0;
     this.players = new Map(); // {id : [role, 'option role, ... ']}
     this.order = [];
+    this.leaderId = 0;
+    this.vote = []; //[true,false,true] true : Yes, false : No.
     this.boardData = jsonData["board"]
     this.board = this.boardData["0"];
     this.roleMap = new Map(Object.entries(jsonData["role"]))
     // Create a role for leader of each round
-    this.leader;
+    this.leaderRole;
   }
 
   static match(message) {
@@ -108,7 +110,7 @@ module.exports  = class Avalon extends Games {
           reason: 'because',
         })
         .then( role => {
-          this.leader = role.id;
+          this.leaderRole = role.id;
         })
         .catch(console.error);
         channel.send(this.displayText("menu","welcome"))
@@ -165,8 +167,8 @@ module.exports  = class Avalon extends Games {
         let next = -1;
         for(i in this.order){
           const userRoles = channel.members.get(this.order[i]).roles
-          if(userRoles.cache.has(this.leader)){
-            userRoles.remove(this.leader)
+          if(userRoles.cache.has(this.leaderRole)){
+            userRoles.remove(this.leaderRole)
             next = i;
           }
         }
@@ -174,10 +176,10 @@ module.exports  = class Avalon extends Games {
         //add next
         if(this.round == 1 && this.countRejected == 0 || next == -1){
           // this.players.get(this.order[0])
-          channel.members.get(this.order[0]).roles.add(this.leader)
+          channel.members.get(this.order[0]).roles.add(this.leaderRole)
           next = 0;
         }else{
-          channel.members.get(this.order[next]).roles.add(this.leader)
+          channel.members.get(this.order[next]).roles.add(this.leaderRole)
         }
 
         channel.send(this.displayText("gameAction","leader"))
@@ -187,6 +189,7 @@ module.exports  = class Avalon extends Games {
         channel.send(this.displayText("gameAction","leaderChoose"))
         break;
         case 7: // Players vote
+        channel.send(this.displayText("gameAction","electTeam"));
         break;
         case 8: // Majority of No : Quest doesnt go !
         break;

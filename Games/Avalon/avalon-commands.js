@@ -164,18 +164,30 @@ module.exports  =  {
       execute(bot,game,message, args) {
         if(!commandAllow(game,message,"select",[6])) return;
 
-        if(message.mentions.size != this.board[this.round])
+        const nb = game.board[`${game.round}`][2];
+        if(message.mentions.users.size != nb){
+          const txt = "not the right number of players, need "+nb+" players";
+          game.channel.send(txt)
+          return;
+        }
+        let names = ""
+        let check = true;
         message.mentions.users.forEach( user => {
           // if(!user.bot && !game.players.has(user.id)){
           if(!game.players.has(user.id)){
-
-            game.players.set(user.id,[]);
-            message.channel.send(`add ${user.username} : ${game.players.size} ${game.displayText("log","register")}`)
+            check = false;
           }else{
-            message.channel.send(`not added ${user.username} : already added or is a bot`)
+            names += "@"+user.username+" "
           }
         });
-        game.action
+        if(!check) return;
+
+        game.channel.send(game.displayText("gameAction","rejectedCount"))
+        game.channel.send(game.displayText("gameAction","electTeam"))
+        game.channel.send(names)
+
+        game.step = 7;
+        game.action()
 
       }
     }
