@@ -159,11 +159,36 @@ module.exports  =  {
       }
     }
     ,{
+      name : 'leader',
+      description : "change the leader manually",
+      execute(bot,game,message, args) {
+        // if(!commandAllow(game,message,"custom",[4])) return;
+        if(args.length == 1){
+          const val = parseInt(args[0]);
+          const nb = game.order.length;
+          if(!isNaN(val)){
+            if(val >= 0 && val < nb){
+              game.leaderId = (val-2+nb)%nb
+              game.step = 5;
+              game.action();
+            }
+          }
+        }else{
+          console.log("error commande leader")
+        }
+      }
+    }
+    ,{
       name : 'select',
-      description : "During step 4, choose yourself roles total custom ",
+      description : "During step 6, the leader choose the players for the quest ",
       execute(bot,game,message, args) {
         if(!commandAllow(game,message,"select",[6])) return;
 
+        const id = game.order[game.leaderId];
+        if(message.member.id != game.channel.members.get(id)){
+          game.channel.send(game.displayText("log","notallowed"))
+          return;
+        }
         const nb = game.board[`${game.round}`][2];
         if(message.mentions.users.size != nb){
           const txt = "not the right number of players, need "+nb+" players";
@@ -182,7 +207,7 @@ module.exports  =  {
         });
         if(!check) return;
 
-        game.channel.send(game.displayText("gameAction","rejectedCount"))
+        game.channel.send(game.displayText("gameAction","rejectedCount")+` ${game.countDenied}`)
         game.channel.send(game.displayText("gameAction","electTeam"))
         game.channel.send(names)
 

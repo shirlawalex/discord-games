@@ -19,6 +19,10 @@
     "players": {
       "En": "players",
       "Fr": "joueurs"
+    },
+    "notallowed": {
+      "En": "Not allow to do this command",
+      "Fr": "Pas autorisé à executé cette commande"
     }
   },
   "menu": {
@@ -48,9 +52,13 @@
     }
   },
   "gameAction": {
+    "board": {
+      "En": "",
+      "Fr": "Voici le plateau pour le nombre de joueurs enregistrés. Pour lancer la partie avec le plateau original, executé la commande !start. Vous pouvez crée un plateau personnalisé avec la commande !custom. Si vous souhaitez supprimé des joueurs de la liste utilisé la commande !remove suivis des mentions des joueurs à retirer"
+    },
     "selectRole": {
       "En": "",
-      "Fr": "Choissiez les rôles de la partie. \n selectionné la config avec la commande !role  \"nom config\" ou alors crée une config custom avec la commande !custom."
+      "Fr": "Choissiez les rôles pour la partie. \nSelectionnez la config avec la commande !role  \"nom config\" ou alors crée une config custom avec la commande !custom."
     },
     "giveRole": {
       "En": "",
@@ -149,8 +157,8 @@
   },
   "rules": {
     "roundPin": {
-      "En": "2 failed required to failed the quest ",
-      "Fr": "2 échec requis pour faire échouer la quête"
+      "En": ": 2 failed required to failed the quest ",
+      "Fr": ": 2 échec requis pour faire échouer la quête"
     }
   },
   "players": {
