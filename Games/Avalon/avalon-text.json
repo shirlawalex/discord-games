@@ -84,6 +84,14 @@
       "En": "",
       "Fr": "Voici la liste des joueurs proposé par le Leader pour partir en quête.  \n Veuillez dire en message privé si vous accepter ou refuser la proposition.  "
     },
+    "privateVote": {
+      "En": "",
+      "Fr": "Une équipe pour la quête a été choissi, si vous êtes d'accord pour son départ tapez !yes, si non tapez !no.\nAttention une fois voté vous ne pouvez pas changer votre vote."
+    },
+    "voteCheck": {
+      "En": "",
+      "Fr": " votes enregistrés sur "
+    },
     "yesWin": {
       "En": "",
       "Fr": "Majorité de Oui :)"
@@ -218,7 +226,7 @@
     },
     "Perceval": {
       "En": "You are ",
-      "Fr": "Tu es le vayant Perceval"
+      "Fr": "Tu es le vaillant Perceval"
     },
     "GoodSoldier": {
       "En": "You are ",

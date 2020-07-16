@@ -51,7 +51,7 @@ module.exports  =  {
       execute(bot,game,message, args) {
         if(!commandAllow(game,message,"start",[2])) return;
         // const msg =
-        message.channel.send(`${game.displayText("log","start")} ${game.players.size} ${game.displayText("log","players")}`);
+        message.channel.send("```"+`${game.displayText("log","start")} ${game.players.size} ${game.displayText("log","players")}`+"```");
         game.step = 3;
         console.log("step => 3");
         game.action();
@@ -123,7 +123,7 @@ module.exports  =  {
             if(!game.channel.members.get(id).user.bot){
               const privateChan = game.channel.members.get(id);
               const role = game.players.get(id);
-              const txt = game.displayText("log","game") + game.channel.name;
+              const txt = "```"+game.displayText("log","game") + game.channel.name+"```";
 
               privateChan.send(txt)
               privateChan.send(game.displayText("private",`${role.length}role`))
@@ -167,8 +167,8 @@ module.exports  =  {
           const val = parseInt(args[0]);
           const nb = game.order.length;
           if(!isNaN(val)){
-            if(val >= 0 && val < nb){
-              game.leaderId = (val-2+nb)%nb
+            if(val >= 0 && val <= nb){
+              game.leaderId = (val+nb-2)%nb
               game.step = 5;
               game.action();
             }
@@ -207,13 +207,69 @@ module.exports  =  {
         });
         if(!check) return;
 
-        game.channel.send(game.displayText("gameAction","rejectedCount")+` ${game.countDenied}`)
+        // game.channel.send(game.displayText("gameAction","rejectedCount")+` ${game.countDenied}`)
         game.channel.send(game.displayText("gameAction","electTeam"))
         game.channel.send(names)
 
         game.step = 7;
         game.action()
 
+      }
+    }
+    ,{
+      name : 'yes',
+      description : 'During step 8, yes to approuve the members of the quest',
+      execute(bot,game,message, args) {
+        if(!commandAllow(game,message,"yes",[8])) return;
+        const id = message.member.id;
+        const index = game.order.indexOf(id);
+        if(index != -1){
+          if(game.vote[index] == undefined) game.vote[index] = true;
+          else{
+            console.log("already vote");
+          }
+          game.action()
+        }
+      }
+    }
+    ,{
+      name : 'no',
+      description : 'During step 8, no to refuse the members of the quest !',
+      execute(bot,game,message, args) {
+        if(!commandAllow(game,message,"no",[8])) return;
+        const id = message.member.id;
+        const index = game.order.indexOf(id);
+        if(index != -1){
+          if(game.vote[index] == undefined) game.vote[index] = false;
+          else{
+            console.log("already vote");
+          }
+          game.action()
+        }
+      }
+    }
+    ,{
+      name : 'vote',
+      description : 'During step 8, to enter directly the result of the vote',
+      execute(bot,game,message, args) {
+        if(!commandAllow(game,message,"vote",[8])) return;
+
+        if(args.length != 1){
+          console.log("nb of arg != 1")
+          return;
+        }
+        if(args[0] == "yeswin"){
+          game.vote.fill(true)
+          console.log(game.vote)
+        }
+        if(args[0] == "nowin"){
+          game.vote.fill(false)
+          console.log(game.vote)
+        }
+        if(args[0] == "result"){
+          console.log(game.vote)
+        }
+        game.action()
       }
     }
   ]

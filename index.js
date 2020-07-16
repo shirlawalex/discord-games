@@ -3,7 +3,7 @@ const { Discord, fs, displayText, arrayOfFile } = require(`./function.js`)
 const config = require(`./config.json`);
 const Games = require(`./listGames.js`);
 
-
+// console.log((((5+5-2)%5)+1)%5)
 // Initialisation and new Proprieties
 const bot = new Discord.Client();
 bot.jsonFiles = new Discord.Collection();
@@ -89,7 +89,7 @@ bot.on(`guildCreate`, (guild) => {
 
   // Creation of the repository/category for the games
   // If already exist do nothing
-  
+
   guild.channels.cache.each(channel => {
 
     if(channel.type === `category` && channel.name === bot.nameParentChannel){

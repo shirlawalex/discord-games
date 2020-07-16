@@ -10,15 +10,6 @@ module.exports  = class Games {
     return new Games (nameGame,jsonFile,channel)
   }
 
-  static match(message) {
-    return false
-  }
-
-  static helloWorld (guild) {
-    // guild.channels.cache.first.send('Hello World !')
-    console.log("Hello World !")
-  }
-
   action(){
     console.log("Fill with the action")
   }
