@@ -29,7 +29,7 @@ module.exports  =  {
     }
     ,{
       name : 'redo',
-      description : 'Display rules !',
+      description : 'go to the last step or to the step indicated  ',
       execute(bot,game,message, args) {
         if(args.length == 0){
           // return to the last step
@@ -51,7 +51,7 @@ module.exports  =  {
       execute(bot,game,message, args) {
         if(!commandAllow(game,message,"start",[2])) return;
         // const msg =
-        message.channel.send("```"+`${game.displayText("log","start")} ${game.players.size} ${game.displayText("log","players")}`+"```");
+        game.channel.send("```"+`${game.displayText("log","start")} ${game.players.size} ${game.displayText("log","players")}`+"```");
         game.step = 3;
         console.log("step => 3");
         game.action();
@@ -67,9 +67,9 @@ module.exports  =  {
           // if(!user.bot && !game.players.has(user.id)){
           if(!game.players.has(user.id)){
             game.players.set(user.id,[]);
-            message.channel.send(`add ${user.username} : ${game.players.size} ${game.displayText("log","register")}`)
+            game.channel.send(`add ${user.username} : ${game.players.size} ${game.displayText("log","register")}`)
           }else{
-            message.channel.send(`not added ${user.username} : already added or is a bot`)
+            game.channel.send(`not added ${user.username} : already added or is a bot`)
           }
         });
         game.action();
@@ -86,7 +86,7 @@ module.exports  =  {
             game.players.delete(user.id,[]);
             game.channel.send(`remove ${user.username} : ${game.players.size} ${game.displayText("log","register")}`)
           }else{
-            message.channel.send(`cannot remove ${user.username} : not register`)
+            game.channel.send(`cannot remove ${user.username} : not register`)
           }
         });
         game.action()
@@ -184,6 +184,8 @@ module.exports  =  {
       execute(bot,game,message, args) {
         if(!commandAllow(game,message,"select",[6])) return;
 
+        game.quest.clear();
+
         const id = game.order[game.leaderId];
         if(message.member.id != game.channel.members.get(id)){
           game.channel.send(game.displayText("log","notallowed"))
@@ -202,6 +204,7 @@ module.exports  =  {
           if(!game.players.has(user.id)){
             check = false;
           }else{
+            game.quest.set(user.id,undefined);
             names += "@"+user.username+" "
           }
         });
@@ -269,6 +272,44 @@ module.exports  =  {
         if(args[0] == "result"){
           console.log(game.vote)
         }
+        game.action()
+      }
+    }
+    ,{
+      name : 'quest',
+      description : 'During step 10, the members of the vote have to succed or failed the quest',
+      execute(bot,game,message, args) {
+        if(!commandAllow(game,message,"quest",[11])) return;
+
+        if(args.length != 1){
+          console.log("nb of arg != 1")
+          return;
+        }
+
+        const id = message.member.id
+
+        if(!game.quest.has(id)){
+          console.log("not allowed");
+          return;
+        }
+
+        if(args[0] == "succes"){
+          game.quest.set(id,true)
+        }
+        if(args[0] == "fail"){
+          game.quest.set(id,false)
+        }
+        if(args[0] == "allfail"){
+          game.quest.forEach((v, k) => {
+              game.quest.set(k,false)
+          });
+        }
+        if(args[0] == "allsucces"){
+          game.quest.forEach((v, k) => {
+              game.quest.set(k,true)
+          });
+        }
+
         game.action()
       }
     }

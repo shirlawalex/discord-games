@@ -177,20 +177,18 @@ bot.on(`messageReactionAdd`, (reaction, user) => {
     }
 
     // handle reaction in private channel
-    /*
-    if ( user.channnel.type == "dm" ){
+    if ( message.channel.type == "dm" ){
         console.log("emoji detetcted on private/dm msg");
         bot.gamesOngoing.forEach((item, i) => {
-          // game = item
-          // name = item.name
-          const cache = bot.game.get(cache)
+          const game = item
+          const name = game.name
+          const cache = bot.game.cache()
 
           if(cache.has(message.id)){
             game.handleReaction(reaction,user)
           }
       });
     }
-    */
   }
 })
 
@@ -221,32 +219,20 @@ bot.on(`message`, (message) => {
   }
 
   //in private channel
-  /*
-  if(message.type == "dm"){
+
+  if(message.channel.type == "dm"){
     console.log("dm send");
-    bot.commands.forEach((v, k, m) => {
-      // bot.commands.get("name") == v
-      // game.name == k
-      // game == message.guil.channels.get( k ) ??
-      if(v.has(command)){
-        v.get(command).execute(bot,game,message,args)
+    bot.gamesOngoing.forEach((item, i) => {
+      const game = item;
+      const name = item.name;
+      if(bot.commands.get(name).has(command)){
+        bot.commands.get(name).get(command).execute(bot,game,message,args);
       }
-    })
+    });
+  }else{
+    // console.log(message)
   }
-*/
-//ou
-/*
-if(message.type == "dm"){
-  console.log("dm send");
-  bot.gamedOngoing.forEach((item, i) => {
-    // game == item
-    // name = item.name
-    if(bot.commands.get(name).has(command)){
-      bot.commands.get(name).get(command).execute(bot,game,message,args);
-    }
-  });
-}
-*/
+
   // any channel
   if(!bot.commands.get("main").has(command)) return;
   bot.commands.get("main").get(command).execute(bot,undefined,message,args);

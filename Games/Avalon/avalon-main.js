@@ -63,6 +63,7 @@ module.exports  = class Avalon extends Games {
     this.questFailed = 0;
     this.assassination = true;
     this.players = new Map(); // {id : [role, 'option role, ... ']}
+    this.quest = new Map(); // {id : boolean}
     this.order = [];
     this.leaderId = 0;
     this.vote = []; //[true,false,true] true : Yes, false : No.
@@ -73,10 +74,10 @@ module.exports  = class Avalon extends Games {
     this.leaderRole;
   }
 
-  handleReaction(reaction,user){
-    // if(reaction is pouce et messag est le bon ?)
-    console.log("Avalon handle reaction")
-  }
+  // handleReaction(reaction,user){
+  //   // if(reaction is pouce et messag est le bon ?)
+  //   console.log("Avalon handle reaction")
+  // }
 
   action(){
     this.promiseChannel.then( channel => {
@@ -100,7 +101,8 @@ module.exports  = class Avalon extends Games {
           channel.send(this.displayText("menu","players"))
           // channel.send(this.displayText("menu","introduction"))
           // channel.send(this.displayText("menu","summary"))
-          // channel.send(this.displayText("menu","goals"))
+          const msg = channel.send(this.displayText("menu","goals"))
+          // super.addCache(msg)
           // channel.send(this.displayText("menu","command"))
           this.step = 1;
           console.log("step => 1");
@@ -192,8 +194,10 @@ module.exports  = class Avalon extends Games {
               const privateChan = this.channel.members.get(id);
               const txt = "```"+this.displayText("log","game") + this.channel.name+"```";
 
-              privateChan.send(txt)
-              privateChan.send(this.displayText("gameAction","privateVote"))
+              const msg1 = privateChan.send(txt)
+              const msg2 = privateChan.send(this.displayText("gameAction","privateVote"))
+              super.addCache(msg1);
+              super.addCache(msg2);
             }
           }
           this.step = 8;
@@ -223,30 +227,71 @@ module.exports  = class Avalon extends Games {
           this.step = 5;
           this.countDenied ++;
           channel.send(this.displayText("gameAction","noWin"))
+          channel.send(this.displayText("gameAction","teamDenied"))
           this.action()
           break;
 
         case 10: // Majority of Yes : Quest go !
           this.countDenied = 0;
           channel.send(this.displayText("gameAction","yesWin"))
-          //TO DO
-          console.log("QUEST GO AND FAILED")
-          this.step = 11;
-          console.log("QUEST GO AND SUCEED")
-          this.step = 12;
-          this.action()
-          break;
+          channel.send(this.displayText("gameAction","teamAccept"))
 
-        case 11: // Quest Failed : 1 point for Evil
-        case 12: // Quest Suceed : 1 point for Good
+          this.quest.forEach((vote, id) => {
+            const privateChan = this.channel.members.get(id);
+            if(!privateChan.user.bot){
+              const msg = privateChan.send(this.displayText("private","quest"));
+              super.addCache(msg);
+            }
+          });
+
+          this.step = 11;
+          break;
+        case 11: // check everybody vote
+
+          let check = true;
+          for( v of this.quest){
+            // if(v == undefined) check = false;
+            if(v != true || v != false){
+              check = false;
+            }
+          }
+
+          channel.send(this.displayText("gameAction","voteQuest"));
+
+          if(check == false){
+            break;
+            return;
+          }
+
+          let countFail = 0;
+          for(v of this.quest){
+            if(v == false){
+              countFail ++;
+            }
+          }
+          let fail = false
+          if(this.board[this.round][1] == true){
+            fail = (countFail >= 2)
+          }else{
+            fail = (countFail >= 1)
+          }
+          channel.send(countFail+this.displayText("gameAction","countFail"))
+          if(fail){
+            this.step = 12;
+          }else{
+            this.step = 13;
+          }
+
+        case 12: // Quest Failed : 1 point for Evil
+        case 13: // Quest Suceed : 1 point for Good
           let emoji = "warning";
-          if(this.step == 11){
+          if(this.step == 12){
             channel.send(this.displayText("gameAction","questFailed"))
             this.questFailed ++;
             emoji = "x"
           }
 
-          if(this.step == 12){
+          if(this.step == 13){
             channel.send(this.displayText("gameAction","questSucceed"))
             this.questSucceed ++;
             emoji = "white_check_mark"

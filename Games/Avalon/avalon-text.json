@@ -120,6 +120,14 @@
       "En": "denied of leader ",
       "Fr": "refus de leader consécutifs"
     },
+    "voteQuest": {
+      "En": " ",
+      "Fr": "Vote enregistré"
+    },
+    "countFail": {
+      "En": " ",
+      "Fr": " échec à été mis dans la quête."
+    },
     "questSucceed": {
       "En": "",
       "Fr": "Félicitation ! la quête est un succès "
@@ -199,6 +207,10 @@
     "warning": {
       "En": "You are ",
       "Fr": "Attention ! Il est interdit de communiquer de quelconque manière, notament par message privé et/ou en dehors de la Partie ! Tout ce qui se dit doit l'etre publiquement"
+    },
+    "quest": {
+      "En": " ",
+      "Fr": "Vous partez en quête! Pour la faire réussir tapez \"!quest succes\" pour la faire échouer tapez \"!quest fail\""
     },
     "Mordred": {
       "En": "You are ",

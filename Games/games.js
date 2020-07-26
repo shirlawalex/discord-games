@@ -18,7 +18,10 @@ module.exports  = class Games {
     const message = reaction.message;
     console.log("to do : handle reaction")
     if(this._cacheMessage.has(message.id)){
-      console.log("action for this message")
+      console.log("in the cache : action for this message")
+      console.log(message.content)
+    }else{
+      console.log("message not in the cache")
     }
   }
 
@@ -60,6 +63,12 @@ module.exports  = class Games {
   // fetch(){
   //   return this._channel.fetch()
   // }
+
+  addCache(promiseMessage){
+    promiseMessage.then( message => {
+      this._cacheMessage.set(message.id,message)
+    })
+  }
 
   // displayers of text
   displayText(context,key){
