@@ -177,8 +177,20 @@ bot.on(`messageReactionAdd`, (reaction, user) => {
     }
 
     // handle reaction in private channel
-    // if ( user.channnel ){}
+    /*
+    if ( user.channnel.type == "dm" ){
+        console.log("emoji detetcted on private/dm msg");
+        bot.gamesOngoing.forEach((item, i) => {
+          // game = item
+          // name = item.name
+          const cache = bot.game.get(cache)
 
+          if(cache.has(message.id)){
+            game.handleReaction(reaction,user)
+          }
+      });
+    }
+    */
   }
 })
 
@@ -221,6 +233,19 @@ bot.on(`message`, (message) => {
       }
     })
   }
+*/
+//ou
+/*
+if(message.type == "dm"){
+  console.log("dm send");
+  bot.gamedOngoing.forEach((item, i) => {
+    // game == item
+    // name = item.name
+    if(bot.commands.get(name).has(command)){
+      bot.commands.get(name).get(command).execute(bot,game,message,args);
+    }
+  });
+}
 */
   // any channel
   if(!bot.commands.get("main").has(command)) return;

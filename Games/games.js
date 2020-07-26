@@ -15,7 +15,11 @@ module.exports  = class Games {
   }
 
   handleReaction(reaction,user){
+    const message = reaction.message;
     console.log("to do : handle reaction")
+    if(this._cacheMessage.has(message.id)){
+      console.log("action for this message")
+    }
   }
 
   handleMessage(message,user){
@@ -32,6 +36,7 @@ module.exports  = class Games {
     this._promiseChannel = promiseChannel
     this._name = name //UndefinedGame
     this._jsonFile = jsonfile //'./Games/UndefinedJson.json'
+    this._cacheMessage = new Discord.Collection()
   }
 
   //getters
@@ -46,6 +51,10 @@ module.exports  = class Games {
   get channel(){ return this._channel }
 
   get promiseChannel(){ return this._promiseChannel }
+
+  get cache(){ return this._cacheMessage }
+
+  // get message(id){ return this._cacheMessage.get(id)}
 
   // fetch the promises of the channel
   // fetch(){
