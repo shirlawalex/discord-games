@@ -207,6 +207,21 @@ bot.on(`message`, (message) => {
       }
     }
   }
+
+  //in private channel
+  /*
+  if(message.type == "dm"){
+    console.log("dm send");
+    bot.commands.forEach((v, k, m) => {
+      // bot.commands.get("name") == v
+      // game.name == k
+      // game == message.guil.channels.get( k ) ??
+      if(v.has(command)){
+        v.get(command).execute(bot,game,message,args)
+      }
+    })
+  }
+*/
   // any channel
   if(!bot.commands.get("main").has(command)) return;
   bot.commands.get("main").get(command).execute(bot,undefined,message,args);
