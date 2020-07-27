@@ -81,7 +81,7 @@ module.exports  = class Avalon extends Games {
 
   action(){
     this.promiseChannel.then( channel => {
-      // console.log("step is:",this.step)
+      console.log("step is:",this.step)
       switch (this.step) {
         case 0:
           // Create a role for leader of each round
@@ -105,7 +105,6 @@ module.exports  = class Avalon extends Games {
           // super.addCache(msg)
           // channel.send(this.displayText("menu","command"))
           this.step = 1;
-          console.log("step => 1");
           break;
 
         case 2: // Starting party
@@ -118,14 +117,12 @@ module.exports  = class Avalon extends Games {
           check if number of players is between 5 and 10
           */
           if(this.players.size >= 5 && this.players.size <= 10){
-            this.step = 2;
-            console.log("step => 2");
             const nb = this.players.size.toString()
             channel.send("```"+this.displayText("gameAction","board")+"```")
             displayBoard(this,this.boardData[nb])
+            this.step = 2;
           }else{
             this.step = 1;
-            console.log("step => 1");
           }
           break;
 
@@ -164,7 +161,7 @@ module.exports  = class Avalon extends Games {
           }
           if(this.countDenied == 5){
             this.step = 15;
-            this.gameAction()
+            this.action()
             break;
             return;
           }
@@ -247,28 +244,41 @@ module.exports  = class Avalon extends Games {
           this.step = 11;
           break;
         case 11: // check everybody vote
-
+          console.log("check")
           let check = true;
-          for( v of this.quest){
-            // if(v == undefined) check = false;
-            if(v != true || v != false){
+          this.quest.forEach((item, i) => {
+            if(item != true && item != false){
               check = false;
             }
-          }
+          });
+
+          // for( v of this.quest){
+          //   // if(v == undefined) check = false;
+          //   if(v != true || v != false){
+          //     check = false;
+          //   }
+          // }
 
           channel.send(this.displayText("gameAction","voteQuest"));
 
+          console.log(check)
           if(check == false){
             break;
             return;
           }
 
           let countFail = 0;
-          for(v of this.quest){
-            if(v == false){
+          this.quest.forEach((item, i) => {
+            if(item == false){
               countFail ++;
             }
-          }
+          });
+
+          // for(v of this.quest){
+          //   if(v == false){
+          //     countFail ++;
+          //   }
+          // }
           let fail = false
           if(this.board[this.round][1] == true){
             fail = (countFail >= 2)
@@ -286,15 +296,15 @@ module.exports  = class Avalon extends Games {
         case 13: // Quest Suceed : 1 point for Good
           let emoji = "warning";
           if(this.step == 12){
-            channel.send(this.displayText("gameAction","questFailed"))
             this.questFailed ++;
             emoji = "x"
+            channel.send(this.displayText("gameAction","questFailed"))
           }
 
           if(this.step == 13){
-            channel.send(this.displayText("gameAction","questSucceed"))
             this.questSucceed ++;
             emoji = "white_check_mark"
+            channel.send(this.displayText("gameAction","questSucceed"))
           }
 
           // Number of Quest check
@@ -326,17 +336,20 @@ module.exports  = class Avalon extends Games {
           break;
 
         case 15: // Evil win
-          channel.send(this.displayText("gameAction","evilWin"))
-          break;
-
         case 16: // Good win
+
+        if(this.step == 15){
+          channel.send(this.displayText("gameAction","evilWin"))
+        }
+
+        if(this.step == 16){
           channel.send(this.displayText("gameAction","goodWin"))
-          break;
+        }
 
-        case 17: // Credit
-          break;
-
-        case 18: //
+        case 17: // Reveal role
+          channel.send(this.players)
+          console.log(this.players)
+        case 18: // Credit
           break;
 
         default:
