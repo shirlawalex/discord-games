@@ -219,7 +219,7 @@ bot.on(`message`, (message) => {
   }
 
   //in private channel
-
+  
   if(message.channel.type == "dm"){
     console.log("dm send");
     bot.gamesOngoing.forEach((item, i) => {

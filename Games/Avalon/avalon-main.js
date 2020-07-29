@@ -72,6 +72,7 @@ module.exports  = class Avalon extends Games {
     this.roleMap = new Map(Object.entries(jsonData["role"]))
     // Create a role for leader of each round
     this.leaderRole;
+    this.assassination = true;
   }
 
   // handleReaction(reaction,user){
@@ -211,7 +212,6 @@ module.exports  = class Avalon extends Games {
               if(this.vote[i]) {yes ++;}
               else {no ++;}
             }
-            console.log("yes",yes,"no",no);
             const txt = `yes: ${yes}, no: ${no}`;
             channel.send(txt);
             if(yes > no) this.step = 10;
@@ -244,7 +244,6 @@ module.exports  = class Avalon extends Games {
           this.step = 11;
           break;
         case 11: // check everybody vote
-          console.log("check")
           let check = true;
           this.quest.forEach((item, i) => {
             if(item != true && item != false){
@@ -261,7 +260,6 @@ module.exports  = class Avalon extends Games {
 
           channel.send(this.displayText("gameAction","voteQuest"));
 
-          console.log(check)
           if(check == false){
             break;
             return;
@@ -309,8 +307,10 @@ module.exports  = class Avalon extends Games {
 
           // Number of Quest check
           this.board[this.round.toString()][0] = emoji;
+          // console.log("quest Succeed",this.questSucceed)
+          // console.log("quest Failed",this.questFailed)
           if (this.questSucceed >= 3){
-            this.case = 14
+            this.step = 14
             this.action()
             return;
           }
@@ -326,9 +326,10 @@ module.exports  = class Avalon extends Games {
           break;
 
         case 14: // Assassination of Merlin
-          if(assassination){
+          if(this.assassination){
             channel.send(this.displayText("gameAction","assassination"))
-            channel.send(this.displayText("gameAction","assassination"))
+            channel.send(this.displayText("gameAction","assassinationCommand"))
+
           }else{
             this.step = 16;
             this.action()
@@ -347,8 +348,11 @@ module.exports  = class Avalon extends Games {
         }
 
         case 17: // Reveal role
-          channel.send(this.players)
-          console.log(this.players)
+          this.players.forEach((item, i) => {
+            const name = message.channel.members.get(i).user.username;
+            const txt = name + " : "+item.toString()
+            message.channel.send(txt)
+          });
         case 18: // Credit
           break;
 

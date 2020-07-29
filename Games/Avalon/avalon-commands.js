@@ -161,6 +161,18 @@ module.exports  =  {
       }
     }
     ,{
+      name : 'display',
+      description : "During step 4, choose yourself roles total custom ",
+      execute(bot,game,message, args) {
+        if( !commandAllow(game,message,"custom",[5,6,7,8,9,10,11,12,13,14,15,16,17,18])) return;
+        game.players.forEach((item, i) => {
+          const name = message.channel.members.get(i).user.username;
+          const txt = name + " : "+item.toString()
+          message.channel.send(txt)
+        });
+      }
+    }
+    ,{
       name : 'leader',
       description : "change the leader manually",
       execute(bot,game,message, args) {
@@ -265,11 +277,11 @@ module.exports  =  {
         }
         if(args[0] == "yeswin"){
           game.vote.fill(true)
-          console.log(game.vote)
+          // console.log(game.vote)
         }
         if(args[0] == "nowin"){
           game.vote.fill(false)
-          console.log(game.vote)
+          // console.log(game.vote)
         }
         if(args[0] == "result"){
           console.log(game.vote)
@@ -311,8 +323,33 @@ module.exports  =  {
               game.quest.set(k,true)
           });
         }
-        console.log("quest : ",game.quest)
+        // console.log("quest : ",game.quest)
 
+        game.action()
+      }
+    }
+    ,{
+      name : 'assassin',
+      description : 'During step 10, the members of the vote have to succed or failed the quest',
+      execute(bot,game,message, args) {
+        if(!commandAllow(game,message,"assassin",[14])) return;
+
+        const id = message.author.id;
+        // if(game.players.get(id).find(e => e == "Assassin") == undefined){ return; }
+        if(args.length != 1){ return; }
+        const nb = parseInt(args[0]);
+        if(isNaN(nb)){ return ;}
+
+        const target_id = game.order[nb-1];
+
+        if(game.players.get(target_id).find(e => e == "Merlin") != undefined){
+          game.step = 15 //find Merlin
+          game.channel.send(game.displayText("gameAction",""))
+        }else{
+          game.step = 16 // not find Merlin
+          game.channel.send(game.displayText("gameAction",""))
+
+        }
         game.action()
       }
     }

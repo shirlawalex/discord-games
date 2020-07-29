@@ -138,11 +138,15 @@
     },
     "goodWin": {
       "En": "",
-      "Fr": "Bravo au Bien qui a su démasqué le Mal. Attention toute fois le Mal à une derniere chance en tuant Merlin. "
+      "Fr": "Bravo au Bien qui a su démasqué le Mal. "
     },
     "assassination": {
       "En": "",
-      "Fr": "Les agents du Mal concertez vous et essayez de trouver Merlin. L'assassin devra prendre la décision final en indiquant qui pour lui est Merlin. la victoire est entre tes mains."
+      "Fr": "Le Bien a gagné ! Mais il  reste une dernière chance au Mal pour l'emporter. Les agents du Mal concertez vous et essayez de trouver Merlin. L'assassin devra prendre la décision final en indiquant qui pour lui est Merlin. la victoire est entre tes mains."
+    },
+    "assassinationCommand": {
+      "En": "",
+      "Fr": "Pour tuer Merlin, tapez la commande !assassin suivie du numéro d'ordre du joueur"
     },
     "evilWin": {
       "En": "",
