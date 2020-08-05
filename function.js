@@ -38,3 +38,10 @@ var displayCommands = function(bot,message){
 }
 
 exports.displayCommands = displayCommands;
+
+
+var addMap = function(map,key,text){
+  map.set(key, map.get(key) + text)
+}
+
+exports.addMap = addMap;

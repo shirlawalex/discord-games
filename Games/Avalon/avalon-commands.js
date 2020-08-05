@@ -1,4 +1,4 @@
-const { Discord, fs, arrayOfFile } = require(`./../../function.js`)
+const { Discord, fs, arrayOfFile, addMap } = require(`./../../function.js`)
 
 var commandAllow = function(game,message,name,curStep) {
   //check if the commands is call while curStep
@@ -127,6 +127,19 @@ module.exports  =  {
             game.players.set(game.order[i],tab[i])
           }
 
+
+          let info = new Map()
+          for(let i = 0;i<nb;i++){
+            const id = game.order[i]
+
+            const role = game.players.get(id);
+            let text = game.displayText("private",`${role.length}role`)+" \n"
+            for(i in role){
+              text += game.displayText("private",`${role[i]}`) +" \n"
+            }
+            info.set(tab[i],text)
+          }
+
           //send role in DM
           for(i in game.order){
             const id = game.order[i]
@@ -137,10 +150,11 @@ module.exports  =  {
               const txt = "```"+game.displayText("log","game") + game.channel.name+"```";
 
               privateChan.send(txt)
-              privateChan.send(game.displayText("private",`${role.length}role`))
-              for(i in role){
-                privateChan.send(game.displayText("private",`${role[i]}`))
-              }
+              privatChan.send(info.get(`${role[i]}`))
+              // privateChan.send(game.displayText("private",`${role.length}role`))
+              // for(i in role){
+              //   privateChan.send(game.displayText("private",`${role[i]}`))
+              // }
             }
           }
         }
