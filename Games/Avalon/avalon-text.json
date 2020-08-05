@@ -8,6 +8,10 @@
       "En": "This action is forbiden",
       "Fr": "Cette action est interdite"
     },
+    "forbidenPrivate": {
+      "En": "This action is forbiden in private channel",
+      "Fr": "Cette action est interdite dans le channel privé"
+    },
     "register": {
       "En": "players register",
       "Fr": "joueurs enregistrés"
@@ -47,6 +51,10 @@
       "Fr": "But du jeu : \n - Le Bien remporte la victoire en accomplissant trois Quêtes. \n - Le Mal gagne en faisant échouer 3 Quêtes. \n Le Mal peut aussi gagner si Merlin est assassiné en fin de partie ou au bout de 5 refus de départ en quête consécutifs. "
     },
     "command": {
+      "En": "command",
+      "Fr": "!help : redonne la liste des commandes. \n !restart : relance la partie de zéro (Attention supprime la progression)\n !role : renvoie en message privé son rôle. \n !sayAgain : renvoie le dernier message. \n !rule : donne les règles du jeux. \n !setting : donne les paramètres du jeux. \n !countdown N: décompte N seconde jusqu'a zéro (affiche les multiples de 5). \n !timer N: lance un minuteur de N minutes. \n "
+    },
+    "rules": {
       "En": "command",
       "Fr": "!help : redonne la liste des commandes. \n !restart : relance la partie de zéro (Attention supprime la progression)\n !role : renvoie en message privé son rôle. \n !sayAgain : renvoie le dernier message. \n !rule : donne les règles du jeux. \n !setting : donne les paramètres du jeux. \n !countdown N: décompte N seconde jusqu'a zéro (affiche les multiples de 5). \n !timer N: lance un minuteur de N minutes. \n "
     }
@@ -91,6 +99,10 @@
     "voteCheck": {
       "En": "",
       "Fr": " votes enregistrés sur "
+    },
+    "alreadyVote": {
+      "En": "",
+      "Fr": " Tu as deja voté "
     },
     "yesWin": {
       "En": "",

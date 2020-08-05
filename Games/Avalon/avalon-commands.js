@@ -11,9 +11,15 @@ var commandAllow = function(game,message,name,curStep) {
   return true;
 }
 
-var privateAllow = function(message) {
+var privateAllow = function(game,message,name) {
   //check if the command is call in private chan or in the main chan
-  return message.channel.type != "dm"
+  if( message.channel.type == "dm" ){
+    const msg = `"${name}" : ${game.displayText("log","forbidenPrivate")}`;
+    game.channel.send(msg);
+    console.log(msg);
+    return true;
+  }
+  return false;
 }
 
 module.exports  =  {
@@ -36,7 +42,7 @@ module.exports  =  {
       name : 'redo',
       description : 'go to the last step or to the step indicated  ',
       execute(bot,game,message, args) {
-        if(!privateAllow(message)) return;
+        if(!privateAllow(game,message,"redo")) return;
 
         if(args.length == 0){
           // return to the last step
@@ -55,7 +61,7 @@ module.exports  =  {
       name : 'start',
       description : 'During step 2, when the number of players is enough you can start the game',
       execute(bot,game,message, args) {
-        if(!privateAllow(message) || !commandAllow(game,message,"start",[2])) return;
+        if(!privateAllow(game,message,"start") || !commandAllow(game,message,"start",[2])) return;
         // const msg =
         game.channel.send("```"+`${game.displayText("log","start")} ${game.players.size} ${game.displayText("log","players")}`+"```");
         game.step = 3;
@@ -66,7 +72,7 @@ module.exports  =  {
       name : 'add',
       description : "During step 1, add people to the player's game list",
       execute(bot,game,message, args) {
-        if(!privateAllow(message) || !commandAllow(game,message,"add",[1,2])) {return;}
+        if(!privateAllow(game,message,"add") || !commandAllow(game,message,"add",[1,2])) {return;}
 
         message.mentions.users.forEach( user => {
           // if(!user.bot && !game.players.has(user.id)){
@@ -84,7 +90,7 @@ module.exports  =  {
       name : 'remove',
       description : "During step 1, add people to the player's game list",
       execute(bot,game,message, args) {
-        if(!privateAllow(message) || !commandAllow(game,message,"remove",[1,2])) return;
+        if(!privateAllow(game,message,"remove") || !commandAllow(game,message,"remove",[1,2])) return;
 
         message.mentions.users.forEach( user => {
           if(game.players.has(user.id)){
@@ -101,7 +107,7 @@ module.exports  =  {
       name : 'role',
       description : "During step 4, choose roles ",
       execute(bot,game,message, args) {
-        if(!privateAllow(message) || !commandAllow(game,message,"role",[4])) return;
+        if(!privateAllow(game,message,"role") || !commandAllow(game,message,"role",[4])) return;
 
         if(args.length == 0){
           console.log("number of arg < 1")
@@ -150,7 +156,7 @@ module.exports  =  {
       name : 'custom',
       description : "During step 4, choose yourself roles total custom ",
       execute(bot,game,message, args) {
-        if(!privateAllow(message) || !commandAllow(game,message,"custom",[4])) return;
+        if(!privateAllow(game,message,"custom") || !commandAllow(game,message,"custom",[4])) return;
         //TO DO
         /*
         custom =>
@@ -176,7 +182,8 @@ module.exports  =  {
       name : 'leader',
       description : "change the leader manually",
       execute(bot,game,message, args) {
-        // if(!privateAllow(message) || !commandAllow(game,message,"custom",[4])) return;
+        if(!privateAllow(game,message,"leader") || !commandAllow(game,message,"leader",[5])) return;
+
         if(args.length == 1){
           const val = parseInt(args[0]);
           const nb = game.order.length;
@@ -196,7 +203,7 @@ module.exports  =  {
       name : 'select',
       description : "During step 6, the leader choose the players for the quest ",
       execute(bot,game,message, args) {
-        if(!privateAllow(message) || !commandAllow(game,message,"select",[6])) return;
+        if(!privateAllow(game,message,"name") || !commandAllow(game,message,"select",[6])) return;
 
         game.quest.clear();
 
@@ -243,7 +250,7 @@ module.exports  =  {
         if(index != -1){
           if(game.vote[index] == undefined) game.vote[index] = true;
           else{
-            console.log("already vote");
+            message.channel.send(game.displayText("gameAction","alreadyVote"))
           }
           game.action()
         }
@@ -259,7 +266,7 @@ module.exports  =  {
         if(index != -1){
           if(game.vote[index] == undefined) game.vote[index] = false;
           else{
-            console.log("already vote");
+            message.channel.send(game.displayText("gameAction","alreadyVote"))
           }
           game.action()
         }
@@ -269,7 +276,7 @@ module.exports  =  {
       name : 'vote',
       description : 'During step 8, to enter directly the result of the vote',
       execute(bot,game,message, args) {
-        if(!privateAllow(message) || !commandAllow(game,message,"vote",[8])) return;
+          if(!privateAllow(game,message,"vote") || !commandAllow(game,message,"vote",[8])) return;
 
         if(args.length != 1){
           console.log("nb of arg != 1")
@@ -332,7 +339,7 @@ module.exports  =  {
       name : 'assassin',
       description : 'During step 10, the members of the vote have to succed or failed the quest',
       execute(bot,game,message, args) {
-        if(!commandAllow(game,message,"assassin",[14])) return;
+        if(!privateAllow(game,message,"name") || !commandAllow(game,message,"assassin",[14])) return;
 
         const id = message.author.id;
         // if(game.players.get(id).find(e => e == "Assassin") == undefined){ return; }
