@@ -162,7 +162,9 @@ bot.on(`messageReactionAdd`, (reaction, user) => {
           // add to the Map of the Game Channel
           bot.gamesOngoing.set(channel.id,newGame)
           newGame.action();
-        });
+        const msg = displayText(bot,`text`,bot.main,"channelCreated",bot.lang) +" <#"+ newGame.channel.id +">" 
+        message.channel.send(msg);
+      });
       }else{
         console.log("game undefined");
       }
@@ -219,7 +221,7 @@ bot.on(`message`, (message) => {
   }
 
   //in private channel
-  
+
   if(message.channel.type == "dm"){
     console.log("dm send");
     bot.gamesOngoing.forEach((item, i) => {

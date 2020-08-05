@@ -28,6 +28,10 @@
       "En": "To start a game, you need to react with \"🆕\" under a game. \nWe have : ",
       "Fr": "Pour lancer une partie, il suffit de cliquer l'emoji \"🆕\" sous le nom du jeux. \nNous avons : "
     },
+    "channelCreated": {
+      "En": "",
+      "Fr": "Nouveau channel pour la partie créer, nommé :"
+    },
     "donation": {
       "En": "utip, paypal",
       "Fr": "utip, paypal"
