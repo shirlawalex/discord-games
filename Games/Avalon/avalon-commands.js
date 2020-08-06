@@ -1,4 +1,13 @@
-const { Discord, fs, arrayOfFile, addMap } = require(`./../../function.js`)
+const { Discord, fs, arrayOfFile } = require(`./../../function.js`)
+
+var addMap = function(map,key,text){
+  map.forEach((value, tabKey) => {
+    if(tabKey.find(e => e == key)){
+      console.log(tabKey,key)
+      map.set(tabKey, map.get(tabKey) + text)
+    }
+  });
+}
 
 var commandAllow = function(game,message,name,curStep) {
   //check if the commands is call while curStep
@@ -17,9 +26,9 @@ var privateAllow = function(game,message,name) {
     const msg = `"${name}" : ${game.displayText("log","forbidenPrivate")}`;
     game.channel.send(msg);
     console.log(msg);
-    return true;
+    return false;
   }
-  return false;
+  return true;
 }
 
 module.exports  =  {
@@ -109,6 +118,7 @@ module.exports  =  {
       execute(bot,game,message, args) {
         if(!privateAllow(game,message,"role") || !commandAllow(game,message,"role",[4])) return;
 
+        //check argument
         if(args.length == 0){
           console.log("number of arg < 1")
           return;
@@ -120,41 +130,96 @@ module.exports  =  {
 
         const name = args.toString().replace(","," ")
         if(game.roleMap.has(name)){
-          const tab = game.roleMap.get(name).sort(function(){
+          //prepare information to send
+          let info = new Map()
+          //give random role
+          const roles = game.roleMap.get(name).sort(function(){
             return 0.5-Math.random();
           })
           for(let i =0;i<nb;i++){
-            game.players.set(game.order[i],tab[i])
+            game.players.set(game.order[i],roles[i])
+            info.set(roles[i],"")
           }
 
+          for(let i in game.order){
+            const id = game.order[i];
+            const rolePlayer = game.players.get(id);
 
-          let info = new Map()
-          for(let i = 0;i<nb;i++){
-            const id = game.order[i]
+            //information about the game
+            let text = "```"+game.displayText("log","game") + game.channel.name+"```";
 
-            const role = game.players.get(id);
-            let text = game.displayText("private",`${role.length}role`)+" \n"
-            for(i in role){
-              text += game.displayText("private",`${role[i]}`) +" \n"
+            //information about the role
+            text += game.displayText("private",`${rolePlayer.length}role`)+" \n"
+            for(let j in rolePlayer){
+              text += game.displayText("private",`${rolePlayer[j]}`) +" \n"
+              //information about power
+              text += game.displayText("rules",`power`+`${rolePlayer[j]}`)
+
+              if(j == 0){
+              switch (rolePlayer[j]) {
+                case "Merlin":
+                  addMap(info,["Perceval"],`\nTu vois ce joueur <@${id}>`)
+                  break;
+
+
+                case "Mordred":
+                  addMap(info,["Morgane"],`\nCe joueur <@${id}> est méchant avec toi`)
+                  addMap(info,["Assassin"],`\nCe joueur <@${id}> est méchant avec toi`)
+                  addMap(info,["EvilSoldier"],`\nCe joueur <@${id}> est méchant avec toi`)
+                  break;
+
+                case "Morgane":
+                  addMap(info,["Merlin"],`\nCe joueur <@${id}> est méchant contre toi`)
+                  addMap(info,["Perceval"],`\nTu vois ce joueur <@${id}>`)
+                  addMap(info,["Mordred"],`\nCe joueur <@${id}> est méchant avec toi`)
+                  addMap(info,["Assassin"],`\nCe joueur <@${id}> est méchant avec toi`)
+                  addMap(info,["EvilSoldier"],`\nCe joueur <@${id}> est méchant avec toi`)
+                  break;
+
+                case "Assassin":
+                  addMap(info,["Merlin"],`\nCe joueur <@${id}> est méchant contre toi`)
+                  addMap(info,["Morgane"],`\nCe joueur <@${id}> est méchant avec toi`)
+                  addMap(info,["Mordred"],`\nCe joueur <@${id}> est méchant avec toi`)
+                  addMap(info,["EvilSoldier"],`\nCe joueur <@${id}> est méchant avec toi`)
+                  break;
+
+                case "Oberon":
+                  addMap(info,["Merlin"],`\nCe joueur <@${id}> est méchant contre toi`)
+                  addMap(info,["Morgane"],`\nCe joueur <@${id}> est méchant avec toi`)
+                  addMap(info,["Mordred"],`\nCe joueur <@${id}> est méchant avec toi`)
+                  addMap(info,["Assassin"],`\nCe joueur <@${id}> est méchant avec toi`)
+                  addMap(info,["EvilSoldier"],`\nCe joueur <@${id}> est méchant avec toi`)
+                  break;
+
+                case "EvilSoldier":
+                  addMap(info,["Merlin"],`\nCe joueur <@${id}> est méchant contre toi`)
+                  addMap(info,["Morgane"],`\nCe joueur <@${id}> est méchant avec toi`)
+                  addMap(info,["Mordred"],`\nCe joueur <@${id}> est méchant avec toi`)
+                  addMap(info,["Assassin"],`\nCe joueur <@${id}> est méchant avec toi`)
+                  addMap(info,["EvilSoldier"],`\nCe joueur <@${id}> est méchant avec toi`)
+                  break;
+                case "Perceval":
+                case "GoodSoldier":
+                default:
+                  //no information to give
+                }
+              }
             }
-            info.set(tab[i],text)
+            //stock information in a Map
+            const aftertext = info.get(roles[i])
+            info.set(roles[i],text + aftertext)
           }
 
-          //send role in DM
-          for(i in game.order){
+          console.log(info)
+
+          //send information in DM
+          for(let i in game.order){
             const id = game.order[i]
 
             if(!game.channel.members.get(id).user.bot){
               const privateChan = game.channel.members.get(id);
               const role = game.players.get(id);
-              const txt = "```"+game.displayText("log","game") + game.channel.name+"```";
-
-              privateChan.send(txt)
-              privatChan.send(info.get(`${role[i]}`))
-              // privateChan.send(game.displayText("private",`${role.length}role`))
-              // for(i in role){
-              //   privateChan.send(game.displayText("private",`${role[i]}`))
-              // }
+              privateChan.send(info.get(role))
             }
           }
         }
@@ -196,7 +261,7 @@ module.exports  =  {
       name : 'leader',
       description : "change the leader manually",
       execute(bot,game,message, args) {
-        if(!privateAllow(game,message,"leader") || !commandAllow(game,message,"leader",[5])) return;
+        if(!privateAllow(game,message,"leader") || !commandAllow(game,message,"leader",[5,6])) return;
 
         if(args.length == 1){
           const val = parseInt(args[0]);
@@ -290,7 +355,7 @@ module.exports  =  {
       name : 'vote',
       description : 'During step 8, to enter directly the result of the vote',
       execute(bot,game,message, args) {
-          if(!privateAllow(game,message,"vote") || !commandAllow(game,message,"vote",[8])) return;
+        if(!privateAllow(game,message,"vote") || !commandAllow(game,message,"vote",[8])) return;
 
         if(args.length != 1){
           console.log("nb of arg != 1")
@@ -328,21 +393,30 @@ module.exports  =  {
           return;
         }
 
-        if(args[0] == "succes"){
-          game.quest.set(id,true)
-        }
-        if(args[0] == "fail"){
-          game.quest.set(id,false)
-        }
-        if(args[0] == "allfail"){
-          game.quest.forEach((v, k) => {
+        switch (args[0]) {
+          case "succes":
+            game.quest.set(id,true);
+            break;
+
+          case "fail" :
+            game.quest.set(id,false)
+            break;
+
+          case "allfail" :
+            game.quest.forEach((v, k) => {
               game.quest.set(k,false)
-          });
-        }
-        if(args[0] == "allsucces"){
-          game.quest.forEach((v, k) => {
+            });
+            break;
+
+          case "allsucces" :
+            game.quest.forEach((v, k) => {
               game.quest.set(k,true)
-          });
+            });
+            break;
+
+          default:
+            console.log("argument not allowed");
+            return;
         }
         // console.log("quest : ",game.quest)
 

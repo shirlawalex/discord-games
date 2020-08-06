@@ -134,7 +134,7 @@
     },
     "voteQuest": {
       "En": " ",
-      "Fr": "Vote enregistré"
+      "Fr": "Une intention de Quête enregistré "
     },
     "countFail": {
       "En": " ",
@@ -189,8 +189,40 @@
   },
   "rules": {
     "roundPin": {
-      "En": ": 2 failed required to failed the quest ",
-      "Fr": ": 2 échec requis pour faire échouer la quête"
+      "En": ": 2 failed required to failed the quest.",
+      "Fr": ": 2 échec requis pour faire échouer la quête."
+    },
+    "powerMerlin": {
+      "En": "",
+      "Fr": "Merlin connaît l'identité des méchants sauf Mordred."
+    },
+    "powerPerceval": {
+      "En": "",
+      "Fr": "Perceval connaît l'identité de Merlin et Morgane mais ne sait pas qui est lequel."
+    },
+    "powerGoodSoldier": {
+      "En": "",
+      "Fr": "Le Seviteur du Bien ne connait l'identité de personne."
+    },
+    "powerMordred": {
+      "En": "",
+      "Fr": "Mordred connait l'identité des méchants et son identité est caché de Merlin."
+    },
+    "powerMorgane": {
+      "En": "",
+      "Fr": "Morgane connait l'identité des méchants et se fait passer pour Merlin au près de Perceval."
+    },
+    "powerAssassin": {
+      "En": "",
+      "Fr": "L'assassin connait l'identité des méchants et doit tuer Merlin si le Bien l'emporte."
+    },
+    "powerOberon": {
+      "En": "",
+      "Fr": "Oberon ne connait pas l'identité des autres méchants mais eux savent son identité"
+    },
+    "powerEvilSoldier": {
+      "En": "",
+      "Fr": "Le Seviteur du Mal connait l'identité des méchants, sans pouvoir particulier."
     }
   },
   "players": {
@@ -230,35 +262,35 @@
     },
     "Mordred": {
       "En": "You are ",
-      "Fr": "Tu es le térrifant Mordred"
+      "Fr": "Tu es le térrifant `Mordred`"
     },
     "Assassin": {
       "En": "You are ",
-      "Fr": "Tu es l'impitoyable Assassin"
+      "Fr": "Tu es l'impitoyable `Assassin`"
     },
     "Morgane": {
       "En": "You are ",
-      "Fr": "Tu es la Sorcière Morgane"
+      "Fr": "Tu es la Sorcière `Morgane`"
     },
     "Oberon": {
       "En": "You are ",
-      "Fr": "Tu es le fou Oberon"
+      "Fr": "Tu es le fou `Oberon`"
     },
     "EvilSoldier": {
       "En": "You are ",
-      "Fr": "Tu es un serviteur du Mal (sans pouvoir)"
+      "Fr": "Tu es un `serviteur du Mal` (sans pouvoir)"
     },
     "Merlin": {
       "En": "You are ",
-      "Fr": "Tu es le Sorcier Merlin"
+      "Fr": "Tu es le Sorcier `Merlin`"
     },
     "Perceval": {
       "En": "You are ",
-      "Fr": "Tu es le vaillant Perceval"
+      "Fr": "Tu es le vaillant `Perceval`"
     },
     "GoodSoldier": {
       "En": "You are ",
-      "Fr": "Tu es un serviteur du Bien (sans pouvoir)"
+      "Fr": "Tu es un `serviteur du Bien` (sans pouvoir)"
     },
     "1role": {
       "En": "You have 1 role",
