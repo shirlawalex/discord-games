@@ -162,7 +162,7 @@ bot.on(`messageReactionAdd`, (reaction, user) => {
           // add to the Map of the Game Channel
           bot.gamesOngoing.set(channel.id,newGame)
           newGame.action();
-        const msg = displayText(bot,`text`,bot.main,"channelCreated",bot.lang) +" <#"+ newGame.channel.id +">" 
+        const msg = displayText(bot,`text`,bot.main,"channelCreated",bot.lang) +" <#"+ newGame.channel.id +">"
         message.channel.send(msg);
       });
       }else{
@@ -184,7 +184,7 @@ bot.on(`messageReactionAdd`, (reaction, user) => {
         bot.gamesOngoing.forEach((item, i) => {
           const game = item
           const name = game.name
-          const cache = bot.game.cache()
+          const cache = game.cache
 
           if(cache.has(message.id)){
             game.handleReaction(reaction,user)

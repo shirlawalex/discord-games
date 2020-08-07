@@ -319,38 +319,38 @@ module.exports  =  {
 
       }
     }
-    ,{
-      name : 'yes',
-      description : 'During step 8, yes to approuve the members of the quest',
-      execute(bot,game,message, args) {
-        if(!commandAllow(game,message,"yes",[8])) return;
-        const id = message.author.id;
-        const index = game.order.indexOf(id);
-        if(index != -1){
-          if(game.vote[index] == undefined) game.vote[index] = true;
-          else{
-            message.channel.send(game.displayText("gameAction","alreadyVote"))
-          }
-          game.action()
-        }
-      }
-    }
-    ,{
-      name : 'no',
-      description : 'During step 8, no to refuse the members of the quest !',
-      execute(bot,game,message, args) {
-        if(!commandAllow(game,message,"no",[8])) return;
-        const id = message.author.id;
-        const index = game.order.indexOf(id);
-        if(index != -1){
-          if(game.vote[index] == undefined) game.vote[index] = false;
-          else{
-            message.channel.send(game.displayText("gameAction","alreadyVote"))
-          }
-          game.action()
-        }
-      }
-    }
+    // ,{
+    //   name : 'yes',
+    //   description : 'During step 8, yes to approuve the members of the quest',
+    //   execute(bot,game,message, args) {
+    //     if(!commandAllow(game,message,"yes",[8])) return;
+    //     const id = message.author.id;
+    //     const index = game.order.indexOf(id);
+    //     if(index != -1){
+    //       if(game.vote[index] == undefined) game.vote[index] = true;
+    //       else{
+    //         message.channel.send(game.displayText("gameAction","alreadyVote"))
+    //       }
+    //       game.action()
+    //     }
+    //   }
+    // }
+    // ,{
+    //   name : 'no',
+    //   description : 'During step 8, no to refuse the members of the quest !',
+    //   execute(bot,game,message, args) {
+    //     if(!commandAllow(game,message,"no",[8])) return;
+    //     const id = message.author.id;
+    //     const index = game.order.indexOf(id);
+    //     if(index != -1){
+    //       if(game.vote[index] == undefined) game.vote[index] = false;
+    //       else{
+    //         message.channel.send(game.displayText("gameAction","alreadyVote"))
+    //       }
+    //       game.action()
+    //     }
+    //   }
+    // }
     ,{
       name : 'vote',
       description : 'During step 8, to enter directly the result of the vote',
@@ -375,54 +375,54 @@ module.exports  =  {
         game.action()
       }
     }
-    ,{
-      name : 'quest',
-      description : 'During step 10, the members of the vote have to succed or failed the quest',
-      execute(bot,game,message, args) {
-        if(!commandAllow(game,message,"quest",[11])) return;
-
-        if(args.length != 1){
-          console.log("nb of arg != 1")
-          return;
-        }
-
-        const id = message.author.id
-
-        if(!game.quest.has(id)){
-          console.log("not allowed");
-          return;
-        }
-
-        switch (args[0]) {
-          case "succes":
-            game.quest.set(id,true);
-            break;
-
-          case "fail" :
-            game.quest.set(id,false)
-            break;
-
-          case "allfail" :
-            game.quest.forEach((v, k) => {
-              game.quest.set(k,false)
-            });
-            break;
-
-          case "allsucces" :
-            game.quest.forEach((v, k) => {
-              game.quest.set(k,true)
-            });
-            break;
-
-          default:
-            console.log("argument not allowed");
-            return;
-        }
-        // console.log("quest : ",game.quest)
-
-        game.action()
-      }
-    }
+    // ,{
+    //   name : 'quest',
+    //   description : 'During step 10, the members of the vote have to succed or failed the quest',
+    //   execute(bot,game,message, args) {
+    //     if(!commandAllow(game,message,"quest",[11])) return;
+    //
+    //     if(args.length != 1){
+    //       console.log("nb of arg != 1")
+    //       return;
+    //     }
+    //
+    //     const id = message.author.id
+    //
+    //     if(!game.quest.has(id)){
+    //       console.log("not allowed");
+    //       return;
+    //     }
+    //
+    //     switch (args[0]) {
+    //       // case "succes":
+    //       //   game.quest.set(id,true);
+    //       //   break;
+    //       //
+    //       // case "fail" :
+    //       //   game.quest.set(id,false)
+    //       //   break;
+    //
+    //       case "allfail" :
+    //         game.quest.forEach((v, k) => {
+    //           game.quest.set(k,false)
+    //         });
+    //         break;
+    //
+    //       case "allsucces" :
+    //         game.quest.forEach((v, k) => {
+    //           game.quest.set(k,true)
+    //         });
+    //         break;
+    //
+    //       default:
+    //         console.log("argument not allowed");
+    //         return;
+    //     }
+    //     // console.log("quest : ",game.quest)
+    //
+    //     game.action()
+    //   }
+    // }
     ,{
       name : 'assassin',
       description : 'During step 10, the members of the vote have to succed or failed the quest',

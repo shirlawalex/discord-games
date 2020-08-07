@@ -75,10 +75,71 @@ module.exports  = class Avalon extends Games {
     this.assassination = true;
   }
 
-  // handleReaction(reaction,user){
-  //   // if(reaction is pouce et messag est le bon ?)
-  //   console.log("Avalon handle reaction")
-  // }
+  handleReaction(reaction,user){
+    const message = reaction.message;
+    const id = message.author.id;
+
+    if(this._cacheMessage.has(message.id)){
+      if(this.step == 8){
+        if(reaction.emoji.name == `✅` || reaction.emoji.name == `❌`){
+          const index = this.order.indexOf(id);
+          if(index != -1){
+            if(this.vote[index] == undefined){
+              if(reaction.emoji == `✅`) {this.vote[index] = true;}
+              else {this.vote[index] = false;}
+              this.action()
+            }
+            else{
+              message.channel.send(this.displayText("gameAction","alreadyVote"))
+              return;
+            }
+          }
+        }
+      }
+
+      if(this.step == 11){
+
+        if(!this.quest.has(id)){
+          console.log("not allowed");
+          return;
+        }
+
+        if(this.quest.get(id) != undefined){
+          message.channel.send(this.displayText("gameAction","alreadyVote"))
+          return;
+        }
+
+        switch (reaction.emoji.name) {
+          case "✅":
+            this.quest.set(id,true);
+            break;
+
+          case "❌" :
+            this.quest.set(id,false)
+            break;
+
+          case "🏳" :
+            this.quest.forEach((v, k) => {
+              this.quest.set(k,false)
+            });
+            break;
+
+          case "🏴" :
+            this.quest.forEach((v, k) => {
+              this.quest.set(k,true)
+            });
+            break;
+
+          default:
+            console.log("emoji not allowed");
+            return;
+        }
+        this.action()
+      }
+    }else{
+      console.log("message not in the cache")
+    }
+  }
 
   action(){
     this.promiseChannel.then( channel => {
@@ -193,9 +254,12 @@ module.exports  = class Avalon extends Games {
               const txt = "```"+this.displayText("log","game") + this.channel.name+"```";
 
               const msg1 = privateChan.send(txt)
-              const msg2 = privateChan.send(this.displayText("gameAction","privateVote"))
-              super.addCache(msg1);
-              super.addCache(msg2);
+              const msgVote = privateChan.send(this.displayText("gameAction","privateVoteEmoji"))
+              msgVote.then(m => {
+                m.react(`✅`);
+                m.react(`❌`)
+              })
+              super.addCache(msgVote);
             }
           }
           this.step = 8;
@@ -236,8 +300,12 @@ module.exports  = class Avalon extends Games {
           this.quest.forEach((vote, id) => {
             const privateChan = this.channel.members.get(id);
             if(!privateChan.user.bot){
-              const msg = privateChan.send(this.displayText("private","quest"));
-              super.addCache(msg);
+              const msgVote = privateChan.send(this.displayText("private","questEmoji"))
+              msgVote.then(m => {
+                m.react(`✅`);
+                m.react(`❌`)
+              })
+              super.addCache(msgVote);
             }
           });
 

@@ -15,6 +15,7 @@ module.exports  = class Games {
   }
 
   handleReaction(reaction,user){
+    //the cache is use for specific message or for message out of the channel
     const message = reaction.message;
     console.log("to do : handle reaction")
     if(this._cacheMessage.has(message.id)){

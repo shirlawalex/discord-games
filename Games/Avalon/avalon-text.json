@@ -96,6 +96,10 @@
       "En": "",
       "Fr": "Une équipe pour la quête a été choissi, si vous êtes d'accord pour son départ tapez !yes, si non tapez !no.\nAttention une fois voté vous ne pouvez pas changer votre vote."
     },
+    "privateVoteEmoji": {
+      "En": "",
+      "Fr": "Une équipe pour la quête a été choissi, si vous êtes d'accord pour son départ cliquez sur l'emoji ✅ , si non cliquez ❌ .\nAttention une fois voté vous ne pouvez pas changer votre vote."
+    },
     "voteCheck": {
       "En": "",
       "Fr": " votes enregistrés sur "
@@ -259,6 +263,10 @@
     "quest": {
       "En": " ",
       "Fr": "Vous partez en quête! Pour la faire réussir tapez \"!quest succes\" pour la faire échouer tapez \"!quest fail\""
+    },
+    "questEmoji": {
+      "En": " ",
+      "Fr": "Vous partez en quête! Pour la faire réussir cliquez sur ✅ pour la faire échouer tapez ❌"
     },
     "Mordred": {
       "En": "You are ",
