@@ -41,8 +41,8 @@
       "Fr": "Auteur : Alex Shirlaw (shirlawalex@gmail.com)"
     },
     "help": {
-      "En": "To get the list of all commands do \"!commandes\"",
-      "Fr": "Pour avoir la liste des commandes faites !commandes"
+      "En": "To get the list of all commands do \"!commands\"",
+      "Fr": "```Pour avoir la liste des commandes faites !commands. \nPour supprimer toutes les parties !deleteall. \nPour relancer le bot (en cas de bug) !restart ``` "
     }
   }
 }

@@ -48,6 +48,17 @@ module.exports  =  {
       }
     }
     ,{
+      name : 'power',
+      description : 'Display rules !',
+      execute(bot,game,message, args) {
+        let text = "Power:\n";
+        ["Merlin","Perceval","GoodSoldier","Mordred","Morgane","Assassin","Oberon","EvilSoldier"].forEach(x => {
+          text += "- "+game.displayText("rules","power"+x)+"\n";
+        });
+        message.channel.send(text);
+      }
+    }
+    ,{
       name : 'redo',
       description : 'go to the last step or to the step indicated  ',
       execute(bot,game,message, args) {

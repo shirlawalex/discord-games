@@ -180,8 +180,9 @@ module.exports  = class Avalon extends Games {
           */
           if(this.players.size >= 5 && this.players.size <= 10){
             const nb = this.players.size.toString()
-            channel.send("```"+this.displayText("gameAction","board")+"```")
-            displayBoard(this,this.boardData[nb])
+            // channel.send("```"+this.displayText("gameAction","board")+"```")
+            // channel.send(this.displayText("gameAction","start"))
+            // displayBoard(this,this.boardData[nb])
             this.step = 2;
           }else{
             this.step = 1;

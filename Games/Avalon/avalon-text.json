@@ -48,7 +48,7 @@
     },
     "goals": {
       "En": "goals",
-      "Fr": "But du jeu : \n - Le Bien remporte la victoire en accomplissant trois Quêtes. \n - Le Mal gagne en faisant échouer 3 Quêtes. \n Le Mal peut aussi gagner si Merlin est assassiné en fin de partie ou au bout de 5 refus de départ en quête consécutifs. "
+      "Fr": "But du jeu : \n - Le Bien remporte la victoire en accomplissant trois Quêtes. \n - Le Mal gagne en faisant échouer 3 Quêtes. \n Le Mal peut aussi gagner si Merlin est assassiné en fin de partie ou au bout de 5 refus de départ en quête consécutifs. \n Règles complètes ici : https://www.regledujeu.fr/avalon/ "
     },
     "command": {
       "En": "command",
@@ -64,9 +64,13 @@
       "En": "",
       "Fr": "Voici le plateau pour le nombre de joueurs enregistrés. Pour lancer la partie avec le plateau original, executé la commande !start. Vous pouvez crée un plateau personnalisé avec la commande !custom. Si vous souhaitez supprimé des joueurs de la liste utilisé la commande !remove suivis des mentions des joueurs à retirer"
     },
+    "start": {
+      "En": "",
+      "Fr": "Nombre de joueur suffisant. Pour lancer la partie tapez `!start`"
+    },
     "selectRole": {
       "En": "",
-      "Fr": "Choissiez les rôles pour la partie. \nSelectionnez la config avec la commande !role  \"nom config\" ou alors crée une config custom avec la commande !custom."
+      "Fr": "Choissiez les rôles pour la partie. \nSelectionnez la config avec la commande `!role <nombre_joueurs> <version>` ou alors crée une config custom avec la commande !custom. \nExemple : !role 5 v2\nPour avoir les pouvoirs de chaque personnage tapez la commande !power"
     },
     "giveRole": {
       "En": "",
