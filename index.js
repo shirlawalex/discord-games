@@ -3,7 +3,6 @@ const { Discord, fs, displayText, arrayOfFile } = require(`./function.js`)
 const config = require(`./config.json`);
 const Games = require(`./listGames.js`);
 
-// console.log((((5+5-2)%5)+1)%5)
 // Initialisation and new Proprieties
 const bot = new Discord.Client();
 bot.jsonFiles = new Discord.Collection();
@@ -12,7 +11,7 @@ bot.lang = `Fr`
 bot.idMainChannel = 0;
 
 // Constantes
-const PREFIX = config.prefix
+let PREFIX = config.prefix
 bot.main = `main`
 bot.nameParentChannel = `GAME CHANNELS`
 bot.nameMainChannel = `presentation-channel`
@@ -30,8 +29,6 @@ bot.commands.set("main",new Discord.Collection());
 commandPath.forEach( pathFile => {
   const listCommands = require(pathFile);
   listCommands.commands.forEach( (command) => {
-    // console.log(command.name,command)
-    // bot.commands.set(command.name,command);
     bot.commands.get("main").set(command.name,command);
   });
 });
@@ -101,6 +98,7 @@ bot.on(`guildCreate`, (guild) => {
 
   // Else create the Parent Category
   if(bool == false){
+    console.log(`Creating category`)
     parentChannelPromise = guild.channels.create(bot.nameParentChannel, {
       type : `category`,
       topic : topicParent,
@@ -221,19 +219,20 @@ bot.on(`message`, (message) => {
   }
 
   //in private channel
-
-  if(message.channel.type == "dm"){
-    console.log("dm send");
-    bot.gamesOngoing.forEach((item, i) => {
-      const game = item;
-      const name = item.name;
-      if(bot.commands.get(name).has(command)){
-        bot.commands.get(name).get(command).execute(bot,game,message,args);
-      }
-    });
-  }else{
-    // console.log(message)
-  }
+  /* forbiden for the moment because can't check which server is cuncern */
+  /* Maybe check ig message is in the cache of game or before the command the name of the game or quote */
+  // if(message.channel.type == "dm"){
+  //   console.log("dm send");
+  //   bot.gamesOngoing.forEach((item, i) => {
+  //     const game = item;
+  //     const name = item.name;
+  //     if(bot.commands.get(name).has(command)){
+  //       bot.commands.get(name).get(command).execute(bot,game,message,args);
+  //     }
+  //   });
+  // }else{
+  //   // console.log(message)
+  // }
 
   // any channel
   if(!bot.commands.get("main").has(command)) return;

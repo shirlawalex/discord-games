@@ -49,7 +49,7 @@ module.exports  =  {
     }
     ,{
       name : 'power',
-      description : 'Display rules !',
+      description : 'Explain all powers !',
       execute(bot,game,message, args) {
         let text = "Power:\n";
         ["Merlin","Perceval","GoodSoldier","Mordred","Morgane","Assassin","Oberon","EvilSoldier"].forEach(x => {
@@ -93,7 +93,7 @@ module.exports  =  {
       description : "During step 1, add people to the player's game list",
       execute(bot,game,message, args) {
         if(!privateAllow(game,message,"add") || !commandAllow(game,message,"add",[1,2])) {return;}
-
+        
         message.mentions.users.forEach( user => {
           // if(!user.bot && !game.players.has(user.id)){
           if(!game.players.has(user.id)){
@@ -108,7 +108,7 @@ module.exports  =  {
     }
     ,{
       name : 'remove',
-      description : "During step 1, add people to the player's game list",
+      description : "During step 1, remove people to the player's game list",
       execute(bot,game,message, args) {
         if(!privateAllow(game,message,"remove") || !commandAllow(game,message,"remove",[1,2])) return;
 
@@ -258,7 +258,7 @@ module.exports  =  {
     }
     ,{
       name : 'display',
-      description : "During step 4, choose yourself roles total custom ",
+      description : "Display the players ",
       execute(bot,game,message, args) {
         if( !commandAllow(game,message,"custom",[5,6,7,8,9,10,11,12,13,14,15,16,17,18])) return;
         game.players.forEach((item, i) => {

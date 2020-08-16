@@ -26,9 +26,10 @@ var arrayOfFile = function (directory,extension,recursive) {
 
 exports.arrayOfFile = arrayOfFile;
 
+// Display in the channel of the message all commands
 var displayCommands = function(bot,message){
   bot.commands.forEach((k,v) => {
-    message.channel.send(`\n=${v} function=`)
+    message.channel.send(`\n\`\`\`${v} commands\`\`\``)
     bot.commands.get(v).forEach((obj,name) => {
       message.channel.send(`\`!${name}\``)
       message.channel.send(obj.description)

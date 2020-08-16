@@ -48,7 +48,7 @@ module.exports  =  {
     }
     ,{
       name : 'welcome',
-      description : 'Pong !',
+      description : 'Display Welcome text',
       execute(bot, game, message, args) {
         message.channel.send(displayText(bot,`text`,bot.main,`welcome`,bot.lang));
       }
