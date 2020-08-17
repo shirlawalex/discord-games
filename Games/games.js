@@ -65,10 +65,20 @@ module.exports  = class Games {
   //   return this._channel.fetch()
   // }
 
+  //add a message in the cache
   addCache(promiseMessage){
     promiseMessage.then( message => {
       this._cacheMessage.set(message.id,message)
     })
+  }
+
+  //edit content of a message in the cache
+  editMsgCache(msgId,text){
+    let message = this._cacheMessage.get(msgId);
+    message.edit(text).then(msg => {
+      console.log(`Updated the content of a message to ${msg.content}`);
+      this._cacheMessage.set(msgId,msg);
+    }).catch(console.error);
   }
 
   // displayers of text
@@ -76,7 +86,7 @@ module.exports  = class Games {
     return this.jsonText[context][key][this.lang]
   }
 
-
+  //display all user of the channel
   displayUser(channel){
     // channel.members.forEach((user, i) => {
     //   console.log(user.name)
@@ -88,6 +98,69 @@ module.exports  = class Games {
     //send
     console.log(jsonTextGame[context][key][lang])
   }
+
+  //send to all user in the channel a dm to a secret vote
+  // arrayId of type Array
+  // context and key of type String
+  vote(arrayIdUser,context,key){
+    let arrayIdMessage = new Array();
+    for(let i = 0; i < arrayIdUser.length; i++){
+      const id = arrayIdUser[i];
+      const privateChan = this.channel.members.get(id);
+      if(!privateChan.user.bot){
+        const msgVote = privateChan.send(this.displayText(context,key))
+        msgVote.then(m => {
+          m.react(`✅`);
+          m.react(`❌`)
+          arrayIdMessage.push(m.id)
+        })
+        super.addCache(msgVote);
+      }
+    }
+    return arrayIdMessage
+  }
+
+  //check/load/stock the result of the vote, need to be executed each time a reaction is detected
+  // arrayIdMessage of type Array
+  // result of type Array
+  //reaction of type reaction
+  /* exemple:
+  let result = loadVote(reaction,[id1,id2,...,idN],[])
+  let nbTrue = result.reduce(
+    (acc,cur) => {
+      if(cur == true){
+        acc ++;
+      }
+      return acc;
+    }
+  )
+  if(nbTrue >= result.length / 2){ //to do}
+  */
+  loadVote(reaction,arrayIdMessage,result){
+    const message = reaction.message;
+
+    //Initialisation of the array result
+    if(result.length != arrayIdMessage.length){
+      result = Array.from({length: arrayIdMessage.length}, e => undefined)
+      console.log("intializating array",result)
+    }
+
+    const index = arrayIdMessage.indexOf(message.id);
+    if(index != -1){
+      if(this._cacheMessage.has(message.id)){
+        if(reaction.emoji.name == `✅` || reaction.emoji.name == `❌`){
+          result[index] = (reaction.emoji.name == `✅`);
+          //can't change your vote is deleted from the cache
+          this._cacheMessage.delete(message.id)
+        }
+      }else{
+        console.log("already vote")
+      }
+    }
+
+    return result
+  }
+
 
   //parser of command
   static parse(message) {
