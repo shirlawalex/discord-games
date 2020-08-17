@@ -164,54 +164,55 @@ module.exports  =  {
             for(let j in rolePlayer){
               text += game.displayText("private",`${rolePlayer[j]}`) +" \n"
               //information about power
-              text += game.displayText("rules",`power`+`${rolePlayer[j]}`)
+              text += "power: "+game.displayText("rules",`power`+`${rolePlayer[j]}`)
 
+              const name = game.channel.members.get(id).user.username;
               if(j == 0){
-              switch (rolePlayer[j]) {
-                case "Merlin":
-                  addMap(info,["Perceval"],`\nTu vois ce joueur <@${id}>`)
-                  break;
+                switch (rolePlayer[j]) {
+                  case "Merlin":
+                    addMap(info,["Perceval"],`\nTu vois ce joueur "${name}"`)
+                    break;
 
 
-                case "Mordred":
-                  addMap(info,["Morgane"],`\nCe joueur <@${id}> est méchant avec toi`)
-                  addMap(info,["Assassin"],`\nCe joueur <@${id}> est méchant avec toi`)
-                  addMap(info,["EvilSoldier"],`\nCe joueur <@${id}> est méchant avec toi`)
-                  break;
+                  case "Mordred":
+                    addMap(info,["Morgane"],`\nCe joueur "${name}" est méchant avec toi`)
+                    addMap(info,["Assassin"],`\nCe joueur "${name}" est méchant avec toi`)
+                    addMap(info,["EvilSoldier"],`\nCe joueur "${name}" est méchant avec toi`)
+                    break;
 
-                case "Morgane":
-                  addMap(info,["Merlin"],`\nCe joueur <@${id}> est méchant contre toi`)
-                  addMap(info,["Perceval"],`\nTu vois ce joueur <@${id}>`)
-                  addMap(info,["Mordred"],`\nCe joueur <@${id}> est méchant avec toi`)
-                  addMap(info,["Assassin"],`\nCe joueur <@${id}> est méchant avec toi`)
-                  addMap(info,["EvilSoldier"],`\nCe joueur <@${id}> est méchant avec toi`)
-                  break;
+                  case "Morgane":
+                    addMap(info,["Merlin"],`\nCe joueur "${name}" est méchant contre toi`)
+                    addMap(info,["Perceval"],`\nTu vois ce joueur "${name}"`)
+                    addMap(info,["Mordred"],`\nCe joueur "${name}" est méchant avec toi`)
+                    addMap(info,["Assassin"],`\nCe joueur "${name}" est méchant avec toi`)
+                    addMap(info,["EvilSoldier"],`\nCe joueur "${name}" est méchant avec toi`)
+                    break;
 
-                case "Assassin":
-                  addMap(info,["Merlin"],`\nCe joueur <@${id}> est méchant contre toi`)
-                  addMap(info,["Morgane"],`\nCe joueur <@${id}> est méchant avec toi`)
-                  addMap(info,["Mordred"],`\nCe joueur <@${id}> est méchant avec toi`)
-                  addMap(info,["EvilSoldier"],`\nCe joueur <@${id}> est méchant avec toi`)
-                  break;
+                  case "Assassin":
+                    addMap(info,["Merlin"],`\nCe joueur "${name}" est méchant contre toi`)
+                    addMap(info,["Morgane"],`\nCe joueur "${name}" est méchant avec toi`)
+                    addMap(info,["Mordred"],`\nCe joueur "${name}" est méchant avec toi`)
+                    addMap(info,["EvilSoldier"],`\nCe joueur "${name}" est méchant avec toi`)
+                    break;
 
-                case "Oberon":
-                  addMap(info,["Merlin"],`\nCe joueur <@${id}> est méchant contre toi`)
-                  addMap(info,["Morgane"],`\nCe joueur <@${id}> est méchant avec toi`)
-                  addMap(info,["Mordred"],`\nCe joueur <@${id}> est méchant avec toi`)
-                  addMap(info,["Assassin"],`\nCe joueur <@${id}> est méchant avec toi`)
-                  addMap(info,["EvilSoldier"],`\nCe joueur <@${id}> est méchant avec toi`)
-                  break;
+                  case "Oberon":
+                    addMap(info,["Merlin"],`\nCe joueur "${name}" est méchant contre toi`)
+                    addMap(info,["Morgane"],`\nCe joueur "${name}" est méchant avec toi`)
+                    addMap(info,["Mordred"],`\nCe joueur "${name}" est méchant avec toi`)
+                    addMap(info,["Assassin"],`\nCe joueur "${name}" est méchant avec toi`)
+                    addMap(info,["EvilSoldier"],`\nCe joueur "${name}" est méchant avec toi`)
+                    break;
 
-                case "EvilSoldier":
-                  addMap(info,["Merlin"],`\nCe joueur <@${id}> est méchant contre toi`)
-                  addMap(info,["Morgane"],`\nCe joueur <@${id}> est méchant avec toi`)
-                  addMap(info,["Mordred"],`\nCe joueur <@${id}> est méchant avec toi`)
-                  addMap(info,["Assassin"],`\nCe joueur <@${id}> est méchant avec toi`)
-                  addMap(info,["EvilSoldier"],`\nCe joueur <@${id}> est méchant avec toi`)
-                  break;
-                case "Perceval":
-                case "GoodSoldier":
-                default:
+                  case "EvilSoldier":
+                    addMap(info,["Merlin"],`\nCe joueur "${name}" est méchant contre toi`)
+                    addMap(info,["Morgane"],`\nCe joueur "${name}" est méchant avec toi`)
+                    addMap(info,["Mordred"],`\nCe joueur "${name}" est méchant avec toi`)
+                    addMap(info,["Assassin"],`\nCe joueur "${name}" est méchant avec toi`)
+                    addMap(info,["EvilSoldier"],`\nCe joueur "${name}" est méchant avec toi`)
+                    break;
+                  case "Perceval":
+                  case "GoodSoldier":
+                  default:
                   //no information to give
                 }
               }

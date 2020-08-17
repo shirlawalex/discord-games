@@ -98,7 +98,8 @@ module.exports  = class Avalon extends Games {
       }
 
       if(this.step == 11){
-
+        console.log("🏳","all fail","🏴" ,"all succes")
+        
         if(!this.quest.has(id)){
           console.log("not allowed");
           return;

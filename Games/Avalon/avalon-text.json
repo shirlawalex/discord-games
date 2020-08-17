@@ -40,7 +40,7 @@
     },
     "players": {
       "En": "you want to play ? put a reaction thumbs in the air",
-      "Fr": "Vous voulez participer à la partie ? tappez la commande !add suivis des mentions des joueurs "
+      "Fr": "Vous voulez participer à la partie? tappez la commande `!add` suivi de la mention d'un ou plusieurs joueurs.\nUne fois les joueurs enregistrés tapez la commande `!start`.\nPour retirer un joueur de la liste tapez la commande `!remove` suivi de la mention d'un ou plusieurs joueurs."
     },
     "summary": {
       "En": "summary",
@@ -48,7 +48,7 @@
     },
     "goals": {
       "En": "goals",
-      "Fr": "But du jeu : \n - Le Bien remporte la victoire en accomplissant trois Quêtes. \n - Le Mal gagne en faisant échouer 3 Quêtes. \n Le Mal peut aussi gagner si Merlin est assassiné en fin de partie ou au bout de 5 refus de départ en quête consécutifs. \n Règles complètes ici : https://www.regledujeu.fr/avalon/ "
+      "Fr": "But du jeu : \nChaque tour le leader choissira des soldats pour partir en quête. L'ensemble des joueurs devront approuver par un vote à la majorité absolu leur départ.\nSi l'équipe n'est pas approuvée alors c'est un 'refus de départ' et le leader passe la main au prochain. Si l'équipe est approuvée, le sort de la quête est entre leurs mains.\nIl y a en tout 5 quêtes.\n- Le Bien l'emporte en accomplissant trois quêtes. \n- Le Mal l'emporte en faisant échouer trois quêtes. \nLe Mal peut aussi l'emporter en assassinant Merlin en fin de partie ou s'il y a 5 refus de départ en quête consécutifs. \n Règles complètes ici : https://www.regledujeu.fr/avalon/ "
     },
     "command": {
       "En": "command",
@@ -62,7 +62,7 @@
   "gameAction": {
     "board": {
       "En": "",
-      "Fr": "Voici le plateau pour le nombre de joueurs enregistrés. Pour lancer la partie avec le plateau original, executé la commande !start. Vous pouvez crée un plateau personnalisé avec la commande !custom. Si vous souhaitez supprimé des joueurs de la liste utilisé la commande !remove suivis des mentions des joueurs à retirer"
+      "Fr": "Voici le plateau pour le nombre de joueurs enregistrés. Pour lancer la partie avec le plateau original, executé la commande `!start`. Vous pouvez crée un plateau personnalisé avec la commande `!custom`. Si vous souhaitez supprimé des joueurs de la liste utilisé la commande `!remove` suivis des mentions des joueurs à retirer"
     },
     "start": {
       "En": "",
@@ -70,7 +70,7 @@
     },
     "selectRole": {
       "En": "",
-      "Fr": "Choissiez les rôles pour la partie. \nSelectionnez la config avec la commande `!role <nombre_joueurs> <version>` ou alors crée une config custom avec la commande !custom. \nExemple : !role 5 v2\nPour avoir les pouvoirs de chaque personnage tapez la commande !power"
+      "Fr": "Choissiez les rôles pour la partie. \nSelectionnez la config avec la commande `!role <nombre_joueurs> <version>` ou alors crée une config custom avec la commande `!custom`. \nExemple : `!role 5 v2`\nPour avoir les pouvoirs de chaque personnage tapez la commande `!power`"
     },
     "giveRole": {
       "En": "",
@@ -86,7 +86,7 @@
     },
     "leaderChoose": {
       "En": "",
-      "Fr": "Leader choississez votre équipe avec la commande !select suivi des mentions des joueurs"
+      "Fr": "Leader choississez votre équipe avec la commande `!select` suivi des mentions des joueurs"
     },
     "rejectedCount": {
       "En": "",
@@ -98,7 +98,7 @@
     },
     "privateVote": {
       "En": "",
-      "Fr": "Une équipe pour la quête a été choissi, si vous êtes d'accord pour son départ tapez !yes, si non tapez !no.\nAttention une fois voté vous ne pouvez pas changer votre vote."
+      "Fr": "Une équipe pour la quête a été choissi, si vous êtes d'accord pour son départ tapez `!yes`, si non tapez `!no`.\nAttention une fois voté vous ne pouvez pas changer votre vote."
     },
     "privateVoteEmoji": {
       "En": "",
@@ -130,11 +130,11 @@
     },
     "teamAccept": {
       "En": "",
-      "Fr": " L'équipe est approuvé. Elle part donc en quête ! Veuillez dire par message privée si vous souhaitez la faire réussir ou la faire ... échouer"
+      "Fr": " L'équipe est approuvée. Elle part donc en quête ! Veuillez dire par message privée si vous souhaitez la faire réussir ou la faire ... échouer"
     },
     "teamDenied": {
       "En": "",
-      "Fr": " L'équipe n'a pas été approuvé. Le leader passe la main au prochain qui devra à son tour désigné une équipe."
+      "Fr": " L'équipe n'a pas été approuvée. Le leader passe la main au prochain qui devra à son tour désigné une équipe."
     },
     "countDenied": {
       "En": "denied of leader ",
@@ -142,7 +142,7 @@
     },
     "voteQuest": {
       "En": " ",
-      "Fr": "Une intention de Quête enregistré "
+      "Fr": "Une intention de quête enregistré "
     },
     "countFail": {
       "En": " ",
@@ -166,7 +166,7 @@
     },
     "assassinationCommand": {
       "En": "",
-      "Fr": "Pour tuer Merlin, tapez la commande !assassin suivie du numéro d'ordre du joueur"
+      "Fr": "Pour tuer Merlin, tapez la commande `!assassin` suivie du numéro d'ordre du joueur"
     },
     "evilWin": {
       "En": "",
@@ -188,7 +188,7 @@
     },
     "predefinedRole": {
       "En": "",
-      "Fr": "Voici des rôles prédéfinis pour votre nombre de joueurs, si vous voulez changez les roles tapez la commande !custom, sinon pour selectionné une des combinaisons tapez !role \"nom combinaison\""
+      "Fr": "Voici des rôles prédéfinis pour votre nombre de joueurs, si vous voulez changez les roles tapez la commande `!custom`, sinon pour selectionné une des combinaisons tapez !role \"nom combinaison\""
     },
     "election": {
       "En": "",
