@@ -93,7 +93,7 @@ module.exports  =  {
       description : "During step 1, add people to the player's game list",
       execute(bot,game,message, args) {
         if(!privateAllow(game,message,"add") || !commandAllow(game,message,"add",[1,2])) {return;}
-        
+
         message.mentions.users.forEach( user => {
           // if(!user.bot && !game.players.has(user.id)){
           if(!game.players.has(user.id)){
@@ -164,7 +164,7 @@ module.exports  =  {
             for(let j in rolePlayer){
               text += game.displayText("private",`${rolePlayer[j]}`) +" \n"
               //information about power
-              text += "power: "+game.displayText("rules",`power`+`${rolePlayer[j]}`)
+              text += "Power: "+game.displayText("rules",`power`+`${rolePlayer[j]}`)
 
               const name = game.channel.members.get(id).user.username;
               if(j == 0){
@@ -320,7 +320,11 @@ module.exports  =  {
             names += "@"+user.username+" "
           }
         });
-        if(!check) return;
+        if(!check){
+          game.channel.send(game.displayText("log","notallowed"))
+          game.quest.clear()
+          return;
+        }
 
         // game.channel.send(game.displayText("gameAction","rejectedCount")+` ${game.countDenied}`)
         game.channel.send(game.displayText("gameAction","electTeam"))

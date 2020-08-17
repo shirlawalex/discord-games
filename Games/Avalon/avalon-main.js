@@ -77,7 +77,8 @@ module.exports  = class Avalon extends Games {
 
   handleReaction(reaction,user){
     const message = reaction.message;
-    const id = message.author.id;
+    const id = reaction.users.cache.find(e => e.id != message.author.id).id;
+
 
     if(this._cacheMessage.has(message.id)){
       if(this.step == 8){
@@ -86,6 +87,7 @@ module.exports  = class Avalon extends Games {
           if(index != -1){
             if(this.vote[index] == undefined){
               if(reaction.emoji == `✅`) {this.vote[index] = true;}
+              // this.vote[index] = (reaction.emoji == `✅`);
               else {this.vote[index] = false;}
               this.action()
             }
@@ -94,12 +96,13 @@ module.exports  = class Avalon extends Games {
               return;
             }
           }
+        }else{
+          console.log("wrong emoji")
         }
       }
 
       if(this.step == 11){
         console.log("🏳","all fail","🏴" ,"all succes")
-        
         if(!this.quest.has(id)){
           console.log("not allowed");
           return;

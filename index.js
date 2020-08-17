@@ -178,7 +178,7 @@ bot.on(`messageReactionAdd`, (reaction, user) => {
 
     // handle reaction in private channel
     if ( message.channel.type == "dm" ){
-        console.log("emoji detetcted on private/dm msg");
+        console.log("emoji detected on private/dm msg");
         bot.gamesOngoing.forEach((item, i) => {
           const game = item
           const name = game.name
@@ -186,6 +186,8 @@ bot.on(`messageReactionAdd`, (reaction, user) => {
 
           if(cache.has(message.id)){
             game.handleReaction(reaction,user)
+          }else{
+            console.log("not in cache")
           }
       });
     }
