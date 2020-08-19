@@ -57,6 +57,14 @@ var displayPresentation = (channel) => {
   channel.send( displayText(bot,`text`,bot.main,`presentation`,bot.lang))
   channel.send( displayText(bot,`text`,bot.main,`help`,bot.lang))
 
+  //version embed
+  const embed = new Discord.MessageEmbed()
+  .setTitle(bot.nameParentChannel)
+  .setDescription(displayText(bot,`text`,bot.main,`presentation`,bot.lang))
+  .addField("Information",displayText(bot,`text`,bot.main,`help`,bot.lang));
+
+  // channel.send(embed)
+
   //Display list of Games and add reaction
   channel.send( displayText(bot,`text`,bot.main,`listGames`,bot.lang));
   const jsonGames = bot.jsonFiles.get(`games`)

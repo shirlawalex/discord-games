@@ -183,8 +183,8 @@
       "Fr": ""
     },
     "board": {
-      "En": "",
-      "Fr": ""
+      "En": "List of board",
+      "Fr": "Voici les configurations originals selon le nombre de joueurs"
     },
     "predefinedRole": {
       "En": "",
@@ -199,6 +199,14 @@
     "roundPin": {
       "En": ": 2 failed required to failed the quest.",
       "Fr": ": 2 échec requis pour faire échouer la quête."
+    },
+    "titlepower": {
+      "En": " ",
+      "Fr": "Pouvoirs"
+    },
+    "displaypower": {
+      "En": " ",
+      "Fr": "Voici la liste de chaque pouvoir"
     },
     "powerMerlin": {
       "En": "",

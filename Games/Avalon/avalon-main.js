@@ -1,50 +1,9 @@
-const { Discord, fs } = require(`./../../function.js`)
+const { Discord, fs, displayBoard, printBoard, displayRoles } = require(`./../../function.js`)
+// const { displayBoard, printBoard, displayRoles} = require(`./avalon-commands.js`)
 const Games = require("./../games.js")
 const nameGame = "Avalon"
 const jsonFile = './Games/Avalon/avalon-text.json'
 const jsonData = JSON.parse(fs.readFileSync("./Games/Avalon/data.json"));
-
-var displayBoard = function (game,board){
-  let msg = "";
-  let info = false;
-  Object.values(board).forEach(val => {
-    msg = msg + ":"+val[0]+":"
-    if(val[1]) {msg = msg + ":pushpin:";info = true;}
-  });
-  game.channel.send(msg)
-  if (info){
-    game.channel.send("\":four::pushpin:\" "+game.displayText("rules","roundPin"))
-  }
-}
-
-var printBoard = function (game) {
-  const nb = game.players.size.toString();
-  game.channel.send("```" +game.displayText("players",nb)+ "```")
-  game.board = game.boardData[nb]
-  displayBoard(game,game.board)
-  const msgDenied = "```" + game.countDenied +
-  game.displayText("gameAction","countDenied") + "```";
-  game.channel.send(msgDenied);
-  return;
-}
-
-var displayRoles = function(game,nb){
-  ret = []
-  game.roleMap.forEach((value,key) => {
-    if(key.startsWith(nb.toString())){
-      let txt = "```"
-      txt += `Config "${key}":\n`
-      for(i in value){
-        txt += `[${value[i]}]`
-        if(i!=value.length){
-          txt += ","
-        }
-      }
-      txt += "```"
-      game.channel.send(txt);
-    }
-  });
-}
 
 module.exports  = class Avalon extends Games {
 

@@ -1,4 +1,4 @@
-const { Discord, fs, arrayOfFile } = require(`./../../function.js`)
+const { Discord, fs, displayBoard, printBoard, displayRoles } = require(`./../../function.js`)
 
 var addMap = function(map,key,text){
   map.forEach((value, tabKey) => {
@@ -44,18 +44,45 @@ module.exports  =  {
       name : 'rules',
       description : 'Display rules !',
       execute(bot,game,message, args) {
-        message.channel.send(game.displayText("menu","welcome"));
+        message.channel.send(game.displayText("menu","goals"))
+        
+
+      }
+    }
+    ,{
+      name : 'board',
+      description : 'Display the board for each number of player !',
+      execute(bot,game,message, args) {
+        const embed = new Discord.MessageEmbed()
+        .setTitle("Board of Avalon")
+        .setDescription(game.displayText("setting","board")+"\n\":four::pushpin:\" "+game.displayText("rules","roundPin"));
+
+        ["5","6","7","8","9","10"].forEach((item, i) => {
+          const board = game.boardData[item]
+          let msg = "";
+          Object.values(board).forEach(val => {
+            msg = msg + ":"+val[0]+":"
+            if(val[1]) {msg = msg + ":pushpin:";}
+          });
+          embed.addField(item+game.displayText("log","players"),msg);
+        });
+        game.channel.send(embed);
       }
     }
     ,{
       name : 'power',
       description : 'Explain all powers !',
       execute(bot,game,message, args) {
+        const embed = new Discord.MessageEmbed()
+        .setTitle(game.displayText("rules","titlepower"))
+        .setDescription(game.displayText("rules","displaypower"))
         let text = "Power:\n";
         ["Merlin","Perceval","GoodSoldier","Mordred","Morgane","Assassin","Oberon","EvilSoldier"].forEach(x => {
-          text += "- "+game.displayText("rules","power"+x)+"\n";
+          // text += "- "+game.displayText("rules","power"+x)+"\n";
+          embed.addField(x,game.displayText("rules","power"+x))
         });
-        message.channel.send(text);
+        // message.channel.send(text);
+        message.channel.send(embed);
       }
     }
     ,{
