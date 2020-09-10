@@ -2,6 +2,7 @@
 const { Discord, fs, displayText, arrayOfFile } = require(`./function.js`)
 const config = require(`./config.json`);
 const Games = require(`./listGames.js`);
+console.log(new Discord.Message());
 
 // Initialisation and new Proprieties
 const bot = new Discord.Client();
@@ -204,26 +205,45 @@ bot.on(`messageReactionAdd`, (reaction, user) => {
 
 
 //When User send a message
+
+var execute = (bot,env,message) => {
+  const args = env.args ;
+  const id = env.id ;
+  const commandName = env.commandName ;
+  const game = env.game ;
+  const name = env.name ;
+
+  const command = bot.commands.get(name).get(commandName);
+
+  command.execute(bot,game,message,args);
+
+  if(command.delete != undefined && command.delete){
+    message.delete({timeout : 10000}).then(msg => console.log(`Deleted message from ${msg.author.username} after 10 seconds.`)).catch(console.error);
+  }
+}
 /*
 Execute the command called
 */
 bot.on(`message`, (message) => {
   if(!message.content.startsWith(PREFIX) || message.author.bot) return;
 
-  const args = message.content.slice(PREFIX.length).split(/ +/);
-  const command = args.shift().toLowerCase();
+  //all variables in one environnement call "env"
+  const env = new Object()
+  env.args = message.content.slice(PREFIX.length).split(/ +/);
+  env.commandName = env.args.shift().toLowerCase();
 
   // in a game channel
   /*
   homonym commands from game rewrite the main commands
   */
-  const id = message.channel.id
-  if(bot.gamesOngoing.has(id)) {
-    const game = bot.gamesOngoing.get(id);
-    const name = game.name;
-    if(bot.commands.has(name)){
-      if(bot.commands.get(name).has(command)){
-        bot.commands.get(name).get(command).execute(bot,game,message,args);
+  env.id = message.channel.id
+  if(bot.gamesOngoing.has(env.id)) {
+    env.game = bot.gamesOngoing.get(env.id);
+    env.name = env.name;
+    if(bot.commands.has(env.name)){
+      if(bot.commands.get(env.name).has(commandName)){
+        execute(bot,env,message)
+        // bot.commands.get(env.name).get(command).execute(bot,game,message,args);
       }
     }
   }
@@ -236,8 +256,8 @@ bot.on(`message`, (message) => {
   //   bot.gamesOngoing.forEach((item, i) => {
   //     const game = item;
   //     const name = item.name;
-  //     if(bot.commands.get(name).has(command)){
-  //       bot.commands.get(name).get(command).execute(bot,game,message,args);
+  //     if(bot.commands.get(name).has(commandName)){
+  //       bot.commands.get(name).get(commandName).execute(bot,game,message,args);
   //     }
   //   });
   // }else{
@@ -245,8 +265,13 @@ bot.on(`message`, (message) => {
   // }
 
   // any channel
-  if(!bot.commands.get("main").has(command)) return;
-  bot.commands.get("main").get(command).execute(bot,undefined,message,args);
+  env.name = "main"
+  env.game = undefined;
+  if(!bot.commands.get(env.name).has(env.commandName)) return;
+  execute(bot,env,message)
+  // bot.commands.get("main").get(commandName).execute(bot,undefined,message,args);
+
+
 
 });
 
