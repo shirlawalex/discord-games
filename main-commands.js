@@ -41,8 +41,63 @@ module.exports  =  {
     ,{
       name : 'ping',
       description : 'Pong !',
+      delete : false,
       execute(bot, game, message, args) {
         message.channel.send("Pong!");
+
+      }
+    }
+    ,{
+      name : 'supp',
+      description : 'Pong !',
+      delete : true,
+      execute(bot, game, message, args) {
+        console.log(message.content)
+        // message.delete().then( m => console.log(m.deleted) );
+        // console.log(message.deleted)
+      }
+    }
+    ,{
+      name : 'deleted',
+      description : 'give all message that have been deleted !',
+      execute(bot, game, message, args) {
+        const content = String(message.channel.messages.cache
+          // .filter(m => m.deleted)
+          .array())
+        // .array().toString();
+        console.log(content == "")
+        console.log(content === "")
+        message.channel.send(content == "" ? "none" : content);
+      }
+    }
+    ,{
+      name : 'embed',
+      description : 'Pong !',
+      execute(bot, game, message, args) {
+        // Send an embed with a local image inside
+
+
+        const embed = new Discord.MessageEmbed()
+          .setColor("#DC143C")
+          .setTitle("Titre de l'embed")
+          .setURL("https://google.com")
+          .setDescription("Description de l'embed")
+          .setThumbnail(bot.user.displayAvatarURL())
+          .addField("je suis un Champ","et je suis sa valeur")
+          .addFields(
+            { value :":x::x::x::x::x:",inline : true},
+            {name : "un champ 2", value :" sa valaue",inline : true},
+            {name : "un champ 3", value :" sa valaue",inline : false},
+            {name : "un champ 4", value :" sa valaue",inline : true}
+          )
+          .setImage(bot.user.displayAvatarURL())
+          .setTimestamp()
+          .setAuthor("Auteur",bot.user.displayAvatarURL(),"https://google.com")
+          .setFooter("Je suis sur le pied du footer",bot.user.displayAvatarURL());
+
+
+        message.channel.send(embed)
+        .then(m => m.react("❌"));
 
       }
     }
