@@ -34,7 +34,7 @@ var privateAllow = function(game,message,name) {
 module.exports  =  {
   commands : [
     {
-      name : 'ping',
+      name : 'pingavalon',
       description : 'Pong !',
       execute(bot,game,message, args) {
         message.channel.send("Pong!");
@@ -45,7 +45,7 @@ module.exports  =  {
       description : 'Display rules !',
       execute(bot,game,message, args) {
         message.channel.send(game.displayText("menu","goals"))
-        
+
 
       }
     }
