@@ -239,9 +239,9 @@ bot.on(`message`, (message) => {
   env.id = message.channel.id
   if(bot.gamesOngoing.has(env.id)) {
     env.game = bot.gamesOngoing.get(env.id);
-    env.name = env.name;
+    env.name = env.game.name;
     if(bot.commands.has(env.name)){
-      if(bot.commands.get(env.name).has(commandName)){
+      if(bot.commands.get(env.name).has(env.commandName)){
         execute(bot,env,message)
         // bot.commands.get(env.name).get(command).execute(bot,game,message,args);
       }
