@@ -1,4 +1,4 @@
-const { Discord, fs, displayBoard, printBoard, displayRoles } = require(`./../../function.js`)
+const { Discord, fs, displayBoard, printBoard, displayRoles } = require(`./../../util/function.js`)
 
 var addMap = function(map,key,text){
   map.forEach((value, tabKey) => {

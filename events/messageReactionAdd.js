@@ -1,10 +1,20 @@
+const { Discord, fs, displayText, arrayOfFile } = require(`../util/function.js`)
+const config = require(`../config.json`);
+const Games = require(`../listGames.js`);
+
+const mongoose = require("mongoose");
+const { DEFAULTSETTINGS : defaults} = require("../config.json");
+const { Guild } = require("discord.js");
+
+let PREFIX = config.prefix
+
 //When User react to a Emoji
 /*
 Start a new game
 check if it`s not the Bot that react to the message
 */
 // {bot.on`messageReactionAdd`, (reaction, user) => {
-module.exports = (reaction,user) => {
+module.exports = (bot,reaction,user) => {
   const message = reaction.message;
   const idChannel = message.channel.id;
   const guild = message.guild;

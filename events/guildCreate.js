@@ -6,13 +6,35 @@ const mongoose = require("mongoose");
 const { DEFAULTSETTINGS : defaults} = require("../config.json");
 const { Guild } = require("discord.js");
 
+
+const guildSchema = mongoose.Schema({
+  _id : mongoose.Schema.Types.ObjectId,
+  guildID : String,
+  guildName : String, 
+  prefix: {
+    "type" : String,
+    "default": defaults.prefix
+  },
+  logChannel: {
+    "type": String,
+    "default": defaults.logChannel
+  },
+  welcomemessage: {
+    "type" : String,
+    "default" : defaults.welcomeMessage
+  }
+});
+
+const Model = mongoose.model("Guild",guildSchema);
+
+
 //When Bot add to the guild
 /*
 Create the main Channel
 Display the presentation
 */
 //auxiliary function Presentation
-var displayPresentation = (channel) => {
+var displayPresentation = (bot,channel) => {
   // Display Presentation
   channel.send( displayText(bot,`text`,bot.main,`presentation`,bot.lang))
   channel.send( displayText(bot,`text`,bot.main,`help`,bot.lang))
@@ -94,7 +116,7 @@ module.exports = (bot,guild) => {
     parentChannel.children.each( channel => {
       if(channel.name === bot.nameMainChannel ){
         bot.idMainChannel = channel.id;
-        displayPresentation(channel)
+        displayPresentation(bot,channel)
         bool = true
       }
     })
@@ -109,7 +131,7 @@ module.exports = (bot,guild) => {
     })
     .then( (channel) => {
       bot.idMainChannel = channel.id;
-      displayPresentation(channel)
+      displayPresentation(bot,channel)
 
     })
   })
