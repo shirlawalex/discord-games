@@ -58,6 +58,20 @@ jsonPath.forEach( pathFile => {
   bot.jsonFiles.set(key,JSON.parse(fs.readFileSync(pathFile)));
 });
 
+
+// import events
+const loadEvents = (dir = "./events") => {
+  
+  const eventsPath =  arrayOfFile(dir,'js',false);
+  bot.commands.set("main",new Discord.Collection());
+  eventsPath.forEach( pathFile => {
+    const evt = require(pathFile);
+    const evtName = pathFile.split("/").pop().split(".")[0]
+  bot.on(evtName,evt.bind(null,bot));
+  console.log(`Event loaded: ${evtName}`) ;  
+  });
+};
+
 // import of commands from main-commands
 const loadCommands = () => {
   const commandPath =  arrayOfFile('.','commands.js',false);
@@ -69,20 +83,6 @@ const loadCommands = () => {
       bot.commands.get("main").set(command.name,command);
       console.log(`commands loaded : ${command.name}`)
     });
-  });
-};
-
-// import events
-
-const loadEvents = (dir = "./events") => {
-  
-  const eventsPath =  arrayOfFile(dir,'js',false);
-  bot.commands.set("main",new Discord.Collection());
-  eventsPath.forEach( pathFile => {
-    const evt = require(pathFile);
-    const evtName = pathFile.split("/").pop().split(".")[0]
-  bot.on(evtName,evt.bind(null,bot));
-  console.log(`Event loaded: ${evtName}`) ;  
   });
 };
 
