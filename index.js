@@ -1,8 +1,32 @@
 // Require (module,files)
-const { Discord, fs, displayText, arrayOfFile } = require(`./function.js`)
+const { Discord, fs, displayText, arrayOfFile } = require(`./util/function.js`)
 const config = require(`./config.json`);
 const Games = require(`./listGames.js`);
-console.log(new Discord.Message());
+
+const mongoose = require("mongoose");
+const { DEFAULTSETTINGS : defaults} = require("./config.json");
+const { Guild } = require("discord.js");
+
+
+const guildSchema = mongoose.Schema({
+  _id : mongoose.Schema.Types.ObjectId,
+  guildID : String,
+  guildName : String, 
+  prefix: {
+    "type" : String,
+    "default": defaults.prefix
+  },
+  logChannel: {
+    "type": String,
+    "default": defaults.logChannel
+  },
+  welcomemessage: {
+    "type" : String,
+    "default" : defaults.welcomeMessage
+  }
+});
+
+const Model = mongoose.model("Guild",guildSchema);
 
 // Initialisation and new Proprieties
 const bot = new Discord.Client();
@@ -11,11 +35,21 @@ bot.commands = new Map(); //Map each key is for a game
 bot.lang = `Fr`
 bot.idMainChannel = 0;
 
+//Connection to the DataBase
+bot.mongoose = require("./util/mongoose");
+
 // Constantes
 let PREFIX = config.prefix
 bot.main = `main`
 bot.nameParentChannel = `GAME CHANNELS`
 bot.nameMainChannel = `presentation-channel`
+
+// Collection of Data
+bot.listGamesMessage = new Map() //Map of games launcher { message.id : `name` }
+bot.gamesOngoing = new Map() // Map of the games ongoing { channel.id : Object Game }
+
+// start the database
+bot.mongoose.init();
 
 // import JSON file: the text content and put in a Collection
 const jsonPath =  arrayOfFile('./json','.json',true);
@@ -82,6 +116,16 @@ var displayPresentation = (channel) => {
 bot.on(`guildCreate`, (guild) => {
   console.log(`Bot add to the Guild`);
 
+  //Add to the DB 
+  const newGuild = {
+    guildID : guild.id,
+    guildName: guild.name
+  };
+
+  const merged = Object.assign({_id:mongoose.Types.ObjectId()},newGuild);
+  const createGuild = new Model(merged);
+  createGuild.save().then(g => console.log(`New guild -> ${g.guildName}`));
+  
   // Loading content of variables
   const topicParent =  displayText(bot,`text`,bot.main,`topicParent`,bot.lang)
   const reasonParent =  displayText(bot,`text`,bot.main,`reasonParent`,bot.lang)
