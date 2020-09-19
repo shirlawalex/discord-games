@@ -3,31 +3,6 @@ const { Discord, fs, displayText, arrayOfFile } = require(`./util/function.js`)
 const config = require(`./config.json`);
 const Games = require(`./listGames.js`);
 
-const mongoose = require("mongoose");
-const { DEFAULTSETTINGS : defaults} = require("./config.json");
-const { Guild } = require("discord.js");
-
-
-const guildSchema = mongoose.Schema({
-  _id : mongoose.Schema.Types.ObjectId,
-  guildID : String,
-  guildName : String, 
-  prefix: {
-    "type" : String,
-    "default": defaults.prefix
-  },
-  logChannel: {
-    "type": String,
-    "default": defaults.logChannel
-  },
-  welcomemessage: {
-    "type" : String,
-    "default" : defaults.welcomeMessage
-  }
-});
-
-const Model = mongoose.model("Guild",guildSchema);
-
 // Initialisation and new Proprieties
 const bot = new Discord.Client();
 bot.jsonFiles = new Discord.Collection();
@@ -48,8 +23,6 @@ bot.nameMainChannel = `presentation-channel`
 bot.listGamesMessage = new Map() //Map of games launcher { message.id : `name` }
 bot.gamesOngoing = new Map() // Map of the games ongoing { channel.id : Object Game }
 
-// start the database
-bot.mongoose.init();
 
 // import JSON file: the text content and put in a Collection
 const jsonPath =  arrayOfFile('./json','.json',true);
@@ -88,6 +61,10 @@ const loadCommands = () => {
 
 loadEvents();
 loadCommands();
+
+// start the database
+bot.mongoose.init();
+
 
 ////////////////  HANDLERS
 // bot.on(`ready`, () => {
