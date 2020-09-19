@@ -1,4 +1,4 @@
-const { Discord, fs, displayText, arrayOfFile, displayCommands } = require(`./function.js`)
+const { Discord, fs, displayText, arrayOfFile, displayCommands } = require(`./util/function.js`)
 
 module.exports  =  {
   commands : [

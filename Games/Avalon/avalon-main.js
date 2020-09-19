@@ -1,4 +1,4 @@
-const { Discord, fs, displayBoard, printBoard, displayRoles } = require(`./../../function.js`)
+const { Discord, fs, displayBoard, printBoard, displayRoles } = require(`../../util/function.js`)
 // const { displayBoard, printBoard, displayRoles} = require(`./avalon-commands.js`)
 const Games = require("./../games.js")
 const nameGame = "Avalon"
