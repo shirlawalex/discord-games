@@ -6,6 +6,8 @@ const mongoose = require("mongoose");
 const { DEFAULTSETTINGS : defaults} = require("../config.json");
 const { Guild } = require("discord.js");
 
+let PREFIX = config.prefix
+
 //When User send a message
 
 var execute = (bot,env,message) => {
@@ -26,7 +28,7 @@ var execute = (bot,env,message) => {
 /*
 Execute the command called
 */
-module.exports = (message) => {
+module.exports = (bot,message) => {
   if(!message.content.startsWith(PREFIX) || message.author.bot) return;
 
   //all variables in one environnement call "env"
@@ -45,6 +47,7 @@ module.exports = (message) => {
     if(bot.commands.has(env.name)){
       if(bot.commands.get(env.name).has(env.commandName)){
         execute(bot,env,message)
+        return;
         // bot.commands.get(env.name).get(command).execute(bot,game,message,args);
       }
     }
@@ -72,5 +75,4 @@ module.exports = (message) => {
   if(!bot.commands.get(env.name).has(env.commandName)) return;
   execute(bot,env,message)
   // bot.commands.get("main").get(commandName).execute(bot,undefined,message,args);
-
 }
