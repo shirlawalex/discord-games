@@ -29,8 +29,7 @@ var execute = (bot,env,message) => {
 Execute the command called
 */
 module.exports = (bot,message) => {
-  //if dm send to the event private dm
-  if(message.channel.type === "dm") return bot.emit("directMessage",message);
+  console.log("PRIVATE MESSAGE IS NOT IMPLETENDED YET.")
   
   if(!message.content.startsWith(PREFIX) || message.author.bot) return;
 
@@ -44,22 +43,20 @@ module.exports = (bot,message) => {
   homonym commands from game rewrite the main commands
   */
   env.id = message.channel.id
-  if(bot.gamesOngoing.has(env.id)) {
-    env.game = bot.gamesOngoing.get(env.id);
-    env.name = env.game.name;
-    if(bot.commands.has(env.name)){
-      if(bot.commands.get(env.name).has(env.commandName)){
-        execute(bot,env,message)
-        return;
-        // bot.commands.get(env.name).get(command).execute(bot,game,message,args);
-      }
-    }
-  }
+  
 
-  // any channel
-  env.name = "main"
-  env.game = undefined;
-  if(!bot.commands.get(env.name).has(env.commandName)) return;
-  execute(bot,env,message)
-  // bot.commands.get("main").get(commandName).execute(bot,undefined,message,args);
+    //in private channel
+  /* forbiden for the moment because can't check which server is concern */
+  /* Maybe check ig message is in the cache of game or before the command the name of the game or quote */
+  /* it give the first server in the collection */
+  // bot.gamesOngoing.forEach((item, i) => {
+  //   const game = item;
+  //   const name = item.name;
+  //   if(bot.commands.get(name).has(commandName)){
+  //     bot.commands.get(name).get(commandName).execute(bot,env,message);
+  //   }
+  // });
+  
+/
+
 }
