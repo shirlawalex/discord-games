@@ -9,16 +9,6 @@ module.exports  = class GameTemplate extends Games {
       return new gameTemplate(channel)
     }
 
-    static match(message) {
-      // return (message.content == "Test")
-      return true
-    }
-
-    static helloWorld (guild) {
-      // guild.channels.cache.first.send('Hello World !')
-      console.log("Hello World ! Game Template")
-    }
-
     constructor(channel) {
       super(channel)
       this.name = "GameTemplate"

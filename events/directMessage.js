@@ -6,7 +6,6 @@ const mongoose = require("mongoose");
 const { DEFAULTSETTINGS : defaults} = require("../config.json");
 const { Guild } = require("discord.js");
 
-let PREFIX = config.prefix
 
 //When User send a message
 
@@ -30,12 +29,13 @@ Execute the command called
 */
 module.exports = (bot,message) => {
   console.log("PRIVATE MESSAGE IS NOT IMPLETENDED YET.")
-  
-  if(!message.content.startsWith(PREFIX) || message.author.bot) return;
+  if(message.author.bot) return;
+
+  if(!message.content.startsWith(bot.prefix)) return;
 
   //all variables in one environnement call "env"
   const env = new Object()
-  env.args = message.content.slice(PREFIX.length).split(/ +/);
+  env.args = message.content.slice(bot.prefix.length).split(/ +/);
   env.commandName = env.args.shift().toLowerCase();
 
   // in a game channel
@@ -57,6 +57,5 @@ module.exports = (bot,message) => {
   //   }
   // });
   
-/
-
 }
+

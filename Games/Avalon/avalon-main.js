@@ -1,5 +1,6 @@
-const { Discord, fs, displayBoard, printBoard, displayRoles } = require(`../../util/function.js`)
-// const { displayBoard, printBoard, displayRoles} = require(`./avalon-commands.js`)
+const {fs} = require(`../../util/function.js`)
+const {displayBoard, printBoard, displayRoles } = require(`./avalon-function.js`)
+
 const Games = require("./../games.js")
 const nameGame = "Avalon"
 const jsonFile = './Games/Avalon/avalon-text.json'
@@ -46,7 +47,6 @@ module.exports  = class Avalon extends Games {
           if(index != -1){
             if(this.vote[index] == undefined){
               if(reaction.emoji == `✅`) {this.vote[index] = true;}
-              // this.vote[index] = (reaction.emoji == `✅`);
               else {this.vote[index] = false;}
               this.action()
             }
@@ -124,11 +124,7 @@ module.exports  = class Avalon extends Games {
           .catch(console.error);
           channel.send(this.displayText("menu","welcome"))
           channel.send(this.displayText("menu","players"))
-          // channel.send(this.displayText("menu","introduction"))
-          // channel.send(this.displayText("menu","summary"))
           const msg = channel.send(this.displayText("menu","goals"))
-          // super.addCache(msg)
-          // channel.send(this.displayText("menu","command"))
           this.step = 1;
           break;
 
@@ -143,9 +139,6 @@ module.exports  = class Avalon extends Games {
           */
           if(this.players.size >= 5 && this.players.size <= 10){
             const nb = this.players.size.toString()
-            // channel.send("```"+this.displayText("gameAction","board")+"```")
-            // channel.send(this.displayText("gameAction","start"))
-            // displayBoard(this,this.boardData[nb])
             this.step = 2;
           }else{
             this.step = 1;
@@ -283,12 +276,6 @@ module.exports  = class Avalon extends Games {
             }
           });
 
-          // for( v of this.quest){
-          //   // if(v == undefined) check = false;
-          //   if(v != true || v != false){
-          //     check = false;
-          //   }
-          // }
 
           channel.send(this.displayText("gameAction","voteQuest"));
 
@@ -304,11 +291,6 @@ module.exports  = class Avalon extends Games {
             }
           });
 
-          // for(v of this.quest){
-          //   if(v == false){
-          //     countFail ++;
-          //   }
-          // }
           let fail = false
           if(this.board[this.round][1] == true){
             fail = (countFail >= 2)
@@ -339,8 +321,6 @@ module.exports  = class Avalon extends Games {
 
           // Number of Quest check
           this.board[this.round.toString()][0] = emoji;
-          // console.log("quest Succeed",this.questSucceed)
-          // console.log("quest Failed",this.questFailed)
           if (this.questSucceed >= 3){
             this.step = 14
             this.action()

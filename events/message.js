@@ -1,12 +1,6 @@
-const { Discord, fs, displayText, arrayOfFile } = require(`../util/function.js`)
 const config = require(`../config.json`);
 const Games = require(`../listGames.js`);
 
-const mongoose = require("mongoose");
-const { DEFAULTSETTINGS : defaults} = require("../config.json");
-const { Guild } = require("discord.js");
-
-let PREFIX = config.prefix
 
 //When User send a message
 
@@ -32,11 +26,11 @@ module.exports = (bot,message) => {
   //if dm send to the event private dm
   if(message.channel.type === "dm") return bot.emit("directMessage",message);
   
-  if(!message.content.startsWith(PREFIX) || message.author.bot) return;
+  if(!message.content.startsWith(bot.prefix) || message.author.bot) return;
 
   //all variables in one environnement call "env"
   const env = new Object()
-  env.args = message.content.slice(PREFIX.length).split(/ +/);
+  env.args = message.content.slice(bot.prefix.length).split(/ +/);
   env.commandName = env.args.shift().toLowerCase();
 
   // in a game channel

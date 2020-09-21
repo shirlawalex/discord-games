@@ -1,4 +1,4 @@
-const { Discord, fs, displayText, arrayOfFile } = require(`./util/function.js`)
+const { Discord, arrayOfFile } = require(`./util/function.js`)
 
 const GameTemplate = require('./Games/GameTemplate/gameTemplate.js')
 const Avalon = require('./Games/Avalon/avalon-main.js')

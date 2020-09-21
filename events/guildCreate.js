@@ -1,4 +1,4 @@
-const { Discord, fs, displayText, arrayOfFile } = require(`../util/function.js`)
+const { Discord, displayText } = require(`../util/function.js`)
 const config = require(`../config.json`);
 const Games = require(`../listGames.js`);
 

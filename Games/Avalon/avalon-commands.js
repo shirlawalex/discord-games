@@ -1,4 +1,4 @@
-const { Discord, fs, displayBoard, printBoard, displayRoles } = require(`./../../util/function.js`)
+const {MessageEmbed} = require("discord.js")
 
 var addMap = function(map,key,text){
   map.forEach((value, tabKey) => {
@@ -100,7 +100,6 @@ module.exports  =  {
           if(found >= 0 && found <= 18) game.step = parseInt(found[0])
         }
         game.channel.send("go to the step:"+game.step)
-        // game.channel.send(game.displayText("step","3") => "la step 3 est l'enregistrement")
         game.action();
       }
     }
@@ -109,7 +108,6 @@ module.exports  =  {
       description : 'During step 2, when the number of players is enough you can start the game',
       execute(bot,game,message, args) {
         if(!privateAllow(game,message,"start") || !commandAllow(game,message,"start",[2])) return;
-        // const msg =
         game.channel.send("```"+`${game.displayText("log","start")} ${game.players.size} ${game.displayText("log","players")}`+"```");
         game.step = 3;
         game.action();
@@ -122,8 +120,7 @@ module.exports  =  {
         if(!privateAllow(game,message,"add") || !commandAllow(game,message,"add",[1,2])) {return;}
 
         message.mentions.users.forEach( user => {
-          // if(!user.bot && !game.players.has(user.id)){
-          if(!game.players.has(user.id)){
+          if(!user.bot && !game.players.has(user.id)){
             game.players.set(user.id,[]);
             game.channel.send(`add ${user.username} : ${game.players.size} ${game.displayText("log","register")}`)
           }else{
@@ -264,8 +261,6 @@ module.exports  =  {
         }
 
         game.channel.send(game.displayText("gameAction","giveRole"))
-        // console.log(game.players)
-
         game.step = 5;
         game.action()
       }
@@ -339,8 +334,7 @@ module.exports  =  {
         let names = ""
         let check = true;
         message.mentions.users.forEach( user => {
-          // if(!user.bot && !game.players.has(user.id)){
-          if(!game.players.has(user.id)){
+          if(!user.bot && !game.players.has(user.id)){
             check = false;
           }else{
             game.quest.set(user.id,undefined);
@@ -353,7 +347,6 @@ module.exports  =  {
           return;
         }
 
-        // game.channel.send(game.displayText("gameAction","rejectedCount")+` ${game.countDenied}`)
         game.channel.send(game.displayText("gameAction","electTeam"))
         game.channel.send(names)
 
@@ -362,38 +355,6 @@ module.exports  =  {
 
       }
     }
-    // ,{
-    //   name : 'yes',
-    //   description : 'During step 8, yes to approuve the members of the quest',
-    //   execute(bot,game,message, args) {
-    //     if(!commandAllow(game,message,"yes",[8])) return;
-    //     const id = message.author.id;
-    //     const index = game.order.indexOf(id);
-    //     if(index != -1){
-    //       if(game.vote[index] == undefined) game.vote[index] = true;
-    //       else{
-    //         message.channel.send(game.displayText("gameAction","alreadyVote"))
-    //       }
-    //       game.action()
-    //     }
-    //   }
-    // }
-    // ,{
-    //   name : 'no',
-    //   description : 'During step 8, no to refuse the members of the quest !',
-    //   execute(bot,game,message, args) {
-    //     if(!commandAllow(game,message,"no",[8])) return;
-    //     const id = message.author.id;
-    //     const index = game.order.indexOf(id);
-    //     if(index != -1){
-    //       if(game.vote[index] == undefined) game.vote[index] = false;
-    //       else{
-    //         message.channel.send(game.displayText("gameAction","alreadyVote"))
-    //       }
-    //       game.action()
-    //     }
-    //   }
-    // }
     ,{
       name : 'vote',
       description : 'During step 8, to enter directly the result of the vote',
@@ -418,54 +379,6 @@ module.exports  =  {
         game.action()
       }
     }
-    // ,{
-    //   name : 'quest',
-    //   description : 'During step 10, the members of the vote have to succed or failed the quest',
-    //   execute(bot,game,message, args) {
-    //     if(!commandAllow(game,message,"quest",[11])) return;
-    //
-    //     if(args.length != 1){
-    //       console.log("nb of arg != 1")
-    //       return;
-    //     }
-    //
-    //     const id = message.author.id
-    //
-    //     if(!game.quest.has(id)){
-    //       console.log("not allowed");
-    //       return;
-    //     }
-    //
-    //     switch (args[0]) {
-    //       // case "succes":
-    //       //   game.quest.set(id,true);
-    //       //   break;
-    //       //
-    //       // case "fail" :
-    //       //   game.quest.set(id,false)
-    //       //   break;
-    //
-    //       case "allfail" :
-    //         game.quest.forEach((v, k) => {
-    //           game.quest.set(k,false)
-    //         });
-    //         break;
-    //
-    //       case "allsucces" :
-    //         game.quest.forEach((v, k) => {
-    //           game.quest.set(k,true)
-    //         });
-    //         break;
-    //
-    //       default:
-    //         console.log("argument not allowed");
-    //         return;
-    //     }
-    //     // console.log("quest : ",game.quest)
-    //
-    //     game.action()
-    //   }
-    // }
     ,{
       name : 'assassin',
       description : 'During step 10, the members of the vote have to succed or failed the quest',
@@ -494,6 +407,3 @@ module.exports  =  {
   ]
 }
 
-/*
-!
-*/

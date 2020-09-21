@@ -2,9 +2,12 @@
 const { Discord, fs, displayText, arrayOfFile } = require(`./util/function.js`)
 const config = require(`./config.json`);
 const Games = require(`./listGames.js`);
+const {loadCommands, loadEvents} = require ("./util/loader.js");
 
 // Initialisation and new Proprieties
 const bot = new Discord.Client();
+
+
 bot.jsonFiles = new Discord.Collection();
 bot.commands = new Map(); //Map each key is for a game
 bot.lang = `Fr`
@@ -14,7 +17,7 @@ bot.idMainChannel = 0;
 bot.mongoose = require("./util/mongoose");
 
 // Constantes
-let PREFIX = config.prefix
+bot.prefix = config.prefix
 bot.main = `main`
 bot.nameParentChannel = `GAME CHANNELS`
 bot.nameMainChannel = `presentation-channel`
@@ -32,90 +35,11 @@ jsonPath.forEach( pathFile => {
 });
 
 
-// import events
-const loadEvents = (dir = "./events") => {
-  
-  const eventsPath =  arrayOfFile(dir,'js',false);
-  bot.commands.set("main",new Discord.Collection());
-  eventsPath.forEach( pathFile => {
-    const evt = require(pathFile);
-    const evtName = pathFile.split("/").pop().split(".")[0]
-  bot.on(evtName,evt.bind(null,bot));
-  console.log(`Event loaded: ${evtName}`) ;  
-  });
-};
-
-// import of commands from main-commands
-const loadCommands = () => {
-  const commandPath =  arrayOfFile('.','commands.js',false);
-  bot.commands.set("main",new Discord.Collection());
-  commandPath.forEach( pathFile => {
-    const listCommands = require(pathFile);
-    console.log(`load command from ${pathFile}`)
-    listCommands.commands.forEach( (command) => {
-      bot.commands.get("main").set(command.name,command);
-      console.log(`commands loaded : ${command.name}`)
-    });
-  });
-};
-
-loadEvents();
-loadCommands();
+loadEvents(bot);
+loadCommands(bot);
 
 // start the database
 bot.mongoose.init();
 
 //Connect bot
 bot.login(config.token)
-
-/*
-All Events string =
-channelCreate
-channelDelete
-channelPinsUpdate
-channelUpdate
-debug
-emojiCreate
-emojiDelete
-emojiUpdate
-error
-guildBanAdd
-guildBanRemove
-guildCreate
-guildDelete
-guildIntegrationsUpdate
-guildMemberAdd
-guildMemberRemove
-guildMembersChunk
-guildMemberSpeaking
-guildMemberUpdate
-guildUnavailable
-guildUpdate
-invalidated
-inviteCreate
-inviteDelete
-message
-messageDelete
-messageDeleteBulk
-messageReactionAdd
-messageReactionRemove
-messageReactionRemoveAll
-messageReactionRemoveEmoji
-messageUpdate
-presenceUpdate
-rateLimit
-ready
-roleCreate
-roleDelete
-roleUpdate
-shardDisconnect
-shardError
-shardReady
-shardReconnecting
-shardResume
-typingStart
-userUpdate
-voiceStateUpdate
-warn
-webhookUpdate
-*/

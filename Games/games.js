@@ -26,11 +26,6 @@ module.exports  = class Games {
     }
   }
 
-  handleMessage(message,user){
-    console.log("to do : handle message")
-  }
-
-
   //////// Common function
 
   //Constructor
@@ -58,12 +53,6 @@ module.exports  = class Games {
 
   get cache(){ return this._cacheMessage }
 
-  // get message(id){ return this._cacheMessage.get(id)}
-
-  // fetch the promises of the channel
-  // fetch(){
-  //   return this._channel.fetch()
-  // }
 
   //add a message in the cache
   addCache(promiseMessage){
@@ -174,7 +163,6 @@ module.exports  = class Games {
   //launcher
   static launch(bot,parent){
     const guild = parent.guild
-    // this.helloWorld(guild)
     return this.newChannel(parent)
   }
 

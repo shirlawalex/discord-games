@@ -1,9 +1,10 @@
-const { Discord, fs, displayText, arrayOfFile, displayCommands } = require(`./util/function.js`)
+const { Discord, fs, displayText, displayCommands } = require(`./util/function.js`)
 
 module.exports  =  {
   commands : [
     {
       name : 'lang',
+      category : "main",
       description : 'lang arguement : argument is the language to change',
       execute(bot, game, message, args) {
         if(message.guild === null){
@@ -40,6 +41,7 @@ module.exports  =  {
     }
     ,{
       name : 'ping',
+      category : "main",
       description : 'Pong !',
       delete : false,
       execute(bot, game, message, args) {
@@ -49,6 +51,7 @@ module.exports  =  {
     }
     ,{
       name : 'supp',
+      category : "main",
       description : 'Pong !',
       delete : true,
       execute(bot, game, message, args) {
@@ -59,6 +62,7 @@ module.exports  =  {
     }
     ,{
       name : 'deleted',
+      category : "main",
       description : 'give all message that have been deleted !',
       execute(bot, game, message, args) {
         const content = String(message.channel.messages.cache
@@ -72,6 +76,7 @@ module.exports  =  {
     }
     ,{
       name : 'embed',
+      category : "main",
       description : 'Pong !',
       execute(bot, game, message, args) {
         // Send an embed with a local image inside
@@ -103,6 +108,7 @@ module.exports  =  {
     }
     ,{
       name : 'welcome',
+      category : "main",
       description : 'Display Welcome text',
       execute(bot, game, message, args) {
         message.channel.send(displayText(bot,`text`,bot.main,`welcome`,bot.lang));
@@ -110,6 +116,7 @@ module.exports  =  {
     }
     ,{
       name : 'commands',
+      category : "main",
       description : 'Display all commands loaded (You need to launch a game to have the commands)',
       execute(bot, game, message, args) {
         // message.channel.send(bot);
@@ -118,6 +125,7 @@ module.exports  =  {
     }
     ,{
       name : 'deleteall',
+      category : "main",
       description : `Delete all channel in the Category Game Channels`,
 
       execute(bot, game, message, args) {
@@ -134,6 +142,7 @@ module.exports  =  {
     }
     ,{
       name : 'restart',
+      category : "main",
       description : 'Restart the Main Channel Presentation Text and create it if needed',
       execute(bot, game, message, args) {
         if(message.channel.type == "text"){
@@ -143,6 +152,7 @@ module.exports  =  {
     }
     ,{
       name : 'newmainchannel',
+      category : "main",
       description : 'rename old Main Channel and create a new one',
       execute(bot, game, message, args) {
         message.guild.channels.cache.each(channel =>{
