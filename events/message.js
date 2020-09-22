@@ -1,7 +1,6 @@
 const config = require(`../config.json`);
 const Games = require(`../listGames.js`);
 
-
 //When User send a message
 
 var execute = (bot,env,message) => {
@@ -22,11 +21,14 @@ var execute = (bot,env,message) => {
 /*
 Execute the command called
 */
-module.exports = (bot,message) => {
+module.exports = async (bot,message) => {
+
   //if dm send to the event private dm
   if(message.channel.type === "dm") return bot.emit("directMessage",message);
   
   if(!message.content.startsWith(bot.prefix) || message.author.bot) return;
+
+  const settings = await bot.getGuild(message.guild)
 
   //all variables in one environnement call "env"
   const env = new Object()

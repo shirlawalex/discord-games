@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
-const {DBCONNECTION} = require("../config");
+const {DBCONNECTIONLOCAL,DBCONNECTIONONLINE} = require("../config");
 
 
 module.exports = {
-  init : () => {
+  init : (dblocal) => {
     const mongOptions = {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -16,8 +16,11 @@ module.exports = {
       family: 4 // Use IPv4, skip trying IPv6
     };
 
-    mongoose.connect(DBCONNECTION, mongOptions);
-
+    if(dblocal){
+    mongoose.connect(DBCONNECTIONLOCAL, mongOptions);
+    }else{
+      mongoose.connect(DBCONNECTIONONLINE, mongOptions);
+    }
     mongoose.Promise = global.Promise;
     mongoose.connection.on("connected", () => console.log("database connected"))
 

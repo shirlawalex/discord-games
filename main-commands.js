@@ -8,14 +8,12 @@ module.exports  =  {
       description : 'lang arguement : argument is the language to change',
       execute(bot, game, message, args) {
         if(message.guild === null){
-          console.log("commands in dm, not working")
           return
         }
         // The command is in a Game Channel, or in private channel else the command affect the Main channel
         const id = message.channel.id
         if(bot.gamesOngoing.has(id)) {
           game = bot.gamesOngoing.get(id);
-          console.log(game)
         }else{
           game = bot;
         }
@@ -27,7 +25,6 @@ module.exports  =  {
           switch(args[0].toLowerCase()){
             case `en` : case `england` : case `angleterre` : case `english` : case `anglais` :
             game.lang = `En`;
-            console.log("do")
             break;
             case `fr` : case `france` : case `fr  ench` : case `francais` : case `français` :
             case `be` : case `belgique` : case `belgium` : case `belge` :
@@ -35,7 +32,7 @@ module.exports  =  {
             game.lang = `Fr`
           }
           message.channel.send(`language set to ${game.lang}`);
-          console.log(`language set to ${game.lang}`);
+          // console.log(`language set to ${game.lang}`);
         }
       }
     }
@@ -55,23 +52,6 @@ module.exports  =  {
       description : 'Pong !',
       delete : true,
       execute(bot, game, message, args) {
-        console.log(message.content)
-        // message.delete().then( m => console.log(m.deleted) );
-        // console.log(message.deleted)
-      }
-    }
-    ,{
-      name : 'deleted',
-      category : "main",
-      description : 'give all message that have been deleted !',
-      execute(bot, game, message, args) {
-        const content = String(message.channel.messages.cache
-          // .filter(m => m.deleted)
-          .array())
-        // .array().toString();
-        console.log(content == "")
-        console.log(content === "")
-        message.channel.send(content == "" ? "none" : content);
       }
     }
     ,{
@@ -120,7 +100,7 @@ module.exports  =  {
       description : 'Display all commands loaded (You need to launch a game to have the commands)',
       execute(bot, game, message, args) {
         // message.channel.send(bot);
-        displayCommands(bot,message);
+        bot.displayCommands(message);
       }
     }
     ,{
@@ -160,7 +140,6 @@ module.exports  =  {
             channel.setName(`\[previous\]\_`+bot.nameMainChannel)
           }
         })
-        console.log(message.guild.channels)
         message.guild.fetch().then( guild =>
           bot.emit(`guildCreate`,guild)
         )

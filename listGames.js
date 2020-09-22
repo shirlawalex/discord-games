@@ -34,7 +34,7 @@ const commandsGames = function (nameGame) {
   commandPath.forEach( pathFile => {
     const listCommands = require(pathFile);
     listCommands.commands.forEach( (command) => {
-      console.log(command.name,command)
+      // console.log(command.name,command)
       collection.set(command.name,command);
     });
   });

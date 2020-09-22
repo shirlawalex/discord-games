@@ -1,30 +1,15 @@
 // Require (module,files)
 const { Discord, fs, displayText, arrayOfFile } = require(`./util/function.js`)
+const ClientFct = require("./util/client.js");
 const config = require(`./config.json`);
 const Games = require(`./listGames.js`);
 const {loadCommands, loadEvents} = require ("./util/loader.js");
 
 // Initialisation and new Proprieties
 const bot = new Discord.Client();
+ClientFct(bot); //add to bot method and parameters 
+// require("./util/client")(bot);
 
-
-bot.jsonFiles = new Discord.Collection();
-bot.commands = new Map(); //Map each key is for a game
-bot.lang = `Fr`
-bot.idMainChannel = 0;
-
-//Connection to the DataBase
-bot.mongoose = require("./util/mongoose");
-
-// Constantes
-bot.prefix = config.prefix
-bot.main = `main`
-bot.nameParentChannel = `GAME CHANNELS`
-bot.nameMainChannel = `presentation-channel`
-
-// Collection of Data
-bot.listGamesMessage = new Map() //Map of games launcher { message.id : `name` }
-bot.gamesOngoing = new Map() // Map of the games ongoing { channel.id : Object Game }
 
 
 // import JSON file: the text content and put in a Collection
@@ -35,11 +20,15 @@ jsonPath.forEach( pathFile => {
 });
 
 
+
 loadEvents(bot);
 loadCommands(bot);
 
 // start the database
-bot.mongoose.init();
+bot.mongoose.init(bot.dblocal);
+
+
+bot.testlog()
 
 //Connect bot
 bot.login(config.token)

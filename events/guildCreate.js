@@ -4,28 +4,8 @@ const Games = require(`../listGames.js`);
 
 const mongoose = require("mongoose");
 const { DEFAULTSETTINGS : defaults} = require("../config.json");
-const { Guild } = require("discord.js");
+const { Guild } = require("../models/index");
 
-
-const guildSchema = mongoose.Schema({
-  _id : mongoose.Schema.Types.ObjectId,
-  guildID : String,
-  guildName : String, 
-  prefix: {
-    "type" : String,
-    "default": defaults.prefix
-  },
-  logChannel: {
-    "type": String,
-    "default": defaults.logChannel
-  },
-  welcomemessage: {
-    "type" : String,
-    "default" : defaults.welcomeMessage
-  }
-});
-
-const Model = mongoose.model("Guild",guildSchema);
 
 
 //When Bot add to the guild
@@ -60,7 +40,7 @@ var displayPresentation = (bot,channel) => {
 }
 
 //main function Presentation
-module.exports = (bot,guild) => {
+module.exports = async (bot,guild) => {
   console.log(`Bot add to the Guild`);
 
   //Add to the DB 
@@ -69,12 +49,12 @@ module.exports = (bot,guild) => {
     guildName: guild.name
   };
 
-  const merged = Object.assign({_id:mongoose.Types.ObjectId()},newGuild);
-  const createGuild = new Model(merged);
-  createGuild.save().then(g => console.log(`New guild -> ${g.guildName}`));
-  
+  await bot.saveGuild(newGuild);
+     
+
+
   // Loading content of variables
-  const topicParent =  displayText(bot,`text`,bot.main,`topicParent`,bot.lang)
+    const topicParent =  displayText(bot,`text`,bot.main,`topicParent`,bot.lang)
   const reasonParent =  displayText(bot,`text`,bot.main,`reasonParent`,bot.lang)
   const topicChannel =  displayText(bot,`text`,bot.main,`topicMain`,bot.lang)
   const reasonChannel =  displayText(bot,`text`,bot.main,`reasonMain`,bot.lang)

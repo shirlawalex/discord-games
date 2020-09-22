@@ -9,7 +9,7 @@ const { Guild } = require("discord.js");
 
 //When User send a message
 
-var execute = (bot,env,message) => {
+/*var execute = (bot,env,message) => {
   const args = env.args ;
   const id = env.id ;
   const commandName = env.commandName ;
@@ -23,7 +23,7 @@ var execute = (bot,env,message) => {
   if(command.delete != undefined && command.delete){
     message.delete({timeout : 10000}).then(msg => console.log(`Deleted message from ${msg.author.username} after 10 seconds.`)).catch(console.error);
   }
-}
+}*/
 /*
 Execute the command called
 */

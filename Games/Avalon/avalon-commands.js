@@ -3,7 +3,6 @@ const {MessageEmbed} = require("discord.js")
 var addMap = function(map,key,text){
   map.forEach((value, tabKey) => {
     if(tabKey.find(e => e == key)){
-      console.log(tabKey,key)
       map.set(tabKey, map.get(tabKey) + text)
     }
   });
@@ -14,7 +13,6 @@ var commandAllow = function(game,message,name,curStep) {
   if(!curStep.includes(game.step)){
     const msg = `"${name}" : ${game.displayText("log","forbiden")}`;
     game.channel.send(msg);
-    console.log(msg);
     return false;
   }
   return true;
@@ -25,7 +23,6 @@ var privateAllow = function(game,message,name) {
   if( message.channel.type == "dm" ){
     const msg = `"${name}" : ${game.displayText("log","forbidenPrivate")}`;
     game.channel.send(msg);
-    console.log(msg);
     return false;
   }
   return true;
@@ -153,15 +150,11 @@ module.exports  =  {
       execute(bot,game,message, args) {
         if(!privateAllow(game,message,"role") || !commandAllow(game,message,"role",[4])) return;
 
-        //check argument
-        if(args.length == 0){
-          console.log("number of arg < 1")
-          return;
-        }
         const nb = game.players.size
-        if(args[0] != nb.toString()){
-          console.log("wrong number of players"); return;
-        }
+
+        //check argument
+        if(args.length == 0) return;
+        if(args[0] != nb.toString()) return;
 
         const name = args.toString().replace(","," ")
         if(game.roleMap.has(name)){
@@ -245,8 +238,6 @@ module.exports  =  {
             const aftertext = info.get(roles[i])
             info.set(roles[i],text + aftertext)
           }
-
-          console.log(info)
 
           //send information in DM
           for(let i in game.order){
@@ -367,11 +358,9 @@ module.exports  =  {
         }
         if(args[0] == "yeswin"){
           game.vote.fill(true)
-          // console.log(game.vote)
         }
         if(args[0] == "nowin"){
           game.vote.fill(false)
-          // console.log(game.vote)
         }
         if(args[0] == "result"){
           console.log(game.vote)
