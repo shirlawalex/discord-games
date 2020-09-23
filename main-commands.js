@@ -1,10 +1,10 @@
-const { Discord, fs, displayText, displayCommands } = require(`./util/function.js`)
+const { Discord, fs, displayCommands } = require(`./util/function.js`)
 
 module.exports  =  {
   commands : [
     {
       name : 'lang',
-      category : "main",
+      parent : "main",
       description : 'lang arguement : argument is the language to change',
       execute(bot, game, message, args) {
         if(message.guild === null){
@@ -38,17 +38,43 @@ module.exports  =  {
     }
     ,{
       name : 'ping',
-      category : "main",
+      parent : "main",
       description : 'Pong !',
       delete : false,
       execute(bot, game, message, args) {
         message.channel.send("Pong!");
 
       }
-    }
+    } 
+    ,{
+      name : 'config',
+      parent : "main",
+      description : '',
+      delete : false,
+      async execute(bot, game, message, args,settings) {
+        const getSetting = args[0];
+        const newSetting = args.slice(1).join(" ");
+
+        switch(getSetting){
+          case "prefix": 
+            if(newSetting){
+              let found = await bot.updateGuild(message.guild,{prefix:newSetting});
+              if(found){
+                message.channel.send(`${bot.displayText("text","log","prefixUpdate",bot.lang)} \`${settings.prefix}\` -> \`${newSetting}\`.`);
+              }else{
+                message.channel.send(bot.displayText("text","log","errorAction",bot.lang)+bot.displayText("text","log","dbMissing",bot.lang) )
+              }
+            }
+            break;
+          default:
+            message.channel.send("not allowed to change this key or key not valid")
+
+          }
+        }
+      }
     ,{
       name : 'supp',
-      category : "main",
+      parent : "main",
       description : 'Pong !',
       delete : true,
       execute(bot, game, message, args) {
@@ -56,7 +82,7 @@ module.exports  =  {
     }
     ,{
       name : 'embed',
-      category : "main",
+      parent : "main",
       description : 'Pong !',
       execute(bot, game, message, args) {
         // Send an embed with a local image inside
@@ -88,24 +114,23 @@ module.exports  =  {
     }
     ,{
       name : 'welcome',
-      category : "main",
+      parent : "main",
       description : 'Display Welcome text',
       execute(bot, game, message, args) {
-        message.channel.send(displayText(bot,`text`,bot.main,`welcome`,bot.lang));
+        message.channel.send(bot.displayText(`text`,bot.main,`welcome`,bot.lang));
       }
     }
     ,{
       name : 'commands',
-      category : "main",
+      parent : "main",
       description : 'Display all commands loaded (You need to launch a game to have the commands)',
       execute(bot, game, message, args) {
-        // message.channel.send(bot);
         bot.displayCommands(message);
       }
     }
     ,{
       name : 'deleteall',
-      category : "main",
+      parent : "main",
       description : `Delete all channel in the Category Game Channels`,
 
       execute(bot, game, message, args) {
@@ -122,7 +147,7 @@ module.exports  =  {
     }
     ,{
       name : 'restart',
-      category : "main",
+      parent : "main",
       description : 'Restart the Main Channel Presentation Text and create it if needed',
       execute(bot, game, message, args) {
         if(message.channel.type == "text"){
@@ -132,7 +157,7 @@ module.exports  =  {
     }
     ,{
       name : 'newmainchannel',
-      category : "main",
+      parent : "main",
       description : 'rename old Main Channel and create a new one',
       execute(bot, game, message, args) {
         message.guild.channels.cache.each(channel =>{

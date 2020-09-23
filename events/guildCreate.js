@@ -4,7 +4,7 @@ const Games = require(`../listGames.js`);
 
 const mongoose = require("mongoose");
 const { DEFAULTSETTINGS : defaults} = require("../config.json");
-const { Guild } = require("../models/index");
+const { Guild } = require("../util/models/index");
 
 
 
@@ -16,19 +16,19 @@ Display the presentation
 //auxiliary function Presentation
 var displayPresentation = (bot,channel) => {
   // Display Presentation
-  channel.send( displayText(bot,`text`,bot.main,`presentation`,bot.lang))
-  channel.send( displayText(bot,`text`,bot.main,`help`,bot.lang))
+  channel.send( bot.displayText(`text`,bot.main,`presentation`,bot.lang))
+  channel.send( bot.displayText(`text`,bot.main,`help`,bot.lang))
 
   //version embed
   const embed = new Discord.MessageEmbed()
   .setTitle(bot.nameParentChannel)
-  .setDescription(displayText(bot,`text`,bot.main,`presentation`,bot.lang))
-  .addField("Information",displayText(bot,`text`,bot.main,`help`,bot.lang));
+  .setDescription(bot.displayText(`text`,bot.main,`presentation`,bot.lang))
+  .addField("Information",bot.displayText(`text`,bot.main,`help`,bot.lang));
 
   // channel.send(embed)
 
   //Display list of Games and add reaction
-  channel.send( displayText(bot,`text`,bot.main,`listGames`,bot.lang));
+  channel.send( bot.displayText(`text`,bot.main,`listGames`,bot.lang));
   const jsonGames = bot.jsonFiles.get(`games`)
   jsonGames.forEach( element => {
     channel.send(element)
@@ -54,10 +54,10 @@ module.exports = async (bot,guild) => {
 
 
   // Loading content of variables
-    const topicParent =  displayText(bot,`text`,bot.main,`topicParent`,bot.lang)
-  const reasonParent =  displayText(bot,`text`,bot.main,`reasonParent`,bot.lang)
-  const topicChannel =  displayText(bot,`text`,bot.main,`topicMain`,bot.lang)
-  const reasonChannel =  displayText(bot,`text`,bot.main,`reasonMain`,bot.lang)
+    const topicParent =  bot.displayText(`text`,bot.main,`topicParent`,bot.lang)
+  const reasonParent =  bot.displayText(`text`,bot.main,`reasonParent`,bot.lang)
+  const topicChannel =  bot.displayText(`text`,bot.main,`topicMain`,bot.lang)
+  const reasonChannel =  bot.displayText(`text`,bot.main,`reasonMain`,bot.lang)
   bot.listGamesMessage.clear() //empty the Map
 
   // Bool test of existing

@@ -1,4 +1,4 @@
-const { Discord, fs, displayText, arrayOfFile } = require(`./function.js`)
+const { Discord, fs, arrayOfFile } = require(`./function.js`)
 
 // import events
 const loadEvents = (bot,dir = "./events") => {

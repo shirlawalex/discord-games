@@ -7,7 +7,7 @@ exports.fs = fs;
 
 const mongoose = require("mongoose");
 const { DEFAULTSETTINGS : defaults} = require("../config.json");
-const { Guild } = require("../models/index");
+const { Guild } = require("./models/index");
 
 
 /*********  FUNCTION ***********/

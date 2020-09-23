@@ -44,5 +44,19 @@
       "En": "To get the list of all commands do \"!commands\"",
       "Fr": "```Pour avoir la liste des commandes faites !commands. \nPour supprimer toutes les parties !deleteall. \nPour relancer le bot (en cas de bug) !restart ``` "
     }
+  },
+  "log": {
+    "prefixUpdate" : {
+      "En" : "Prefix updated",
+      "Fr" : "Prefix mis à jour."
+    }
+    ,"errorAction" : {
+      "En" : "Error while action, due to : ",
+      "Fr" : "Erreur lors de l'action, en raison de : "
+    }
+    ,"dbMissing" : {
+      "En" : "Database not found",
+      "Fr" : "Base de donnée non trouvée"
+    }
   }
 }

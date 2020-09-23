@@ -3,7 +3,7 @@ const Games = require(`../listGames.js`);
 
 //When User send a message
 
-var execute = (bot,env,message) => {
+var execute = (bot,env,message,settings) => {
   const args = env.args ;
   const id = env.id ;
   const commandName = env.commandName ;
@@ -12,7 +12,7 @@ var execute = (bot,env,message) => {
 
   const command = bot.commands.get(name).get(commandName);
 
-  command.execute(bot,game,message,args);
+  command.execute(bot,game,message,args,settings);
 
   if(command.delete != undefined && command.delete){
     message.delete({timeout : 10000}).then(msg => console.log(`Deleted message from ${msg.author.username} after 10 seconds.`)).catch(console.error);
@@ -45,7 +45,7 @@ module.exports = async (bot,message) => {
     env.name = env.game.name;
     if(bot.commands.has(env.name)){
       if(bot.commands.get(env.name).has(env.commandName)){
-        execute(bot,env,message)
+        execute(bot,env,message,settings)
         return;
         // bot.commands.get(env.name).get(command).execute(bot,game,message,args);
       }
@@ -56,6 +56,6 @@ module.exports = async (bot,message) => {
   env.name = "main"
   env.game = undefined;
   if(!bot.commands.get(env.name).has(env.commandName)) return;
-  execute(bot,env,message)
+  execute(bot,env,message,settings)
   // bot.commands.get("main").get(commandName).execute(bot,undefined,message,args);
 }

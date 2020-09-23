@@ -32,10 +32,11 @@ const commandsGames = function (nameGame) {
   const collection = new Discord.Collection()
   const commandPath =  arrayOfFile(`./Games/${nameGame}`,'commands.js',false);
   commandPath.forEach( pathFile => {
+    console.log("load commands from ",pathFile)
     const listCommands = require(pathFile);
     listCommands.commands.forEach( (command) => {
-      // console.log(command.name,command)
       collection.set(command.name,command);
+      console.log("commands loaded : ",command.name)
     });
   });
   return collection

@@ -1,5 +1,5 @@
 // Require (module,files)
-const { Discord, fs, displayText, arrayOfFile } = require(`./util/function.js`)
+const { Discord, fs, arrayOfFile } = require(`./util/function.js`)
 const ClientFct = require("./util/client.js");
 const config = require(`./config.json`);
 const Games = require(`./listGames.js`);

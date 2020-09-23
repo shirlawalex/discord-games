@@ -10,7 +10,7 @@ exports.fs = fs;
 const mongoose = require("mongoose");
 const config = require("../config.json");
 const { DEFAULTSETTINGS : defaults} = require("../config.json");
-const { Guild } = require("../models/index");
+const { Guild } = require("./models/index");
 
 
 /* to launch these function: 
@@ -29,8 +29,8 @@ module.exports = bot => {
   bot.jsonFiles = new Discord.Collection(), //;
   bot.commands = new Map(), //; //Map each key is for a game
   bot.idMainChannel = 0, //;
-
-  
+  bot.defaultSettings = defaults,
+ 
   //Connection to the DataBase
   bot.mongoose = require("./mongoose");
   bot.dblocal = false;
@@ -69,8 +69,19 @@ module.exports = bot => {
     return;
   }
 
+  
+  bot.isSaved = async (guild) => {
+    const data = await Guild.findOne({guildID: guild.id});
+    return data ? true : false ;
+  },
+
   bot.saveGuild = async (newGuild) => {
     const merged = Object.assign({_id:mongoose.Types.ObjectId()},newGuild);   //all information in one const
+    
+    //check if already in DB
+    const data = await Guild.findOne({guildID: newGuild.guildID});
+    if(data){console.log("guild already in db"); return;} 
+
     const createGuild = await new Guild(merged);
     createGuild.save().then(g => console.log(`New guild -> ${g.guildName}`));
   },
@@ -79,7 +90,26 @@ module.exports = bot => {
   bot.getGuild = async (guild) => {
     const data = await Guild.findOne({guildID: guild.id});
     if(data) return data;
-    return bot.config.defaultSettings;
+    return bot.defaultSettings;
+  },
+
+
+  /* to change data
+    await bot.updateGuild(guild,{ key1 : new_value, key2 : new_value})
+  */
+  bot.updateGuild = async (guild,settings) => {
+    const data = await Guild.findOne({guildID: guild.id});
+  
+    if(!await bot.isSaved(guild)){ 
+      console.log("couldnt find data in DB"); return false;
+    }
+
+    
+    if(typeof data !== "object") data = {};
+    for (const key in settings){
+      if (data[key] !== settings[key])  data[key] = settings[key];
+    }
+    return data.updateOne(settings);
   }
 }
 

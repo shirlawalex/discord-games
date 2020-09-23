@@ -1,4 +1,4 @@
-const { Discord, displayText } = require(`../util/function.js`)
+const { Discord } = require(`../util/function.js`)
 const config = require(`../config.json`);
 const Games = require(`../listGames.js`);
 
@@ -27,7 +27,7 @@ module.exports = (bot,reaction,user) => {
           // add to the Map of the Game Channel
           bot.gamesOngoing.set(channel.id,newGame)
           newGame.action();
-        const msg = displayText(bot,`text`,bot.main,"channelCreated",bot.lang) +" <#"+ newGame.channel.id +">"
+        const msg = bot.displayText(`text`,bot.main,"channelCreated",bot.lang) +" <#"+ newGame.channel.id +">"
         message.channel.send(msg);
       });
       }else{

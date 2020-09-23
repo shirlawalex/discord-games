@@ -32,6 +32,7 @@ module.exports  =  {
   commands : [
     {
       name : 'pingavalon',
+      parent : 'avalon',
       description : 'Pong !',
       execute(bot,game,message, args) {
         message.channel.send("Pong!");
@@ -39,6 +40,7 @@ module.exports  =  {
     }
     ,{
       name : 'rules',
+      parent : 'avalon',
       description : 'Display rules !',
       execute(bot,game,message, args) {
         message.channel.send(game.displayText("menu","goals"))
@@ -48,6 +50,7 @@ module.exports  =  {
     }
     ,{
       name : 'board',
+      parent : 'avalon',
       description : 'Display the board for each number of player !',
       execute(bot,game,message, args) {
         const embed = new Discord.MessageEmbed()
@@ -68,6 +71,7 @@ module.exports  =  {
     }
     ,{
       name : 'power',
+      parent : 'avalon',
       description : 'Explain all powers !',
       execute(bot,game,message, args) {
         const embed = new Discord.MessageEmbed()
@@ -84,6 +88,7 @@ module.exports  =  {
     }
     ,{
       name : 'redo',
+      parent : 'avalon',
       description : 'go to the last step or to the step indicated  ',
       execute(bot,game,message, args) {
         if(!privateAllow(game,message,"redo")) return;
@@ -102,6 +107,7 @@ module.exports  =  {
     }
     ,{
       name : 'start',
+      parent : 'avalon',
       description : 'During step 2, when the number of players is enough you can start the game',
       execute(bot,game,message, args) {
         if(!privateAllow(game,message,"start") || !commandAllow(game,message,"start",[2])) return;
@@ -112,6 +118,7 @@ module.exports  =  {
     }
     ,{
       name : 'add',
+      parent : 'avalon',
       description : "During step 1, add people to the player's game list",
       execute(bot,game,message, args) {
         if(!privateAllow(game,message,"add") || !commandAllow(game,message,"add",[1,2])) {return;}
@@ -129,6 +136,7 @@ module.exports  =  {
     }
     ,{
       name : 'remove',
+      parent : 'avalon',
       description : "During step 1, remove people to the player's game list",
       execute(bot,game,message, args) {
         if(!privateAllow(game,message,"remove") || !commandAllow(game,message,"remove",[1,2])) return;
@@ -146,6 +154,7 @@ module.exports  =  {
     }
     ,{
       name : 'role',
+      parent : 'avalon',
       description : "During step 4, choose roles ",
       execute(bot,game,message, args) {
         if(!privateAllow(game,message,"role") || !commandAllow(game,message,"role",[4])) return;
@@ -258,6 +267,7 @@ module.exports  =  {
     }
     ,{
       name : 'custom',
+      parent : 'avalon',
       description : "During step 4, choose yourself roles total custom ",
       execute(bot,game,message, args) {
         if(!privateAllow(game,message,"custom") || !commandAllow(game,message,"custom",[4])) return;
@@ -272,6 +282,7 @@ module.exports  =  {
     }
     ,{
       name : 'display',
+      parent : 'avalon',
       description : "Display the players ",
       execute(bot,game,message, args) {
         if( !commandAllow(game,message,"custom",[5,6,7,8,9,10,11,12,13,14,15,16,17,18])) return;
@@ -284,6 +295,7 @@ module.exports  =  {
     }
     ,{
       name : 'leader',
+      parent : 'avalon',
       description : "change the leader manually",
       execute(bot,game,message, args) {
         if(!privateAllow(game,message,"leader") || !commandAllow(game,message,"leader",[5,6])) return;
@@ -305,6 +317,7 @@ module.exports  =  {
     }
     ,{
       name : 'select',
+      parent : 'avalon',
       description : "During step 6, the leader choose the players for the quest ",
       execute(bot,game,message, args) {
         if(!privateAllow(game,message,"name") || !commandAllow(game,message,"select",[6])) return;
@@ -348,6 +361,7 @@ module.exports  =  {
     }
     ,{
       name : 'vote',
+      parent : 'avalon',
       description : 'During step 8, to enter directly the result of the vote',
       execute(bot,game,message, args) {
         if(!privateAllow(game,message,"vote") || !commandAllow(game,message,"vote",[8])) return;
@@ -370,6 +384,7 @@ module.exports  =  {
     }
     ,{
       name : 'assassin',
+      parent : 'avalon',
       description : 'During step 10, the members of the vote have to succed or failed the quest',
       execute(bot,game,message, args) {
         if(!privateAllow(game,message,"name") || !commandAllow(game,message,"assassin",[14])) return;
