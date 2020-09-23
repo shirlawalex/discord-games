@@ -31,11 +31,11 @@ module.exports = (bot,message) => {
   console.log("PRIVATE MESSAGE IS NOT IMPLETENDED YET.")
   if(message.author.bot) return;
 
-  if(!message.content.startsWith(bot.prefix)) return;
+  if(!message.content.startsWith(bot.defaultSettings.prefix)) return;
 
   //all variables in one environnement call "env"
   const env = new Object()
-  env.args = message.content.slice(bot.prefix.length).split(/ +/);
+  env.args = message.content.slice(bot.defaultSettings.prefix.length).split(/ +/);
   env.commandName = env.args.shift().toLowerCase();
 
   // in a game channel

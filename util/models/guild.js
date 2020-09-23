@@ -4,18 +4,26 @@ const { DEFAULTSETTINGS : defaults} = require("../../config.json")
 const guildSchema = mongoose.Schema({
   _id : mongoose.Schema.Types.ObjectId,
   guildID : String,
-  guildName : String, 
-  prefix: {
+  guildName : String
+  ,prefix: {
     "type" : String,
     "default": defaults.prefix
-  },
-  logChannel: {
+  }
+  ,lang: {
     "type": String,
-    "default": defaults.logChannel
-  },
-  welcomemessage: {
-    "type" : String,
-    "default" : defaults.welcomeMessage
+    "default": defaults.lang
+  }
+  ,idMainChannel: {
+    "type": String,
+    "default": defaults.idMainChannel
+  }
+  ,nameParentChannel: {
+    "type": String,
+    "default": defaults.nameParentChannel
+  }
+  ,nameMainChannel: {
+    "type": String,
+    "default": defaults.nameMainChannel
   }
 });
 

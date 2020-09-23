@@ -22,17 +22,17 @@ var execute = (bot,env,message,settings) => {
 Execute the command called
 */
 module.exports = async (bot,message) => {
+  const settings = await bot.getGuild(message.guild)
 
   //if dm send to the event private dm
   if(message.channel.type === "dm") return bot.emit("directMessage",message);
   
-  if(!message.content.startsWith(bot.prefix) || message.author.bot) return;
+  if(!message.content.startsWith(settings.prefix) || message.author.bot) return;
 
-  const settings = await bot.getGuild(message.guild)
 
   //all variables in one environnement call "env"
   const env = new Object()
-  env.args = message.content.slice(bot.prefix.length).split(/ +/);
+  env.args = message.content.slice(settings.prefix.length).split(/ +/);
   env.commandName = env.args.shift().toLowerCase();
 
   // in a game channel

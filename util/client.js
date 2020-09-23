@@ -25,10 +25,8 @@ bot.guildName("test")
 module.exports = bot => {
   // Initialisation and new Proprieties
 
-  bot.lang = `Fr`,
   bot.jsonFiles = new Discord.Collection(), //;
   bot.commands = new Map(), //; //Map each key is for a game
-  bot.idMainChannel = 0, //;
   bot.defaultSettings = defaults,
  
   //Connection to the DataBase
@@ -36,9 +34,7 @@ module.exports = bot => {
   bot.dblocal = false;
   
   // Constantes
-  bot.prefix = config.prefix,
   bot.main = `main`,
-  bot.nameParentChannel = `GAME CHANNELS`,
   bot.nameMainChannel = `presentation-channel`,
   
   // Collection of Data
@@ -80,10 +76,11 @@ module.exports = bot => {
     
     //check if already in DB
     const data = await Guild.findOne({guildID: newGuild.guildID});
-    if(data){console.log("guild already in db"); return;} 
+    if(data){console.log("guild already in db"); return data;} 
 
     const createGuild = await new Guild(merged);
     createGuild.save().then(g => console.log(`New guild -> ${g.guildName}`));
+    return createGuild;
   },
   
   

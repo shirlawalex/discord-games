@@ -14,21 +14,21 @@ Create the main Channel
 Display the presentation
 */
 //auxiliary function Presentation
-var displayPresentation = (bot,channel) => {
+var displayPresentation = (bot,channel,settings) => {
   // Display Presentation
-  channel.send( bot.displayText(`text`,bot.main,`presentation`,bot.lang))
-  channel.send( bot.displayText(`text`,bot.main,`help`,bot.lang))
+  channel.send( bot.displayText(`text`,bot.main,`presentation`,settings.lang))
+  channel.send( bot.displayText(`text`,bot.main,`help`,settings.lang))
 
   //version embed
   const embed = new Discord.MessageEmbed()
-  .setTitle(bot.nameParentChannel)
-  .setDescription(bot.displayText(`text`,bot.main,`presentation`,bot.lang))
-  .addField("Information",bot.displayText(`text`,bot.main,`help`,bot.lang));
+  .setTitle(settings.nameParentChannel)
+  .setDescription(bot.displayText(`text`,bot.main,`presentation`,settings.lang))
+  .addField("Information",bot.displayText(`text`,bot.main,`help`,settings.lang));
 
   // channel.send(embed)
 
   //Display list of Games and add reaction
-  channel.send( bot.displayText(`text`,bot.main,`listGames`,bot.lang));
+  channel.send( bot.displayText(`text`,bot.main,`listGames`,settings.lang));
   const jsonGames = bot.jsonFiles.get(`games`)
   jsonGames.forEach( element => {
     channel.send(element)
@@ -49,15 +49,13 @@ module.exports = async (bot,guild) => {
     guildName: guild.name
   };
 
-  await bot.saveGuild(newGuild);
-     
-
+  const settings = await bot.saveGuild(newGuild);
 
   // Loading content of variables
-    const topicParent =  bot.displayText(`text`,bot.main,`topicParent`,bot.lang)
-  const reasonParent =  bot.displayText(`text`,bot.main,`reasonParent`,bot.lang)
-  const topicChannel =  bot.displayText(`text`,bot.main,`topicMain`,bot.lang)
-  const reasonChannel =  bot.displayText(`text`,bot.main,`reasonMain`,bot.lang)
+    const topicParent =  bot.displayText(`text`,bot.main,`topicParent`,settings.lang)
+  const reasonParent =  bot.displayText(`text`,bot.main,`reasonParent`,settings.lang)
+  const topicChannel =  bot.displayText(`text`,bot.main,`topicMain`,settings.lang)
+  const reasonChannel =  bot.displayText(`text`,bot.main,`reasonMain`,settings.lang)
   bot.listGamesMessage.clear() //empty the Map
 
   // Bool test of existing
@@ -69,7 +67,7 @@ module.exports = async (bot,guild) => {
 
   guild.channels.cache.each(channel => {
 
-    if(channel.type === `category` && channel.name === bot.nameParentChannel){
+    if(channel.type === `category` && channel.name === settings.nameParentChannel){
       console.log(`Category already existing`)
       bool = true
       parentChannelPromise = new Promise((resolve,reject) => {resolve(channel)});
@@ -79,7 +77,7 @@ module.exports = async (bot,guild) => {
   // Else create the Parent Category
   if(bool == false){
     console.log(`Creating category`)
-    parentChannelPromise = guild.channels.create(bot.nameParentChannel, {
+    parentChannelPromise = guild.channels.create(settings.nameParentChannel, {
       type : `category`,
       topic : topicParent,
       reason : reasonParent
@@ -94,9 +92,9 @@ module.exports = async (bot,guild) => {
 
     // If Presentation Channel already exist just clean et display again
     parentChannel.children.each( channel => {
-      if(channel.name === bot.nameMainChannel ){
-        bot.idMainChannel = channel.id;
-        displayPresentation(bot,channel)
+      if(channel.name === settings.nameMainChannel ){
+        bot.updateGuild(guild,{idMainChannel: channel.id});
+        displayPresentation(bot,channel,settings)
         bool = true
       }
     })
@@ -110,8 +108,9 @@ module.exports = async (bot,guild) => {
       parent : parentChannel
     })
     .then( (channel) => {
-      bot.idMainChannel = channel.id;
-      displayPresentation(bot,channel)
+      bot.updateGuild(guild,{idMainChannel: channel.id});
+
+      displayPresentation(bot,channel,settings)
 
     })
   })

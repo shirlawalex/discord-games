@@ -9,7 +9,7 @@ Start a new game
 check if it`s not the Bot that react to the message
 */
 // {bot.on`messageReactionAdd`, (reaction, user) => {
-module.exports = (bot,reaction,user) => {
+module.exports = async (bot,reaction,user) =>  {
   const message = reaction.message;
   const idChannel = message.channel.id;
   const guild = message.guild;
@@ -17,8 +17,12 @@ module.exports = (bot,reaction,user) => {
   // const member = message.guild.members.get(user.id)
   if(user.bot) return;
 
+  const settings = await bot.getGuild(guild);
+  console.log(idChannel,settings.idMainChannel)
   // Parse by channel, first the Main Channel
-  if(idChannel === bot.idMainChannel){
+  if(idChannel === settings.idMainChannel){
+    console.log("test")
+
     // Emoji to start new games
     if(bot.listGamesMessage.has(message.id)){
       newGame = Games.launcher(bot,parent,bot.listGamesMessage.get(message.id));
@@ -27,7 +31,7 @@ module.exports = (bot,reaction,user) => {
           // add to the Map of the Game Channel
           bot.gamesOngoing.set(channel.id,newGame)
           newGame.action();
-        const msg = bot.displayText(`text`,bot.main,"channelCreated",bot.lang) +" <#"+ newGame.channel.id +">"
+        const msg = bot.displayText(`text`,bot.main,"channelCreated",settings.lang) +" <#"+ newGame.channel.id +">"
         message.channel.send(msg);
       });
       }else{

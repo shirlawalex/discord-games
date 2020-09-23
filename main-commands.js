@@ -6,7 +6,7 @@ module.exports  =  {
       name : 'lang',
       parent : "main",
       description : 'lang arguement : argument is the language to change',
-      execute(bot, game, message, args) {
+      execute(bot, game, message,args, settings) {
         if(message.guild === null){
           return
         }
@@ -14,22 +14,24 @@ module.exports  =  {
         const id = message.channel.id
         if(bot.gamesOngoing.has(id)) {
           game = bot.gamesOngoing.get(id);
-        }else{
-          game = bot;
-        }
+          console.log("TODO change lang in a game not implemented");
+        }else{ game = {}}
 
         if(args.length == 0){
-          message.channel.send(game.lang);
+          message.channel.send("language is "+settings.lang);
         }
         else {
           switch(args[0].toLowerCase()){
             case `en` : case `england` : case `angleterre` : case `english` : case `anglais` :
+            bot.updateGuild(message.guild,{lang:"En"});
             game.lang = `En`;
             break;
             case `fr` : case `france` : case `fr  ench` : case `francais` : case `français` :
             case `be` : case `belgique` : case `belgium` : case `belge` :
             default :
             game.lang = `Fr`
+            bot.updateGuild(message.guild,{lang:"Fr"});
+
           }
           message.channel.send(`language set to ${game.lang}`);
           // console.log(`language set to ${game.lang}`);
@@ -41,50 +43,64 @@ module.exports  =  {
       parent : "main",
       description : 'Pong !',
       delete : false,
-      execute(bot, game, message, args) {
+      execute(bot, game, message,args, settings) {
         message.channel.send("Pong!");
 
       }
     } 
+    // ,{
+    //   name : 'config',
+    //   parent : "main",
+    //   description : '',
+    //   delete : false,
+    //   async execute(bot, game, message, args,settings) {
+    //     const getSetting = args[0];
+    //     const newSetting = args.slice(1).join(" ");
+
+    //     switch(getSetting){
+    //       case "prefix": 
+    //         if(newSetting){
+    //           let found = await bot.updateGuild(message.guild,{prefix:newSetting});
+    //           if(found){
+    //             message.channel.send(`${bot.displayText("text","log","prefixUpdate",settings.lang)} \`${settings.prefix}\` -> \`${newSetting}\`.`);
+    //           }else{
+    //             message.channel.send(bot.displayText("text","log","errorAction",settings.lang)+bot.displayText("text","log","dbMissing",settings.lang) )
+    //           }
+    //         }else{
+    //           message.channel.send("prefix : "+settings.prefix);
+    //         }
+    //         break;
+    //       default:
+    //         message.channel.send("not allowed to change this key or key not valid")
+    //         break;
+    //     }
+    //   }
+    // }
     ,{
-      name : 'config',
+      name : 'test',
       parent : "main",
-      description : '',
+      description : 'Pong !',
       delete : false,
       async execute(bot, game, message, args,settings) {
-        const getSetting = args[0];
-        const newSetting = args.slice(1).join(" ");
+        let found = await bot.updateGuild(message.guild,{test:"newSetting"});
+        console.log(found)
 
-        switch(getSetting){
-          case "prefix": 
-            if(newSetting){
-              let found = await bot.updateGuild(message.guild,{prefix:newSetting});
-              if(found){
-                message.channel.send(`${bot.displayText("text","log","prefixUpdate",bot.lang)} \`${settings.prefix}\` -> \`${newSetting}\`.`);
-              }else{
-                message.channel.send(bot.displayText("text","log","errorAction",bot.lang)+bot.displayText("text","log","dbMissing",bot.lang) )
-              }
-            }
-            break;
-          default:
-            message.channel.send("not allowed to change this key or key not valid")
-
-          }
-        }
       }
+    }
     ,{
       name : 'supp',
       parent : "main",
-      description : 'Pong !',
+      description : 'Delete the message after a time',
       delete : true,
-      execute(bot, game, message, args) {
+      execute(bot, game, message,args, settings) {
+        //do nothing just delete the message
       }
     }
     ,{
       name : 'embed',
       parent : "main",
       description : 'Pong !',
-      execute(bot, game, message, args) {
+      execute(bot, game, message,args, settings) {
         // Send an embed with a local image inside
 
 
@@ -116,15 +132,15 @@ module.exports  =  {
       name : 'welcome',
       parent : "main",
       description : 'Display Welcome text',
-      execute(bot, game, message, args) {
-        message.channel.send(bot.displayText(`text`,bot.main,`welcome`,bot.lang));
+      execute(bot, game, message,args, settings) {
+        message.channel.send(bot.displayText(`text`,bot.main,`welcome`,settings.lang));
       }
     }
     ,{
       name : 'commands',
       parent : "main",
       description : 'Display all commands loaded (You need to launch a game to have the commands)',
-      execute(bot, game, message, args) {
+      execute(bot, game, message,args, settings) {
         bot.displayCommands(message);
       }
     }
@@ -133,10 +149,10 @@ module.exports  =  {
       parent : "main",
       description : `Delete all channel in the Category Game Channels`,
 
-      execute(bot, game, message, args) {
+      execute(bot, game, message, args,settings) {
         const guild = message.guild;
         // Delete the channel
-        const parentChannel = guild.channels.cache.find(channel => channel.name === bot.nameParentChannel)
+        const parentChannel = guild.channels.cache.find(channel => channel.name === settings.nameParentChannel)
         if(parentChannel !== undefined){
           parentChannel.children.each(channel => {
             channel.delete(`making room for new channels`)
@@ -149,7 +165,7 @@ module.exports  =  {
       name : 'restart',
       parent : "main",
       description : 'Restart the Main Channel Presentation Text and create it if needed',
-      execute(bot, game, message, args) {
+      execute(bot, game, message,args, settings) {
         if(message.channel.type == "text"){
           bot.emit(`guildCreate`,message.guild);
         }
@@ -159,10 +175,10 @@ module.exports  =  {
       name : 'newmainchannel',
       parent : "main",
       description : 'rename old Main Channel and create a new one',
-      execute(bot, game, message, args) {
+      execute(bot, game, message, args,settings) {
         message.guild.channels.cache.each(channel =>{
-          if(channel.name === bot.nameMainChannel){
-            channel.setName(`\[previous\]\_`+bot.nameMainChannel)
+          if(channel.name === settings.nameMainChannel){
+            channel.setName(`\[previous\]\_`+settings.nameMainChannel)
           }
         })
         message.guild.fetch().then( guild =>
