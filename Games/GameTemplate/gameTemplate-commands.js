@@ -1,4 +1,4 @@
-const { Discord, fs, displayText, arrayOfFile } = require(`./../../function.js`)
+const { Discord, fs, arrayOfFile } = require(`./../../function.js`)
 
 
 module.exports  =  {
@@ -22,7 +22,7 @@ module.exports  =  {
           }
           message.channel.send(`language set to ${bot.lang}`);
         }
-        console.log( displayText(bot,`text`,bot.main,`welcome`,bot.lang))
+        console.log( bot.displayText(`text`,bot.main,`welcome`,bot.lang))
       }
     }
     ,{
