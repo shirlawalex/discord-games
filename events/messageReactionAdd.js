@@ -17,12 +17,11 @@ module.exports = async (bot,reaction,user) =>  {
   // const member = message.guild.members.get(user.id)
   if(user.bot) return;
 
-  const settings = await bot.getGuild(guild);
-  console.log(idChannel,settings.idMainChannel)
   // Parse by channel, first the Main Channel
-  if(idChannel === settings.idMainChannel){
-    console.log("test")
+  if(guild != null){
+    const settings = await bot.getGuild(guild);
 
+    if(idChannel === settings.idMainChannel){
     // Emoji to start new games
     if(bot.listGamesMessage.has(message.id)){
       newGame = Games.launcher(bot,parent,bot.listGamesMessage.get(message.id));
@@ -41,7 +40,8 @@ module.exports = async (bot,reaction,user) =>  {
       message.react(`🆕`);
       return;
     }
-  }else{
+  }
+}else{
     // handle a reaction in a Game channel
     if (bot.gamesOngoing.has(idChannel)){
       bot.gamesOngoing.get(idChannel).handleReaction(reaction,user)

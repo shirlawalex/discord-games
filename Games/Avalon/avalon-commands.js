@@ -53,7 +53,7 @@ module.exports  =  {
       parent : 'avalon',
       description : 'Display the board for each number of player !',
       execute(bot,game,message,args, settings) {
-        const embed = new Discord.MessageEmbed()
+        const embed = new MessageEmbed()
         .setTitle("Board of Avalon")
         .setDescription(game.displayText("setting","board")+"\n\":four::pushpin:\" "+game.displayText("rules","roundPin"));
 
@@ -74,7 +74,7 @@ module.exports  =  {
       parent : 'avalon',
       description : 'Explain all powers !',
       execute(bot,game,message,args, settings) {
-        const embed = new Discord.MessageEmbed()
+        const embed = new MessageEmbed()
         .setTitle(game.displayText("rules","titlepower"))
         .setDescription(game.displayText("rules","displaypower"))
         let text = "Power:\n";
@@ -124,7 +124,9 @@ module.exports  =  {
         if(!privateAllow(game,message,"add") || !commandAllow(game,message,"add",[1,2])) {return;}
 
         message.mentions.users.forEach( user => {
-          if(!user.bot && !game.players.has(user.id)){
+          if( !game.players.has(user.id)){
+
+          // if(!user.bot && !game.players.has(user.id)){
             game.players.set(user.id,[]);
             game.channel.send(`add ${user.username} : ${game.players.size} ${game.displayText("log","register")}`)
           }else{
