@@ -111,10 +111,12 @@ module.exports  = class Avalon extends Games {
         case 0:
           // Create a role for leader of each round
           //creation of the role
-          super.channel.guild.roles.create({
+          channel.guild.roles.create({
             data: {
               name: `Leader of ${channel.name}`,
               color: 'YELLOW',
+              discordGameRole : true,
+              more : "true"
             },
             reason: 'because',
           })
@@ -350,6 +352,9 @@ module.exports  = class Avalon extends Games {
 
         case 15: // Evil win
         case 16: // Good win
+        //deleting role 
+        this.leaderRole.delete("End of the Game")
+        .then(deleted => console.log(`Deleted role ${deleted.name}`))
 
         if(this.step == 15){
           channel.send(this.displayText("gameAction","evilWin"))
