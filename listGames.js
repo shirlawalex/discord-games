@@ -11,7 +11,6 @@ const launchGames = function(bot,parent,nameGame) {
     return GameTemplate.launch(bot,parent)
     break;
     case "Avalon":
-    bot.commands.set("Avalon",commandsGames("Avalon"));
     return Avalon.launch(bot,parent)
     break;
     // case "Dictateur":

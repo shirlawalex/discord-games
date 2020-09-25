@@ -1,10 +1,10 @@
 const { Discord, fs, arrayOfFile } = require(`./function.js`)
+const { commandsGames } = require(`../listGames.js`)
 
 // import events
 const loadEvents = (bot,dir = "./events") => {
   
   const eventsPath =  arrayOfFile(dir,'js',false);
-  bot.commands.set("main",new Discord.Collection());
   eventsPath.forEach( pathFile => {
     const evt = require("../"+pathFile);
     const evtName = pathFile.split("/").pop().split(".")[0]
@@ -16,6 +16,7 @@ const loadEvents = (bot,dir = "./events") => {
 // import of commands from main-commands
 const loadCommands = (bot) => {
   const commandPath =  arrayOfFile('.','commands.js',false);
+  bot.commands.set("Avalon",commandsGames("Avalon"));
   bot.commands.set("main",new Discord.Collection());
   commandPath.forEach( pathFile => {
     const listCommands = require("../"+pathFile);

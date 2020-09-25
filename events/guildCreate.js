@@ -14,7 +14,8 @@ Create the main Channel
 Display the presentation
 */
 //auxiliary function Presentation
-var displayPresentation = (bot,channel,settings) => {
+var  displayPresentation = (bot,channel,settings) => {
+  const guild = channel.guild;
   // Display Presentation
   channel.send( bot.displayText(`text`,bot.main,`presentation`,settings.lang))
   channel.send( bot.displayText(`text`,bot.main,`help`,settings.lang))
@@ -34,7 +35,8 @@ var displayPresentation = (bot,channel,settings) => {
     channel.send(element)
     .then( message => {
       message.react(`🆕`)
-      bot.listGamesMessage.set(message.id,element)
+      // bot.listGamesMessage.set(message.id,element);
+      bot.setListGames(guild,message.id,element);
     })
   })
 }
@@ -56,8 +58,8 @@ module.exports = async (bot,guild) => {
   const reasonParent =  bot.displayText(`text`,bot.main,`reasonParent`,settings.lang)
   const topicChannel =  bot.displayText(`text`,bot.main,`topicMain`,settings.lang)
   const reasonChannel =  bot.displayText(`text`,bot.main,`reasonMain`,settings.lang)
-  bot.listGamesMessage.clear() //empty the Map
-
+  // settings.listGamesMessage.clear() //empty the Map
+  await bot.clearlistGames(guild);
   // Bool test of existing
   let bool = false
   let parentChannelPromise;
@@ -93,24 +95,25 @@ module.exports = async (bot,guild) => {
     // If Presentation Channel already exist just clean et display again
     parentChannel.children.each( channel => {
       if(channel.name === settings.nameMainChannel ){
-        bot.updateGuild(guild,{idMainChannel: channel.id});
         displayPresentation(bot,channel,settings)
+        bot.updateGuild(guild,{idMainChannel: channel.id});
+
         bool = true
       }
     })
     if(bool == true){return true}
 
     // Create a new channel for the Presentation of the games
-    guild.channels.create(bot.nameMainChannel, {
+    guild.channels.create(settings.nameMainChannel, {
       type : `text`,
       topic : topicChannel,
       reason : reasonChannel,
       parent : parentChannel
     })
     .then( (channel) => {
-      bot.updateGuild(guild,{idMainChannel: channel.id});
 
       displayPresentation(bot,channel,settings)
+      bot.updateGuild(guild,{idMainChannel: channel.id});
 
     })
   })

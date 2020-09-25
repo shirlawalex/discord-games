@@ -172,6 +172,19 @@ module.exports  =  {
       }
     }
     ,{
+      name : 'deleterole',
+      parent : 'main',
+      description : 'Delete rôles created by discord-games (check that the bot has the permissions)!',
+      execute(bot,game,message,args, settings) {
+        message.guild.roles.cache.forEach((v,k,m) => {
+          if(v.name.startsWith("Leader of")){
+            v.delete("Deleting role").then(deleted => console.log(`Deleted role ${deleted.name}`))
+          }
+
+        })
+      }
+    }
+    ,{
       name : 'newmainchannel',
       parent : "main",
       description : 'rename old Main Channel and create a new one',

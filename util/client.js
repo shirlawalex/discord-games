@@ -10,7 +10,7 @@ exports.fs = fs;
 const mongoose = require("mongoose");
 const config = require("../config.json");
 const { DEFAULTSETTINGS : defaults} = require("../config.json");
-const { Guild } = require("./models/index");
+const { Guild, Game } = require("./models/index");
 
 
 /* to launch these function: 
@@ -35,7 +35,6 @@ module.exports = bot => {
   
   // Constantes
   bot.main = `main`,
-  bot.nameMainChannel = `presentation-channel`,
   
   // Collection of Data
   bot.listGamesMessage = new Map(), //Map of games launcher { message.id : `name` }
@@ -78,8 +77,8 @@ module.exports = bot => {
     const data = await Guild.findOne({guildID: newGuild.guildID});
     if(data){console.log("guild already in db"); return data;} 
 
-    const createGuild = await new Guild(merged);
-    createGuild.save().then(g => console.log(`New guild -> ${g.guildName}`));
+    const createGuild = new Guild(merged);
+    await createGuild.save().then(g => console.log(`New guild -> ${g.guildName}`));
     return createGuild;
   },
   
@@ -107,6 +106,49 @@ module.exports = bot => {
       if (data[key] !== settings[key])  data[key] = settings[key];
     }
     return data.updateOne(settings);
+  },
+
+  bot.setListGames = async (guild,key,value) => {
+    const data = await Guild.findOne({guildID: guild.id});
+    await data.listGamesMessage.set(key,value)
+    await data.save();
+    return data.listGamesMessage;
+  },
+
+  bot.getListGames = async (guild,key) => {
+    const data = await Guild.findOne({guildID: guild.id});
+    return data.listGamesMessage.get(key);
+  },
+
+  bot.hasListGames = async (guild,key) => {
+    const data = await Guild.findOne({guildID: guild.id});
+    return data.listGamesMessage.has(key);
+  },
+
+  bot.clearlistGames = async (guild) => {
+    const data = await Guild.findOne({guildID: guild.id});
+    data.listGamesMessage.forEach((v,k,m) => { m.delete(k); })
+    // await data.listGamesMessage.clear()
+    await data.save();
+    return data.updateOne(data);
+  },
+
+  /* Game function */
+  bot.saveGame = async (newGame) => {
+    const merged = Object.assign({_id:mongoose.Types.ObjectId()},newGame);   //all information in one const
+    
+    //check if already in DB
+    const data = await Game.findOne({guildID: newGame.guildID,channelID: newGame.channelID});
+    if(data){console.log("game already in db"); return data;} 
+
+    const createGame = new Game(merged);
+    await createGame.save().then(g => console.log(`New game -> ${g.gameName} in ${g.guildName}`));
+    return createGame;
+  }
+
+  bot.deleteGame = async (channelID) => {
+    const res = await Game.deleteOne({channelID: channelID}).then( res => {console.log(`Game in channel ${channelID} deleted : ${res.n == 1 ? "ok":res.n + " documents deleted"}`)});
+
   }
 }
 

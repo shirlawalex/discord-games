@@ -1,5 +1,6 @@
 module.exports = {
-  Guild : require("./guild")
+  Guild : require("./guild"),
+  Game : require("./game")
 }
 
 /*

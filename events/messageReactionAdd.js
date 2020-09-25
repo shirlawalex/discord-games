@@ -17,18 +17,34 @@ module.exports = async (bot,reaction,user) =>  {
   // const member = message.guild.members.get(user.id)
   if(user.bot) return;
 
+  console.log("react")
   // Parse by channel, first the Main Channel
   if(guild != null){
     const settings = await bot.getGuild(guild);
 
     if(idChannel === settings.idMainChannel){
     // Emoji to start new games
-    if(bot.listGamesMessage.has(message.id)){
-      newGame = Games.launcher(bot,parent,bot.listGamesMessage.get(message.id));
+
+    const listGamesMessage = settings.listGamesMessage;
+    console.log(listGamesMessage,listGamesMessage.has(message.id))
+    if(listGamesMessage.has(message.id)){
+      const name = listGamesMessage.get(message.id);
+      newGame = Games.launcher(bot,parent,name);
       if(newGame !== undefined){
-        newGame.promiseChannel.then( channel => {
+        newGame.promiseChannel.then( async channel => {
           // add to the Map of the Game Channel
           bot.gamesOngoing.set(channel.id,newGame)
+
+          //Add to the DB 
+          const newGameBD = {
+            guildID : guild.id,
+            guildName: guild.name,
+            gameName: name,
+            channelID : channel.id,
+          };
+
+          await bot.saveGame(newGameBD);
+
           newGame.action();
         const msg = bot.displayText(`text`,bot.main,"channelCreated",settings.lang) +" <#"+ newGame.channel.id +">"
         message.channel.send(msg);
