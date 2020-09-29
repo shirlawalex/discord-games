@@ -1,6 +1,6 @@
 const { Discord } = require(`../util/function.js`)
 const config = require(`../config.json`);
-const Games = require(`../listGames.js`);
+const { launcher } = require("../util/loader.js")
 
 
 //When User react to a Emoji
@@ -17,7 +17,6 @@ module.exports = async (bot,reaction,user) =>  {
   // const member = message.guild.members.get(user.id)
   if(user.bot) return;
 
-  console.log("react")
   // Parse by channel, first the Main Channel
   if(guild != null){
     const settings = await bot.getGuild(guild);
@@ -26,10 +25,9 @@ module.exports = async (bot,reaction,user) =>  {
     // Emoji to start new games
 
     const listGamesMessage = settings.listGamesMessage;
-    console.log(listGamesMessage,listGamesMessage.has(message.id))
     if(listGamesMessage.has(message.id)){
       const name = listGamesMessage.get(message.id);
-      newGame = Games.launcher(bot,parent,name);
+      newGame = launcher(bot,parent,name);
       if(newGame !== undefined){
         newGame.promiseChannel.then( async channel => {
           // add to the Map of the Game Channel

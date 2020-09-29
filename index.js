@@ -2,7 +2,6 @@
 const { Discord, fs, arrayOfFile } = require(`./util/function.js`)
 const ClientFct = require("./util/client.js");
 const config = require(`./config.json`);
-const Games = require(`./listGames.js`);
 const {loadCommands, loadEvents} = require ("./util/loader.js");
 
 // Initialisation and new Proprieties

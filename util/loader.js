@@ -1,5 +1,6 @@
 const { Discord, fs, arrayOfFile } = require(`./function.js`)
-const { commandsGames } = require(`../listGames.js`)
+const Games = require("../Games");
+
 
 // import events
 const loadEvents = (bot,dir = "./events") => {
@@ -13,10 +14,33 @@ const loadEvents = (bot,dir = "./events") => {
   });
 };
 
+// import of commands from all Games
+
+const setCommandsGames = function (bot) {
+
+  Games.nameGames.forEach( nameGame => {
+
+    const collectionCommands = new Discord.Collection()
+    const commandPath =  arrayOfFile(`./Games/${nameGame}`,'commands.js',false);
+    commandPath.forEach( pathFile => {
+      pathFile = "../"+pathFile;
+      console.log("load commands from ",pathFile)
+      const listCommands = require(pathFile);
+      listCommands.commands.forEach( (command) => {
+        collectionCommands.set(command.name,command);
+        console.log("commands loaded : ",command.name)
+      });
+    });
+    bot.commands.set(nameGame,collectionCommands)
+
+
+  });
+}
+
 // import of commands from main-commands
 const loadCommands = (bot) => {
   const commandPath =  arrayOfFile('.','commands.js',false);
-  bot.commands.set("Avalon",commandsGames("Avalon"));
+  setCommandsGames(bot);
   bot.commands.set("main",new Discord.Collection());
   commandPath.forEach( pathFile => {
     const listCommands = require("../"+pathFile);
@@ -29,7 +53,22 @@ const loadCommands = (bot) => {
 };
 
 
+
+const launchGames = function(bot,parent,name) {
+
+  if(Games.nameGames.find(game => game == name)){
+      return Games[name].launch(bot,parent);
+  }
+  else{
+    // console.log("Game undefined ");
+    return undefined;
+  }
+}
+
+
+
 module.exports = {
   loadEvents,
-  loadCommands
+  loadCommands,
+  launcher : launchGames
 }

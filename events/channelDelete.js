@@ -1,6 +1,5 @@
 const { Discord } = require(`../util/function.js`)
 const config = require(`../config.json`);
-const Games = require(`../listGames.js`);
 
 
 //When User react to a Emoji

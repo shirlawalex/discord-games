@@ -1,5 +1,4 @@
 const config = require(`../config.json`);
-const Games = require(`../listGames.js`);
 
 //When User send a message
 

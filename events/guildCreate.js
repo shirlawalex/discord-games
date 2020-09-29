@@ -1,7 +1,5 @@
 const { Discord, displayText } = require(`../util/function.js`)
 const config = require(`../config.json`);
-const Games = require(`../listGames.js`);
-
 const mongoose = require("mongoose");
 const { DEFAULTSETTINGS : defaults} = require("../config.json");
 const { Guild } = require("../util/models/index");
@@ -35,7 +33,6 @@ var  displayPresentation = (bot,channel,settings) => {
     channel.send(element)
     .then( message => {
       message.react(`🆕`)
-      // bot.listGamesMessage.set(message.id,element);
       bot.setListGames(guild,message.id,element);
     })
   })
@@ -58,8 +55,7 @@ module.exports = async (bot,guild) => {
   const reasonParent =  bot.displayText(`text`,bot.main,`reasonParent`,settings.lang)
   const topicChannel =  bot.displayText(`text`,bot.main,`topicMain`,settings.lang)
   const reasonChannel =  bot.displayText(`text`,bot.main,`reasonMain`,settings.lang)
-  // settings.listGamesMessage.clear() //empty the Map
-  await bot.clearlistGames(guild);
+  await bot.clearlistGames(guild); //empty the Map
   // Bool test of existing
   let bool = false
   let parentChannelPromise;
