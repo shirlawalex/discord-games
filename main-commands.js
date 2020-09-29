@@ -48,34 +48,47 @@ module.exports  =  {
 
       }
     } 
-    // ,{
-    //   name : 'config',
-    //   parent : "main",
-    //   description : '',
-    //   delete : false,
-    //   async execute(bot, game, message, args,settings) {
-    //     const getSetting = args[0];
-    //     const newSetting = args.slice(1).join(" ");
+    ,{
+      name : 'gamestat',
+      parent : "main",
+      description : 'Display all games on going',
+      delete : false,
+      execute(bot, game, message,args, settings) {
+        message.channel.send("There is all game on going in the bot");          
+        // message.channel.send(bot.gamesOngoing);          
+        bot.gamesOngoing.forEach((v,k,m) => {
+          message.channel.send(`${v.name} in ${k} at ${v.channel.guild.name}`);          
+        }) 
+      }
+    } 
+    ,{
+      name : 'config',
+      parent : "main",
+      description : '',
+      delete : false,
+      async execute(bot, game, message, args,settings) {
+        const getSetting = args[0];
+        const newSetting = args.slice(1).join(" ");
 
-    //     switch(getSetting){
-    //       case "prefix": 
-    //         if(newSetting){
-    //           let found = await bot.updateGuild(message.guild,{prefix:newSetting});
-    //           if(found){
-    //             message.channel.send(`${bot.displayText("text","log","prefixUpdate",settings.lang)} \`${settings.prefix}\` -> \`${newSetting}\`.`);
-    //           }else{
-    //             message.channel.send(bot.displayText("text","log","errorAction",settings.lang)+bot.displayText("text","log","dbMissing",settings.lang) )
-    //           }
-    //         }else{
-    //           message.channel.send("prefix : "+settings.prefix);
-    //         }
-    //         break;
-    //       default:
-    //         message.channel.send("not allowed to change this key or key not valid")
-    //         break;
-    //     }
-    //   }
-    // }
+        switch(getSetting){
+          case "prefix": 
+            if(newSetting){
+              let found = await bot.updateGuild(message.guild,{prefix:newSetting});
+              if(found){
+                message.channel.send(`${bot.displayText("text","log","prefixUpdate",settings.lang)} \`${settings.prefix}\` -> \`${newSetting}\`.`);
+              }else{
+                message.channel.send(bot.displayText("text","log","errorAction",settings.lang)+bot.displayText("text","log","dbMissing",settings.lang) )
+              }
+            }else{
+              message.channel.send("prefix : "+settings.prefix);
+            }
+            break;
+          default:
+            message.channel.send("not allowed to change this key or key not valid")
+            break;
+        }
+      }
+    }
     ,{
       name : 'test',
       parent : "main",
