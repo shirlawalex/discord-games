@@ -24,7 +24,7 @@ loadEvents(bot);
 loadCommands(bot);
 
 // start the database
-bot.mongoose.init(bot.dblocal);
+bot.mongoose.init(bot.dblocal)
 
 
 bot.testlog()

@@ -1,3 +1,4 @@
+const client = require("./util/client.js");
 const { Discord, fs, displayCommands } = require(`./util/function.js`)
 
 module.exports  =  {
@@ -48,6 +49,17 @@ module.exports  =  {
 
       }
     } 
+    // ,{
+    //   name : 'kill',
+    //   parent : "main",
+    //   description : 'kill the bot.',
+    //   delete : false,
+    //   async execute(bot, game, message,args, settings) {
+    //     await message.delete();
+    //     await message.channel.send("Le bot s'eteint");
+    //     process.exit();
+    //   }
+    // } 
     ,{
       name : 'gamestat',
       parent : "main",
@@ -87,17 +99,6 @@ module.exports  =  {
             message.channel.send("not allowed to change this key or key not valid")
             break;
         }
-      }
-    }
-    ,{
-      name : 'test',
-      parent : "main",
-      description : 'Pong !',
-      delete : false,
-      async execute(bot, game, message, args,settings) {
-        let found = await bot.updateGuild(message.guild,{test:"newSetting"});
-        console.log(found)
-
       }
     }
     ,{
