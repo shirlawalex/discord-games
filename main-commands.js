@@ -1,12 +1,16 @@
 const client = require("./util/client.js");
-const { Discord, fs, displayCommands } = require(`./util/function.js`)
+const { Discord, fs } = require(`./util/function.js`)
 
 module.exports  =  {
   commands : [
     {
       name : 'lang',
-      parent : "main",
-      description : 'lang arguement : argument is the language to change',
+      parent : 'main',
+      default : "", 
+      args : false,
+      usage :  '',
+      type : "information",
+      description: 'lang arguement : argument is the language to change',
       execute(bot, game, message,args, settings) {
         if(message.guild === null){
           return
@@ -41,8 +45,12 @@ module.exports  =  {
     }
     ,{
       name : 'ping',
-      parent : "main",
-      description : 'Pong !',
+      parent : 'main',
+      default : "", 
+      args : false,
+      usage :  '',
+      type : "information",
+      description: 'Pong !',
       delete : false,
       execute(bot, game, message,args, settings) {
         message.channel.send("Pong!");
@@ -51,7 +59,7 @@ module.exports  =  {
     } 
     // ,{
     //   name : 'kill',
-    //   parent : "main",
+    //   parent : 'main',
     //   description : 'kill the bot.',
     //   delete : false,
     //   async execute(bot, game, message,args, settings) {
@@ -62,8 +70,12 @@ module.exports  =  {
     // } 
     ,{
       name : 'gamestat',
-      parent : "main",
-      description : 'Display all games on going',
+      parent : 'main',
+      default : "", 
+      args : false,
+      usage :  '',
+      type : "information",
+      description: 'Display all games on going',
       delete : false,
       execute(bot, game, message,args, settings) {
         message.channel.send("There is all game on going in the bot");          
@@ -75,8 +87,12 @@ module.exports  =  {
     } 
     ,{
       name : 'config',
-      parent : "main",
-      description : '',
+      parent : 'main',
+      default : "", 
+      args : false,
+      usage :  '',
+      type : "admin",
+      description: 'Change some parameter in the database',
       delete : false,
       async execute(bot, game, message, args,settings) {
         const getSetting = args[0];
@@ -103,8 +119,12 @@ module.exports  =  {
     }
     ,{
       name : 'supp',
-      parent : "main",
-      description : 'Delete the message after a time',
+      parent : 'main',
+      default : "", 
+      args : false,
+      usage :  '',
+      type : "information",
+      description: 'Delete the message after a time',
       delete : true,
       execute(bot, game, message,args, settings) {
         //do nothing just delete the message
@@ -112,8 +132,12 @@ module.exports  =  {
     }
     ,{
       name : 'embed',
-      parent : "main",
-      description : 'Pong !',
+      parent : 'main',
+      default : "", 
+      args : false,
+      usage :  '',
+      type : "information",
+      description: 'A extraordinary embed message',
       execute(bot, game, message,args, settings) {
         // Send an embed with a local image inside
 
@@ -144,24 +168,39 @@ module.exports  =  {
     }
     ,{
       name : 'welcome',
-      parent : "main",
-      description : 'Display Welcome text',
+      parent : 'main',
+      args : true,
+      usage :  '<@mention>',
+      type : "information",
+      description: 'Display Welcome text to a user',
       execute(bot, game, message,args, settings) {
-        message.channel.send(bot.displayText(`text`,bot.main,`welcome`,settings.lang));
+        message.channel.send(bot.displayText(`text`,bot.main,`welcome`,settings.lang)+" "+args[0]);
       }
     }
     ,{
       name : 'commands',
-      parent : "main",
-      description : 'Display all commands loaded (You need to launch a game to have the commands)',
+      parent : 'main',
+      default : "main", 
+      args : true,
+      usage :  '<Name Game> <Command name>',
+      type : "information",
+      description: 'Display all commands from a Game. If you want main commands put \"main\" for <Name Game>',
       execute(bot, game, message,args, settings) {
-        bot.displayCommands(message);
+        if(args.length == 2){
+          bot.displayCommands(message,args[0],args[1],settings);
+        }else{
+          bot.displayCommands(message,args[0],"",settings);
+        }
       }
     }
     ,{
       name : 'deleteall',
-      parent : "main",
-      description : `Delete all channel in the Category Game Channels`,
+      parent : 'main',
+      default : "", 
+      args : false,
+      usage :  '',
+      type : "information",
+      description: `Delete all channel in the Category Game Channels`,
 
       execute(bot, game, message, args,settings) {
         const guild = message.guild;
@@ -177,8 +216,12 @@ module.exports  =  {
     }
     ,{
       name : 'restart',
-      parent : "main",
-      description : 'Restart the Main Channel Presentation Text and create it if needed',
+      parent : 'main',
+      default : "", 
+      args : false,
+      usage :  '',
+      type : "information",
+      description: 'Restart the Main Channel Presentation Text and create it if needed',
       execute(bot, game, message,args, settings) {
         if(message.channel.type == "text"){
           bot.emit(`guildCreate`,message.guild);
@@ -188,7 +231,11 @@ module.exports  =  {
     ,{
       name : 'deleterole',
       parent : 'main',
-      description : 'Delete rôles created by discord-games (check that the bot has the permissions)!',
+      default : "", 
+      args : false,
+      usage :  '',
+      type : "information",
+      description: 'Delete rôles created by discord-games (check that the bot has the permissions)!',
       execute(bot,game,message,args, settings) {
         message.guild.roles.cache.forEach((v,k,m) => {
           if(v.name.startsWith("Leader of")){
@@ -200,8 +247,12 @@ module.exports  =  {
     }
     ,{
       name : 'newmainchannel',
-      parent : "main",
-      description : 'rename old Main Channel and create a new one',
+      parent : 'main',
+      default : "", 
+      args : false,
+      usage :  '',
+      type : "information",
+      description: 'rename old Main Channel and create a new one',
       execute(bot, game, message, args,settings) {
         message.guild.channels.cache.each(channel =>{
           if(channel.name === settings.nameMainChannel){
