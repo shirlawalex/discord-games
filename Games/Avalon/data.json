@@ -1,0 +1,436 @@
+{
+  "board": {
+    "0": {
+      "1": [
+        "zero",
+        false,
+        0
+      ],
+      "2": [
+        "zero",
+        false,
+        0
+      ],
+      "3": [
+        "zero",
+        false,
+        0
+      ],
+      "4": [
+        "zero",
+        false,
+        0
+      ],
+      "5": [
+        "zero",
+        false,
+        0
+      ]
+    },
+    "5": {
+      "1": [
+        "two",
+        false,
+        2
+      ],
+      "2": [
+        "three",
+        false,
+        3
+      ],
+      "3": [
+        "two",
+        false,
+        2
+      ],
+      "4": [
+        "three",
+        false,
+        3
+      ],
+      "5": [
+        "three",
+        false,
+        3
+      ]
+    },
+    "6": {
+      "1": [
+        "two",
+        false,
+        2
+      ],
+      "2": [
+        "three",
+        false,
+        3
+      ],
+      "3": [
+        "four",
+        false,
+        4
+      ],
+      "4": [
+        "three",
+        false,
+        3
+      ],
+      "5": [
+        "four",
+        false,
+        4
+      ]
+    },
+    "7": {
+      "1": [
+        "two",
+        false,
+        2
+      ],
+      "2": [
+        "three",
+        false,
+        3
+      ],
+      "3": [
+        "three",
+        false,
+        3
+      ],
+      "4": [
+        "four",
+        true,
+        4
+      ],
+      "5": [
+        "four",
+        false,
+        4
+      ]
+    },
+    "8": {
+      "1": [
+        "three",
+        false,
+        3
+      ],
+      "2": [
+        "four",
+        false,
+        4
+      ],
+      "3": [
+        "four",
+        false,
+        4
+      ],
+      "4": [
+        "five",
+        true,
+        5
+      ],
+      "5": [
+        "five",
+        false,
+        5
+      ]
+    },
+    "9": {
+      "1": [
+        "three",
+        false,
+        3
+      ],
+      "2": [
+        "four",
+        false,
+        4
+      ],
+      "3": [
+        "four",
+        false,
+        4
+      ],
+      "4": [
+        "five",
+        true,
+        5
+      ],
+      "5": [
+        "five",
+        false,
+        5
+      ]
+    },
+    "10": {
+      "1": [
+        "three",
+        false,
+        3
+      ],
+      "2": [
+        "four",
+        false,
+        4
+      ],
+      "3": [
+        "four",
+        false,
+        4
+      ],
+      "4": [
+        "five",
+        true,
+        5
+      ],
+      "5": [
+        "five",
+        false,
+        5
+      ]
+    }
+  },
+  "role": {
+    "5 v1": [
+      [
+        "Merlin"
+      ],
+      [
+        "GoodSoldier"
+      ],
+      [
+        "GoodSoldier"
+      ],
+      [
+        "Mordred"
+      ],
+      [
+        "Assassin"
+      ]
+    ],
+    "5 v2": [
+      [
+        "Merlin"
+      ],
+      [
+        "Perceval"
+      ],
+      [
+        "GoodSoldier"
+      ],
+      [
+        "Mordred"
+      ],
+      [
+        "Morgane",
+        "Assassin"
+      ]
+    ],
+    "6 v1": [
+      [
+        "Merlin"
+      ],
+      [
+        "Perceval"
+      ],
+      [
+        "GoodSoldier"
+      ],
+      [
+        "GoodSoldier"
+      ],
+      [
+        "Mordred"
+      ],
+      [
+        "Morgane",
+        "Assassin"
+      ]
+    ],
+    "7 v1": [
+      [
+        "Merlin"
+      ],
+      [
+        "Perceval"
+      ],
+      [
+        "GoodSoldier"
+      ],
+      [
+        "GoodSoldier"
+      ],
+      [
+        "Mordred"
+      ],
+      [
+        "Morgane"
+      ],
+      [
+        "Assassin"
+      ]
+    ],
+    "7 v2": [
+      [
+        "Merlin"
+      ],
+      [
+        "GoodSoldier"
+      ],
+      [
+        "GoodSoldier"
+      ],
+      [
+        "GoodSoldier"
+      ],
+      [
+        "Mordred"
+      ],
+      [
+        "Oberon"
+      ],
+      [
+        "Assassin"
+      ]
+    ],
+    "7 v3": [
+      [
+        "Merlin"
+      ],
+      [
+        "Perceval"
+      ],
+      [
+        "GoodSoldier"
+      ],
+      [
+        "GoodSoldier"
+      ],
+      [
+        "Mordred"
+      ],
+      [
+        "EvilSoldier"
+      ],
+      [
+        "Assassin"
+      ]
+    ],
+    "8 v1": [
+      [
+        "Merlin"
+      ],
+      [
+        "Perceval"
+      ],
+      [
+        "GoodSoldier"
+      ],
+      [
+        "GoodSoldier"
+      ],
+      [
+        "GoodSoldier"
+      ],
+      [
+        "Mordred"
+      ],
+      [
+        "Morgane"
+      ],
+      [
+        "Assassin"
+      ]
+    ],
+    "9 v1": [
+      [
+        "Merlin"
+      ],
+      [
+        "Perceval"
+      ],
+      [
+        "GoodSoldier"
+      ],
+      [
+        "GoodSoldier"
+      ],
+      [
+        "GoodSoldier"
+      ],
+      [
+        "GoodSoldier"
+      ],
+      [
+        "Mordred"
+      ],
+      [
+        "Morgane"
+      ],
+      [
+        "Assassin"
+      ]
+    ],
+    "9 v2": [
+      [
+        "Merlin"
+      ],
+      [
+        "GoodSoldier"
+      ],
+      [
+        "GoodSoldier"
+      ],
+      [
+        "GoodSoldier"
+      ],
+      [
+        "GoodSoldier"
+      ],
+      [
+        "GoodSoldier"
+      ],
+      [
+        "Mordred"
+      ],
+      [
+        "EvilSoldier"
+      ],
+      [
+        "Assassin"
+      ]
+    ],
+    "10 v1": [
+      [
+        "Merlin"
+      ],
+      [
+        "Perceval"
+      ],
+      [
+        "GoodSoldier"
+      ],
+      [
+        "GoodSoldier"
+      ],
+      [
+        "GoodSoldier"
+      ],
+      [
+        "GoodSoldier"
+      ],
+      [
+        "Mordred"
+      ],
+      [
+        "Morgane"
+      ],
+      [
+        "Assassin"
+      ],
+      [
+        "Oberon"
+      ]
+    ]
+  }
+}

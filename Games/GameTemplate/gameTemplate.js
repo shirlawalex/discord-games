@@ -3,19 +3,19 @@ const Games = require("./../games")
 module.exports  = class GameTemplate extends Games {
 
     //Customized function
+    static nameGame = "GameTemplate"
 
-    static match(message) {
-      // return (message.content == "Test")
-      return true
+    privateConstructor(channel){
+      return new gameTemplate(channel)
     }
 
-    static helloWorld (guild) {
-      // guild.channels.cache.first.send('Hello World !')
-      console.log("Hello World ! Game Template")
+    constructor(channel) {
+      super(channel)
+      this.name = "GameTemplate"
     }
 
-    static nameChannel () {
-      let number = Math.floor((Math.random() * 65535) + 4096) //a random number with 4 hexa digit
-      return 'GameTemplate-' + number.toString(16);
+    handleReaction(reaction,user){
+      console.log("Template handle reaction")
     }
+
   }
