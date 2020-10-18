@@ -53,16 +53,76 @@ module.exports = bot => {
   },
 
   // Display in the channel of the message all commands
-  bot.displayCommands = (message) => {
+  bot.displayCommands = (message,nameGame,nameCommand,settings) => {
+    let end = true;
     bot.commands.forEach((k,v) => {
-      message.channel.send(`\n\`\`\`${v} commands\`\`\``)
-      bot.commands.get(v).forEach((obj,name) => {
-        message.channel.send(`\`!${name}\``)
-        message.channel.send(obj.description)
-      });
+      if(String(v).toLowerCase() === String(nameGame).toLowerCase()){
+        const commandMap = bot.commands.get(v); 
+
+        let doContinu = true;
+        if(nameCommand != ""){
+          if(!commandMap.has(nameCommand)){
+            message.channel.send("can't found this commands");
+          }else{
+            doContinu = false;
+            const command = commandMap.get(nameCommand);
+            const embed = new Discord.MessageEmbed()
+            .setColor("#DC143C")
+            .setTitle(`Command : ${command.name} `)
+            .setDescription(command.description);
+
+            // console.log(command)
+            const keys = Object.keys(command);
+
+            keys.forEach(n => {
+              if(n != "description" && n != "execute"){
+                embed.addField(n,command[n] == "" ? "undefined" : command[n] )
+              }
+            });
+
+            message.channel.send(embed); 
+          }
+        }
+
+        if(doContinu){
+          //Display all commands from the game by categories
+          const categories = new Map();
+
+          commandMap.forEach((obj,name) => {
+            const type = obj.type
+              if(categories.has(type)){
+                const cur = categories.get(type)
+                cur[cur.length] = settings.prefix+name
+                categories.set(type,cur)
+              }else{
+                const object = new Array(settings.prefix+name); //can put an Array, I don't know why. It transforms into an Object.
+                categories.set(type,object);
+              }
+          });
+
+          const embed = new Discord.MessageEmbed()
+            .setColor("#DC143C")
+            .setTitle("Commands")
+            .setDescription("Voici la liste des commandes pour le jeu, classé par type. Pour avoir le detail d'une commande, executé : !commands <game> <command_name>");
+          
+          categories.forEach((commandList,type) => {
+            const nameList = Array.prototype.join.call(commandList);
+            embed.addField(type,commandList)
+          });
+      
+          message.channel.send(embed); 
+        }
+      end = false; //no need to check other game
+      }
     });
-    return;
-  }
+    if(end){ 
+      message.channel.send("Pas de jeu à ce nom trouvée.");
+      let map = Array.from(bot.commands);
+      let names = Array.from(map,x => x[0]).join()
+      console.log(names)
+      message.channel.send(`Voici la liste des catégories/jeux disponibles :  \`${names}\``);
+    }
+  },
 
   
   bot.isSaved = async (guild) => {
