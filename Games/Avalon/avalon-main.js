@@ -1,4 +1,4 @@
-const {fs} = require(`../../util/function.js`)
+const {fs, Discord } = require(`../../util/function.js`)
 const {displayBoard, printBoard, displayRoles } = require(`./avalon-function.js`)
 
 const Games = require("./../games.js")
@@ -46,7 +46,7 @@ module.exports  = class Avalon extends Games {
           const index = this.order.indexOf(id);
           if(index != -1){
             if(this.vote[index] == undefined){
-              if(reaction.emoji == `✅`) {this.vote[index] = true;}
+              if(reaction.emoji.name == `✅`) {this.vote[index] = true;}
               else {this.vote[index] = false;}
               this.action()
             }

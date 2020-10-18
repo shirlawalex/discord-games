@@ -26,8 +26,10 @@ const { Guild } = require("discord.js");
 Execute the command called
 */
 module.exports = (bot,message) => {
-  console.log("PRIVATE MESSAGE IS NOT IMPLETENDED YET.")
   if(message.author.bot) return;
+
+  console.log("PRIVATE MESSAGE IS NOT IMPLETENDED YET.")
+  console.log(message.content);
 
   if(!message.content.startsWith(bot.defaultSettings.prefix)) return;
 

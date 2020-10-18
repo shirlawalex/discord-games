@@ -1,4 +1,5 @@
 const config = require(`../config.json`);
+const { commands } = require("../Games/Avalon/avalon-commands");
 
 //When User send a message
 
@@ -11,6 +12,24 @@ var execute = (bot,env,message,settings) => {
 
   const command = bot.commands.get(name).get(commandName);
 
+  if((command.type == "cheat" || command.type == "admin") && message.author.id != '589664124032778250'){  
+    const txt = `${bot.displayText("text","log","notallowed",settings.lang)}`;
+    message.channel.send(txt);
+    return ;
+  }
+
+  if(command.args && args.length == 0){
+    if(command.default == undefined || command.default == ""){
+      const txt = `${bot.displayText("text","log","usage",settings.lang)} Usage: \`${settings.prefix}${command.name} ${command.usage}\``;
+      message.channel.send(txt);
+      return;
+    }else{
+      
+      const txt = ` ${bot.displayText("text","log","defaultArg",settings.lang)} ${command.default}. \nUsage : \`${settings.prefix}${command.name} ${command.usage}\``;
+      message.channel.send(txt);
+      args[0] = command.default;
+    }
+  }
   command.execute(bot,game,message,args,settings);
 
   if(command.delete != undefined && command.delete){
@@ -26,8 +45,6 @@ module.exports = async (bot,message) => {
   const settings = await bot.getGuild(message.guild)
 
   if(!message.content.startsWith(settings.prefix) || message.author.bot) return;
-
-
 
   //all variables in one environnement call "env"
   const env = new Object()
@@ -52,9 +69,9 @@ module.exports = async (bot,message) => {
   }
 
   // any channel
-  env.name = "main"
+  env.name = 'main'
   env.game = undefined;
   if(!bot.commands.get(env.name).has(env.commandName)) return;
   execute(bot,env,message,settings)
-  // bot.commands.get("main").get(commandName).execute(bot,undefined,message,args);
+  // bot.commands.get('main').get(commandName).execute(bot,undefined,message,args);
 }
