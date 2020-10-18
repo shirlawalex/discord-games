@@ -72,7 +72,17 @@ module.exports  =  {
         game.channel.send(embed);
       }
     }
-
+    ,{
+      name : 'plateau',
+      parent : 'avalon',
+      default : "", 
+      args : false,
+      usage :  '',
+      type : "information",
+      description: 'Affiche le plateau de jeu',
+      execute(bot,game,message,args, settings) {
+        // if( !commandAllow(game,message,"plateau",[4,5,6,7,8,9,10,11,12])) return;
+        message.channel.send(this.embed());
 
       }
     }
