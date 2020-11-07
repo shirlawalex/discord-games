@@ -48,6 +48,10 @@ module.exports = bot => {
     console.log("test done");
   },
 
+  bot.send = (channel,content) => {
+    channel.send(content);
+  },
+
   bot.displayText = (name,context,key,lang) =>{
     return bot.jsonFiles.get(name)[context][key][lang]
   },

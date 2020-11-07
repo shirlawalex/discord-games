@@ -51,7 +51,7 @@ module.exports = async (bot,guild) => {
   const settings = await bot.saveGuild(newGuild);
 
   // Loading content of variables
-    const topicParent =  bot.displayText(`text`,bot.main,`topicParent`,settings.lang)
+  const topicParent =  bot.displayText(`text`,bot.main,`topicParent`,settings.lang)
   const reasonParent =  bot.displayText(`text`,bot.main,`reasonParent`,settings.lang)
   const topicChannel =  bot.displayText(`text`,bot.main,`topicMain`,settings.lang)
   const reasonChannel =  bot.displayText(`text`,bot.main,`reasonMain`,settings.lang)
@@ -104,7 +104,13 @@ module.exports = async (bot,guild) => {
       type : `text`,
       topic : topicChannel,
       reason : reasonChannel,
-      parent : parentChannel
+      parent : parentChannel,
+      permissionOverwrites: [
+        {
+          id: guild.roles.everyone,
+          deny: ['SEND_MESSAGES'],
+        }
+      ]
     })
     .then( (channel) => {
 

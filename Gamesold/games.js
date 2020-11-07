@@ -4,14 +4,10 @@ const jsonFile = './Games/games-text.json'
 
 module.exports  = class Games {
 
-  //********  Customized function  ********//
+  //////// Customized function
 
   static privateConstructor(channel){
     return new Games (nameGame,jsonFile,channel)
-  }
-
-  introduction(){
-    this.send("Bienvuenu");
   }
 
   action(){
@@ -30,8 +26,7 @@ module.exports  = class Games {
     }
   }
 
-    //********  Common function  ********//
-
+  //////// Common function
 
   //Constructor
   constructor(name,jsonfile,promiseChannel) {
@@ -41,7 +36,6 @@ module.exports  = class Games {
     this._name = name //UndefinedGame
     this._jsonFile = jsonfile //'./Games/UndefinedJson.json'
     this._cacheMessage = new Discord.Collection()
-    this._players = [];
   }
 
   //getters
@@ -59,10 +53,6 @@ module.exports  = class Games {
 
   get cache(){ return this._cacheMessage }
 
-  //Send message
-  send(content){
-    this.channel.send(content);
-  } 
 
   //add a message in the cache
   addCache(promiseMessage){
@@ -185,6 +175,15 @@ module.exports  = class Games {
   }
 
 
+  //parser of command
+  static parse(message) {
+    if (match(message)) {
+      this.helloWorld(message.guild)
+      return true
+    }
+    return false
+  }
+
   //launcher
   static launch(bot,parent){
     const guild = parent.guild
@@ -204,11 +203,22 @@ module.exports  = class Games {
       type: 'text',
       topic : "Gaming channel",
       parent : parent,
+      // permissionOverwrites: [
+      //   {
+      //     id: guild.id,
+      //     allow: ['VIEW_CHANNEL'],
+      //   },
+        // {
+        //   id: message.author.id,
+        //   allow: ['VIEW_CHANNEL'],
+        // },
+      // ],
       reason: 'New channel for the game!' })
       .catch(err => {console.log("error : cannot create channel")})
 
+      //new Object => action
       return this.privateConstructor(channel)
-  }
+    }
 
 
   }
