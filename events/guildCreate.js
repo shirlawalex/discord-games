@@ -97,26 +97,49 @@ module.exports = async (bot,guild) => {
         bool = true
       }
     })
-    if(bool == true){return true}
+    if(!bool){
+      // Create a new channel for the Presentation of the games
+      guild.channels.create(settings.nameMainChannel, {
+        type : `text`,
+        topic : topicChannel,
+        reason : reasonChannel,
+        parent : parentChannel,
+        permissionOverwrites: [
+          {
+            id: guild.roles.everyone,
+            deny: ['SEND_MESSAGES'],
+          }
+        ]
+      })
+      .then( (channel) => {
 
-    // Create a new channel for the Presentation of the games
-    guild.channels.create(settings.nameMainChannel, {
+        displayPresentation(bot,channel,settings)
+        bot.updateGuild(guild,{idMainChannel: channel.id});
+
+      })
+     }
+
+
+    //Create a log channel
+    guild.channels.create(settings.nameLogChannel, {
       type : `text`,
-      topic : topicChannel,
-      reason : reasonChannel,
+      topic : "log channel",
+      reason : "every message is send here too",
       parent : parentChannel,
       permissionOverwrites: [
         {
           id: guild.roles.everyone,
-          deny: ['SEND_MESSAGES'],
+          deny: ['VIEW_CHANNEL'],
         }
       ]
     })
     .then( (channel) => {
+      bot.updateGuild(guild,{idLogChannel:channel.id});
+      const timeElapsed = Date.now();
+      const today = new Date(timeElapsed);
+      channel.send(`Start of the log : ${today.toUTCString()}`);
+    }).catch(console.error);
 
-      displayPresentation(bot,channel,settings)
-      bot.updateGuild(guild,{idMainChannel: channel.id});
 
-    })
   })
 }

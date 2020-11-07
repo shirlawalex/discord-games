@@ -12,8 +12,8 @@ module.exports  =  {
       type : "information",
       description: 'Pong !',
       execute(bot,game,message,args, settings) {
-        message.channel.send("Pong!");
-        message.channel.send(args[0]);
+        game.send("Pong!");
+        game.send(args[0]);
       }
     },
     start

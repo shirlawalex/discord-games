@@ -6,8 +6,8 @@ module.exports  = class Games {
 
   //********  Customized function  ********//
 
-  static privateConstructor(channel){
-    return new Games (nameGame,jsonFile,channel)
+  static privateConstructor(bot,channel){
+    return new Games (bot,nameGame,jsonFile,channel)
   }
 
   introduction(){
@@ -34,7 +34,8 @@ module.exports  = class Games {
 
 
   //Constructor
-  constructor(name,jsonfile,promiseChannel) {
+  constructor(bot,name,jsonfile,promiseChannel){
+    this.bot = bot;
     this._lang = "Fr"
     promiseChannel.then((channel)=>{this._channel = channel});
     this._promiseChannel = promiseChannel
@@ -61,9 +62,15 @@ module.exports  = class Games {
 
   //Send message
   send(content){
-    this.channel.send(content);
+    this.bot.send(this.channel,content);
   } 
 
+  //Set Main Message
+  setMainMsg(){
+    const main = this.channel.send("... main message loading, please wait.")
+    this.addCache(main);
+    
+  }
   //add a message in the cache
   addCache(promiseMessage){
     promiseMessage.then( message => {
@@ -187,8 +194,7 @@ module.exports  = class Games {
 
   //launcher
   static launch(bot,parent){
-    const guild = parent.guild
-    return this.newChannel(parent)
+    return this.newChannel(bot,parent)
   }
 
   //Create the channel name
@@ -198,16 +204,16 @@ module.exports  = class Games {
   }
 
   //Create the Channel game
-  static newChannel (parent) {
+  static newChannel (bot,parent) {
     const guild = parent.guild
     const channel = guild.channels.create(this.nameChannel(),{
       type: 'text',
       topic : "Gaming channel",
       parent : parent,
       reason: 'New channel for the game!' })
-      .catch(err => {console.log("error : cannot create channel")})
+      .catch(err => {console.error("error : cannot create channel"+err); return;})
 
-      return this.privateConstructor(channel)
+      return this.privateConstructor(bot,channel)
   }
 
 

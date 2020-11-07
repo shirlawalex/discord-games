@@ -48,8 +48,15 @@ module.exports = bot => {
     console.log("test done");
   },
 
-  bot.send = (channel,content) => {
+  bot.send =  (channel,content) => {
     channel.send(content);
+    bot.sendLog(channel.guild,content);
+  },
+
+  bot.sendLog = async (guild,content) => {
+    const data = await Guild.findOne({guildID: guild.id});
+    const logChannel = guild.channels.cache.get(data.idLogChannel);
+    logChannel.send(content);
   },
 
   bot.displayText = (name,context,key,lang) =>{
@@ -66,7 +73,7 @@ module.exports = bot => {
         let doContinu = true;
         if(nameCommand != ""){
           if(!commandMap.has(nameCommand)){
-            message.channel.send("can't found this commands");
+            bot.send(message.channel,"can't found this commands");
           }else{
             doContinu = false;
             const command = commandMap.get(nameCommand);
@@ -84,7 +91,7 @@ module.exports = bot => {
               }
             });
 
-            message.channel.send(embed); 
+            bot.send(message.channel,embed); 
           }
         }
 
@@ -114,21 +121,23 @@ module.exports = bot => {
             embed.addField(type,commandList)
           });
       
-          message.channel.send(embed); 
+          bot.send(message.channel,embed); 
         }
       end = false; //no need to check other game
       }
     });
     if(end){ 
-      message.channel.send("Pas de jeu à ce nom trouvée.");
+      bot.send(message.channel,"Pas de jeu à ce nom trouvée.");
       let map = Array.from(bot.commands);
       let names = Array.from(map,x => x[0]).join()
       console.log(names)
-      message.channel.send(`Voici la liste des catégories/jeux disponibles :  \`${names}\``);
+      bot.send(message.channel,`Voici la liste des catégories/jeux disponibles :  \`${names}\``);
     }
   },
 
-  
+  //** ACCESS TO DATA BASE **/
+  //GUILD 
+
   bot.isSaved = async (guild) => {
     const data = await Guild.findOne({guildID: guild.id});
     return data ? true : false ;
@@ -172,6 +181,8 @@ module.exports = bot => {
     return data.updateOne(settings);
   },
 
+  //GAMES
+
   bot.setListGames = async (guild,key,value) => {
     const data = await Guild.findOne({guildID: guild.id});
     await data.listGamesMessage.set(key,value)
@@ -208,12 +219,70 @@ module.exports = bot => {
     const createGame = new Game(merged);
     await createGame.save().then(g => console.log(`New game -> ${g.gameName} in ${g.guildName}`));
     return createGame;
-  }
+  },
 
   bot.deleteGame = async (channelID) => {
     const res = await Game.deleteOne({channelID: channelID}).then( res => {console.log(`Game in channel ${channelID} deleted : ${res.n == 1 ? "ok":res.n + " documents deleted"}`)});
 
+  },
+
+  bot.isSavedGame = async (guild,channelId) => {
+    const data = await Game.findOne({guildID: guild.id, channelID: channelId});
+    return data ? true : false ;
+  },
+
+
+  bot.getGame = async (guild,channelId) => {
+    const data = await Game.findOne({guildID: guild.id, channelID: channelId});
+    if(data) return data;
+    return bot.defaultSettings;
+  },
+
+
+  /* to change data
+    await bot.updateGame(guild,channelId{ key1 : new_value, key2 : new_value})
+  */
+  bot.updateGame = async (guild,channelId,settings) => {
+    const data = await Game.findOne({guildID: guild.id, channelID: channelId});
+  
+    if(!await bot.isSavedGame(guild,channelId)){ 
+      console.log("couldnt find data in DB"); return false;
+    }
+
+    
+    if(typeof data !== "object") data = {};
+    for (const key in settings){
+      if (data[key] !== settings[key])  data[key] = settings[key];
+    }
+    return data.updateOne(settings);
   }
+
+   /*
+  bot.setGamesMap = async (guild,key,value) => {
+    const data = await Game.findOne({guildID: guild.id, channelID: channelId});
+    await data.map.set(key,value)
+    await data.save();
+    return data.map;
+  },
+
+  bot.getGamesMap = async (guild,key) => {
+    const data = await Game.findOne({guildID: guild.id, channelID: channelId});
+    return data.map.get(key);
+  },
+
+  bot.hasGamesMap = async (guild,key) => {
+    const data = await Game.findOne({guildID: guild.id, channelID: channelId});
+    return data.map.has(key);
+  },
+
+  bot.clearGamesMap = async (guild) => {
+    const data = await Game.findOne({guildID: guild.id, channelID: channelId});
+    data.map.forEach((v,k,m) => { m.delete(k); })
+    // await data.listGamesMessage.clear()
+    await data.save();
+    return data.updateOne(data);
+  },
+  */
 }
 
 

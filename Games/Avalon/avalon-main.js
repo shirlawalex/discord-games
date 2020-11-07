@@ -6,11 +6,11 @@ const jsonFile = './Games/Avalon/avalon-text.json'
 const jsonData = JSON.parse(fs.readFileSync("./Games/Avalon/data.json"));
 module.exports  = class Avalon extends Games {
 
-  static privateConstructor(channel){
-    return new Avalon(channel)
+  static privateConstructor(bot,channel){
+    return new Avalon(bot,channel)
   }
 
-  constructor(channel) {
-    super(nameGame,jsonFile,channel)
+  constructor(bot,channel) {
+    super(bot,nameGame,jsonFile,channel)
   }
 }

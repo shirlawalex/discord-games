@@ -45,7 +45,7 @@ module.exports = async (bot,reaction,user) =>  {
 
           newGame.introduction();
         const msg = bot.displayText(`text`,bot.main,"channelCreated",settings.lang) +" <#"+ newGame.channel.id +">"
-        message.channel.send(msg);
+        bot.send(message.channel,msg);
       });
       }else{
         console.log("game undefined");
