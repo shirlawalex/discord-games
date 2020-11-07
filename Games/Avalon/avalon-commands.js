@@ -72,7 +72,17 @@ module.exports  =  {
         game.channel.send(embed);
       }
     }
-
+    ,{
+      name : 'plateau',
+      parent : 'avalon',
+      default : "", 
+      args : false,
+      usage :  '',
+      type : "information",
+      description: 'Affiche le plateau de jeu',
+      execute(bot,game,message,args, settings) {
+        // if( !commandAllow(game,message,"plateau",[4,5,6,7,8,9,10,11,12])) return;
+        message.channel.send(this.embed());
 
       }
     }
@@ -394,7 +404,7 @@ module.exports  =  {
       type : "game",
       description: "During step 6, the leader choose the players for the quest ",
       execute(bot,game,message,args, settings) {
-        if(!privateAllow(game,message,"name") || !commandAllow(game,message,"select",[6])) return;
+        if(!privateAllow(game,message,"select") || !commandAllow(game,message,"select",[6])) return;
 
         game.quest.clear();
 
@@ -461,6 +471,39 @@ module.exports  =  {
       }
     }
     ,{
+      name : 'quest',
+      parent : 'avalon',
+      default : "", 
+      args : false,
+      usage :  '',
+      type : "cheat",
+      description: 'During step 11, to enter directly the result of the quest',
+      execute(bot,game,message,args, settings) {
+        if(!privateAllow(game,message,"quest") || !commandAllow(game,message,"vote",[11])) return;
+
+        message.channel.send(" Pour que la quete soit un succes mettre l'emoji :flag_black:, pour la faire perdre mettre l'emoji 🏳 :flag_white:")
+        /*
+        if(args.length != 1){
+          console.log("nb of arg != 1")
+          return;
+        }
+        if(args[0] == "yes"){
+          game.quest.forEach((item, i) => {
+            game.quest.set(i,true);
+          });
+        }
+        if(args[0] == "no"){
+          game.quest.forEach((item, i) => {
+            game.quest.set(i,false);
+          });        
+        }*/
+        if(args[0] == "result"){
+          console.log(game.quest)
+        }
+        game.action()
+      }
+    }
+    ,{
       name : 'assassin',
       parent : 'avalon',
       default : "", 
@@ -469,7 +512,7 @@ module.exports  =  {
       type : "game",
       description: 'During step 10, the members of the vote have to succed or failed the quest',
       execute(bot,game,message,args, settings) {
-        if(!privateAllow(game,message,"name") || !commandAllow(game,message,"assassin",[14])) return;
+        if(!privateAllow(game,message,"assassin") || !commandAllow(game,message,"assassin",[14])) return;
 
         const id = message.author.id;
         // if(game.players.get(id).find(e => e == "Assassin") == undefined){ return; }
@@ -481,10 +524,10 @@ module.exports  =  {
 
         if(game.players.get(target_id).find(e => e == "Merlin") != undefined){
           game.step = 15 //find Merlin
-          game.channel.send(game.displayText("gameAction",""))
+          game.channel.send(game.displayText("gameAction","merlinFound"))
         }else{
           game.step = 16 // not find Merlin
-          game.channel.send(game.displayText("gameAction",""))
+          game.channel.send(game.displayText("gameAction","merlinNotFound"))
 
         }
         game.action()

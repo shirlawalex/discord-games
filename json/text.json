@@ -58,5 +58,17 @@
       "En" : "Database not found",
       "Fr" : "Base de donnée non trouvée"
     }
+    ,"notallowed": {
+      "En": "Not allow to do this command",
+      "Fr": "Pas autorisé à executé cette commande"
+    }
+    ,"usage": {
+      "En": "Not the right usage for the command.",
+      "Fr": "Pas le bon usage pour la commande."
+    }
+    ,"defaultArg": {
+      "En": "No argument. Default value is :",
+      "Fr": "Pas d'argument. Valeur par défault :"
+    }
   }
 }
