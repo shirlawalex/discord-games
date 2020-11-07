@@ -28,7 +28,7 @@ module.exports  = class Avalon extends Games {
     this.leaderId = 0;
     this.vote = []; //[true,false,true] true : Yes, false : No.
     this.boardData = jsonData["board"]
-    this.board = this.boardData["0"];
+    this.board = JSON.parse(JSON.stringify(this.boardData["0"]));
     this.roleMap = new Map(Object.entries(jsonData["role"]))
     // Create a role for leader of each round
     this.leaderRole;
@@ -104,7 +104,7 @@ module.exports  = class Avalon extends Games {
       }
 
       if(this.step == 11){
-        console.log("🏳","all fail","🏴" ,"all succes")
+        console.log("🏳️","all fail","🏴" ,"all succes")
         if(!this.quest.has(id)){
           console.log("not allowed");
           return;
@@ -124,7 +124,7 @@ module.exports  = class Avalon extends Games {
             this.quest.set(id,false)
             break;
 
-          case "🏳" :
+          case "🏳️" :
             this.quest.forEach((v, k) => {
               this.quest.set(k,false)
             });
@@ -243,7 +243,7 @@ module.exports  = class Avalon extends Games {
         case 6: // Leader start tour
           channel.send(this.displayText("gameAction","leaderChoose"))
           channel.send(this.displayText("gameAction","rejectedCount")+` ${this.countDenied}`)
-          channel.send(this.embed());
+          // channel.send(this.embed());
           break;
 
         case 7: // Players vote
@@ -397,9 +397,10 @@ module.exports  = class Avalon extends Games {
         case 15: // Evil win
         case 16: // Good win
         //deleting role 
-        this.leaderRole.delete("End of the Game")
-        .then(deleted => console.log(`Deleted role ${deleted.name}`))
-
+        if(channel.guild.roles.cache.has(this.leaderRole)){
+          channel.guild.roles.cache.get(this.leaderRole).delete("Deleting role").then(deleted => console.log(`Deleted role ${deleted.name}`))
+        }
+       
         if(this.step == 15){
           channel.send(this.displayText("gameAction","evilWin"))
         }
@@ -410,9 +411,9 @@ module.exports  = class Avalon extends Games {
 
         case 17: // Reveal role
           this.players.forEach((item, i) => {
-            const name = message.channel.members.get(i).user.username;
+            const name = channel.members.get(i).user.username;
             const txt = name + " : "+item.toString()
-            message.channel.send(txt)
+            channel.send(txt)
           });
         case 18: // Credit
           break;

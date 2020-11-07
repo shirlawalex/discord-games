@@ -168,6 +168,14 @@
       "En": "",
       "Fr": "Pour tuer Merlin, tapez la commande `!assassin` suivie du numéro d'ordre du joueur"
     },
+    "merlinFound": {
+      "En": "",
+      "Fr": "Merlin trouvé !"
+    },
+    "merlinNotFound": {
+      "En": "",
+      "Fr": "Ce n'est pas Merlin !"
+    },
     "evilWin": {
       "En": "",
       "Fr": "Bravo au Mal, vous avez su manipuler et éliminé la vermine. J'espere que vous n'avez pas détruit des amitiés en cours de partie ! "
@@ -286,7 +294,7 @@
     },
     "Assassin": {
       "En": "You are ",
-      "Fr": "Tu es l'impitoyable `Assassin`"
+      "Fr": "\nTu es l'impitoyable `Assassin`"
     },
     "Morgane": {
       "En": "You are ",
