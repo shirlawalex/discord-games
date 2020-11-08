@@ -72,10 +72,6 @@ module.exports  =  {
         game.channel.send(embed);
       }
     }
-
-
-      }
-    }
     ,{
       name : 'board',
       parent : 'avalon',
