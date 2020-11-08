@@ -4,7 +4,8 @@
   "description": "a Discord bot that offers various multiplayer games in french",
   "main": "index.js",
   "dependencies": {
-    "discord.js": "^12.2.0",
+    "discord.js": "^12.3.1",
+    "mongoose": "^5.10.5",
     "node.js": "^0.0.1-security"
   },
   "devDependencies": {},
