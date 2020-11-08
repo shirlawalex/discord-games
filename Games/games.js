@@ -11,7 +11,7 @@ module.exports  = class Games {
   }
 
   introduction(){
-    this.send("Bienvuenu");
+    this.send("Bienvenu");
   }
 
   action(){
@@ -37,7 +37,9 @@ module.exports  = class Games {
   constructor(bot,name,jsonfile,promiseChannel){
     this.bot = bot;
     this._lang = "Fr"
-    promiseChannel.then((channel)=>{this._channel = channel});
+    promiseChannel.then((channel)=>{
+      this._channel = channel;
+    });
     this._promiseChannel = promiseChannel
     this._name = name //UndefinedGame
     this._jsonFile = jsonfile //'./Games/UndefinedJson.json'
@@ -61,26 +63,37 @@ module.exports  = class Games {
   get cache(){ return this._cacheMessage }
 
   //Send message
-  send(content){
-    this.bot.send(this.channel,content);
+  async send(content){
+    if(true){
+      this.bot.send(this.channel,content);
+      const data = await this.bot.getGame(this.id);
+      this.editMsgCache(data.mainMsgId,"_");
+    }else{
+      const data = await this.bot.getGame(this.id);
+      this.editMsgCache(data.mainMsgId,content);
+      this.bot.sendLog(this.channel.guild,content);
+    }
   } 
 
   //Set Main Message
-  setMainMsg(){
-    const main = this.channel.send("... main message loading, please wait.")
-    this.addCache(main);
-    
+  async setMainMsg(){
+    const main = await this.channel.send("... main message loading, please wait.").then(async message => {
+      await this._cacheMessage.set(message.id,message);    
+      await this.bot.updateGame(this.id,{ mainMsgId : message.id});
+    })
   }
+
   //add a message in the cache
-  addCache(promiseMessage){
-    promiseMessage.then( message => {
-      this._cacheMessage.set(message.id,message)
+  async addCache(promiseMessage){
+    await promiseMessage.then( message => {
+       this._cacheMessage.set(message.id,message)
+      console.log(this.cache);
     })
   }
 
   //edit content of a message in the cache
-  editMsgCache(msgId,text){
-    let message = this._cacheMessage.get(msgId);
+  async editMsgCache(msgId,text){
+    let message = await this.cache.get(msgId);
     message.edit(text).then(msg => {
       console.log(`Updated the content of a message to ${msg.content}`);
       this._cacheMessage.set(msgId,msg);

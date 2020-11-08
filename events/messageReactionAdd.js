@@ -42,7 +42,7 @@ module.exports = async (bot,reaction,user) =>  {
           };
 
           await bot.saveGame(newGameBD);
-
+          await newGame.setMainMsg();
           newGame.introduction();
         const msg = bot.displayText(`text`,bot.main,"channelCreated",settings.lang) +" <#"+ newGame.channel.id +">"
         bot.send(message.channel,msg);
