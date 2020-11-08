@@ -109,6 +109,30 @@ module.exports  = class Games {
     return arrayIdMessage
   }
 
+  //send to all user in the channel a dm to a secret vote
+  // arrayId of type Array
+  // context and key of type String
+  voteCustomEmoji(arrayIdUser,content,emojiArray){
+    if(arrayIdUser.length == 0){
+      //everyone
+    }
+    let arrayIdMessage = new Array();
+    for(let i = 0; i < arrayIdUser.length; i++){
+      const id = arrayIdUser[i];
+      const privateChan = this.channel.members.get(id);
+      if(!privateChan.user.bot){
+        const msgVote = privateChan.send(content)
+        msgVote.then(m => {
+          emojiArray.forEach(emoji => {
+            m.react(emoji)
+          });
+          arrayIdMessage.push(m.id)
+        })
+        super.addCache(msgVote);
+      }
+    }
+    return arrayIdMessage
+  }
   //check/load/stock the result of the vote, need to be executed each time a reaction is detected
   // arrayIdMessage of type Array
   // result of type Array

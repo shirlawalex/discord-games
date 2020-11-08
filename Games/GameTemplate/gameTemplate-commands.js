@@ -5,7 +5,10 @@ module.exports  =  {
   commands : [
     {
       name : 'ping',
-      description : 'Pong !',
+      args : false,
+      usage :  '',
+      type : "information",
+      description: 'Pong !',
       execute(bot,games,message,args, settings) {
         message.channel.send("Pong!");
       }

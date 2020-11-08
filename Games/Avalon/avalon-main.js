@@ -28,11 +28,54 @@ module.exports  = class Avalon extends Games {
     this.leaderId = 0;
     this.vote = []; //[true,false,true] true : Yes, false : No.
     this.boardData = jsonData["board"]
-    this.board = this.boardData["0"];
+    this.board = JSON.parse(JSON.stringify(this.boardData["0"]));
     this.roleMap = new Map(Object.entries(jsonData["role"]))
     // Create a role for leader of each round
     this.leaderRole;
     this.assassination = true;
+  }
+
+  embed(){
+    const nb = this.players.size.toString();
+    const board =  this.boardData[nb]
+    let boardmsg = "";
+    let info = false;
+    Object.values(board).forEach(val => {
+      boardmsg = boardmsg + ":"+val[0]+":"
+      if(val[1]) {boardmsg = boardmsg + ":pushpin:";info = true;}
+    });
+    if (info){
+      boardmsg = boardmsg + "\":four::pushpin:\" "+this.displayText("rules","roundPin")
+    }
+
+    const orderName = this.order.map(id => this.channel.members.get(id).user.username);
+    console.log(orderName);
+    const pt1 = `Actual leader is: ${orderName[this.leaderId]}`;
+    const pt2 = orderName.slice(this.leaderId,orderName.length).reduce((acc,cur,ind) => `${acc} \n ${ind+1+this.leaderId}:${cur}`,pt1);
+    const afficheOrdre = orderName.slice(0,this.leaderId).reduce((acc,cur,ind) => `${acc} \n ${ind+1}:${cur}`,pt2);
+    
+
+    const embed = new Discord.MessageEmbed()
+    .setColor("#DC143C")
+    .setTitle(`${this._name}`)
+    .setDescription("Partie en cours")
+    // .setThumbnail(bot.user.displayAvatarURL())
+    .addField("Ordre",orderName.reduce((acc,cur,ind) => `${acc} \n ${ind+1}:${cur}`,`Actual leader is: ${orderName[this.leaderId]}`))
+    .addField("Ordre",afficheOrdre)
+    .addField("Board",boardmsg)
+    .addField("Refus",`${this.countDenied}`)
+    // .addFields(
+    //   { value :":x::x::x::x::x:",inline : true},
+    //   {name : "un champ 2", value :" sa valaue",inline : true},
+    //   {name : "un champ 3", value :" sa valaue",inline : false},
+    //   {name : "un champ 4", value :" sa valaue",inline : true}
+    // )
+    // .setImage(bot.user.displayAvatarURL())
+    .setTimestamp()
+    // .setAuthor("Auteur",bot.user.displayAvatarURL(),"https://google.com")
+    // .setFooter("Je suis sur le pied du footer",bot.user.displayAvatarURL());
+
+    return embed;
   }
 
   handleReaction(reaction,user){
@@ -61,7 +104,7 @@ module.exports  = class Avalon extends Games {
       }
 
       if(this.step == 11){
-        console.log("🏳","all fail","🏴" ,"all succes")
+        console.log("🏳️","all fail","🏴" ,"all succes")
         if(!this.quest.has(id)){
           console.log("not allowed");
           return;
@@ -81,7 +124,7 @@ module.exports  = class Avalon extends Games {
             this.quest.set(id,false)
             break;
 
-          case "🏳" :
+          case "🏳️" :
             this.quest.forEach((v, k) => {
               this.quest.set(k,false)
             });
@@ -200,6 +243,7 @@ module.exports  = class Avalon extends Games {
         case 6: // Leader start tour
           channel.send(this.displayText("gameAction","leaderChoose"))
           channel.send(this.displayText("gameAction","rejectedCount")+` ${this.countDenied}`)
+          // channel.send(this.embed());
           break;
 
         case 7: // Players vote
@@ -353,9 +397,10 @@ module.exports  = class Avalon extends Games {
         case 15: // Evil win
         case 16: // Good win
         //deleting role 
-        this.leaderRole.delete("End of the Game")
-        .then(deleted => console.log(`Deleted role ${deleted.name}`))
-
+        if(channel.guild.roles.cache.has(this.leaderRole)){
+          channel.guild.roles.cache.get(this.leaderRole).delete("Deleting role").then(deleted => console.log(`Deleted role ${deleted.name}`))
+        }
+       
         if(this.step == 15){
           channel.send(this.displayText("gameAction","evilWin"))
         }
@@ -366,9 +411,9 @@ module.exports  = class Avalon extends Games {
 
         case 17: // Reveal role
           this.players.forEach((item, i) => {
-            const name = message.channel.members.get(i).user.username;
+            const name = channel.members.get(i).user.username;
             const txt = name + " : "+item.toString()
-            message.channel.send(txt)
+            channel.send(txt)
           });
         case 18: // Credit
           break;

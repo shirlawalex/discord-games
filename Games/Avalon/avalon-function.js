@@ -17,7 +17,7 @@ exports.displayBoard = displayBoard;
 var printBoard = function (game) {
   const nb = game.players.size.toString();
   game.channel.send("```" +game.displayText("players",nb)+ "```")
-  game.board = game.boardData[nb]
+  game.board = JSON.parse(JSON.stringify(game.boardData[nb]))
   displayBoard(game,game.board)
   const msgDenied = "```" + game.countDenied +
   game.displayText("gameAction","countDenied") + "```";
