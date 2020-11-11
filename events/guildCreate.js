@@ -97,6 +97,7 @@ module.exports = async (bot,guild) => {
         bool = true
       }
     })
+
     if(!bool){
       // Create a new channel for the Presentation of the games
       guild.channels.create(settings.nameMainChannel, {
@@ -142,4 +143,6 @@ module.exports = async (bot,guild) => {
 
 
   })
+
+  
 }

@@ -24,6 +24,8 @@ const gameSchema = mongoose.Schema({
     "of" : String,
     "default": {}
   }
+  ,default: {"type" : Boolean, "default":true}
+  
 });
 
 module.exports = mongoose.model("Game",gameSchema);

@@ -39,10 +39,11 @@ module.exports = async (bot,reaction,user) =>  {
             guildName: guild.name,
             gameName: name,
             channelID : channel.id,
+            default : false
           };
 
           await bot.saveGame(newGameBD);
-          await newGame.setMainMsg();
+          await newGame.setNewMainMsg();
           newGame.introduction();
         const msg = bot.displayText(`text`,bot.main,"channelCreated",settings.lang) +" <#"+ newGame.channel.id +">"
         bot.send(message.channel,msg);

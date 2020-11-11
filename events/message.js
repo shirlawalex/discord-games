@@ -43,8 +43,11 @@ module.exports = async (bot,message) => {
   //if dm send to the event private dm
   if(message.channel.type === "dm") return bot.emit("directMessage",message);
   const settings = await bot.getGuild(message.guild)
+  const settingsG = await bot.getGame(message.channel)
+  settings.game = settingsG;
 
   if(!message.content.startsWith(settings.prefix) || message.author.bot) return;
+console.log(settings.game.default)
 
   //all variables in one environnement call "env"
   const env = new Object()

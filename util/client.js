@@ -44,13 +44,10 @@ module.exports = bot => {
 
   /*********  FUNCTION ***********/
 
-  bot.testlog = () => {
-    console.log("test done");
-  },
 
   bot.send =  (channel,content) => {
-    channel.send(content);
     bot.sendLog(channel.guild,content);
+    return channel.send(content);
   },
 
   bot.sendLog = async (guild,content) => {
