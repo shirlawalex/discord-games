@@ -63,6 +63,9 @@ module.exports = bot => {
   // Display in the channel of the message all commands
   bot.displayCommands = (message,nameGame,nameCommand,settings) => {
     let end = true;
+    let noArg =  nameGame == "main" ? true : false ;
+    let nameContext = nameGame == "main" ?  `${bot.displayText(`text`,"commandHelp",`nameMain`,settings.lang)}` : nameGame;
+
     bot.commands.forEach((k,v) => {
       if(String(v).toLowerCase() === String(nameGame).toLowerCase()){
         const commandMap = bot.commands.get(v); 
@@ -70,7 +73,8 @@ module.exports = bot => {
         let doContinu = true;
         if(nameCommand != ""){
           if(!commandMap.has(nameCommand)){
-            bot.send(message.channel,"can't found this commands");
+            bot.send(message.channel,
+              `${bot.displayText(`text`,"commandHelp",`notFound`,settings.lang)}`);
           }else{
             doContinu = false;
             const command = commandMap.get(nameCommand);
@@ -111,7 +115,7 @@ module.exports = bot => {
           const embed = new Discord.MessageEmbed()
             .setColor("#DC143C")
             .setTitle("Commands")
-            .setDescription("Voici la liste des commandes pour le jeu, classé par type. Pour avoir le detail d'une commande, executé : !commands <game> <command_name>");
+            .setDescription(`${bot.displayText(`text`,"commandHelp",`listPt1`,settings.lang)} ${nameContext} ${bot.displayText(`text`,"commandHelp",`listPt2`,settings.lang)}`);
           
           categories.forEach((commandList,type) => {
             const nameList = Array.prototype.join.call(commandList);
@@ -123,12 +127,11 @@ module.exports = bot => {
       end = false; //no need to check other game
       }
     });
-    if(end){ 
-      bot.send(message.channel,"Pas de jeu à ce nom trouvée.");
+    if(end || noArg){ 
+      // bot.send(message.channel,`${bot.displayText(`text`,"commandHelp",`gameNotFound`,settings.lang)}`);
       let map = Array.from(bot.commands);
-      let names = Array.from(map,x => x[0]).join()
-      console.log(names)
-      bot.send(message.channel,`Voici la liste des catégories/jeux disponibles :  \`${names}\``);
+      let names = Array.from(map,x => x[0]).join(", ")
+      bot.send(message.channel,`${bot.displayText(`text`,"commandHelp",`listGamesPt1`,settings.lang)}  \`${names}\`${bot.displayText(`text`,"commandHelp",`listGamesPt2`,settings.lang)}`);
     }
   },
 

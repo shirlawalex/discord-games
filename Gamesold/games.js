@@ -75,6 +75,11 @@ module.exports  = class Games {
     return this.jsonText[context][key][this.lang]
   }
 
+  //add player to the collection 
+  addPlayer(user){
+    this.players.set(user.id,new Player(user));
+  }
+
   //display all user of the channel
   displayUser(channel){
     // channel.members.forEach((user, i) => {

@@ -1,10 +1,10 @@
 const {fs, Discord } = require(`../../util/function.js`)
-const {displayBoard, printBoard, displayRoles } = require(`./avalon-function.js`)
+const {displayBoard, printBoard, displayRoles } = require(`./avalon-util/avalonFunction.js`)
 
 const Games = require("./../games.js")
 const nameGame = "Avalon"
 const jsonFile = './Games/Avalon/avalon-text.json'
-const jsonData = JSON.parse(fs.readFileSync("./Games/Avalon/data.json"));
+const jsonData = JSON.parse(fs.readFileSync("./Games/Avalon/avalon-util/data.json"));
 
 module.exports  = class Avalon extends Games {
 

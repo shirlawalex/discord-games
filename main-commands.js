@@ -152,7 +152,7 @@ module.exports  =  {
           .addFields(
             { value :":x::x::x::x::x:",inline : true},
             {name : "un champ 2", value :" sa valaue",inline : true},
-            {name : "un champ 3", value :" sa valaue",inline : false},
+            {name : "un champ 3", value :" sa valaue",inline : true},
             {name : "un champ 4", value :" sa valaue",inline : true}
           )
           .setImage(bot.user.displayAvatarURL())
@@ -182,7 +182,7 @@ module.exports  =  {
       parent : 'main',
       default : "main", 
       args : true,
-      usage :  '<Name Game> <Command name>',
+      usage :  '<Name Game> [<Command name>]',
       type : "information",
       description: 'Display all commands from a Game. If you want main commands put \"main\" for <Name Game>',
       execute(bot, game, message,args, settings) {
@@ -191,6 +191,19 @@ module.exports  =  {
         }else{
           bot.displayCommands(message,args[0],"",settings);
         }
+      }
+    }
+    ,{
+      name : 'help',
+      parent : 'main',
+      default : "", 
+      args : false,
+      usage :  '',
+      type : "information",
+      description: 'aliases for commands',
+      execute(bot, game, message,args, settings) {
+        const e = message.channel.send("For help use !commands");
+        // e.then(e => bot.emit(`message`,e));
       }
     }
     ,{

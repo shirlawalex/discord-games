@@ -2,13 +2,15 @@
 
 /* C'est une classe de fonctionnalité qu'on peut additione aux jeux pour ajouter des fonctionnalité */
 
-const { listRole } = require("../Avalon/avalon-main");
-
 let Role = Base => class Role extends Base {
   static listRole = ["gentil","mechant","neutre"];
-  
-  constructor(bot,nameGame,jsonFile,channel){
-    super(bot,nameGame,jsonFile,channel);
+  static emojiRole = new Discord.Collection()
+  .set("gentil","😇")
+  .set("mechant","😈")
+  .set("neutre","🙂")
+  //😇😈🙂
+  constructor(user){
+    super(user);
     this.roleGiven = 0;
     this.roleLeft = Role.listRole;
   }

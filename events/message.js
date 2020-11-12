@@ -47,7 +47,6 @@ module.exports = async (bot,message) => {
   settings.game = settingsG;
 
   if(!message.content.startsWith(settings.prefix) || message.author.bot) return;
-console.log(settings.game.default)
 
   //all variables in one environnement call "env"
   const env = new Object()

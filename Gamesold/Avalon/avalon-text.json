@@ -1,34 +1,4 @@
 {
-  "log": {
-    "game": {
-      "En": "This message is for the game :",
-      "Fr": "Ce message concerne la Partie :"
-    },
-    "forbiden": {
-      "En": "This action is forbiden",
-      "Fr": "Cette action est interdite"
-    },
-    "forbidenPrivate": {
-      "En": "This action is forbiden in private channel",
-      "Fr": "Cette action est interdite dans le channel privé"
-    },
-    "register": {
-      "En": "players register",
-      "Fr": "joueurs enregistrés"
-    },
-    "start": {
-      "En": "Start of the game with",
-      "Fr": "Lancement de la partie avec"
-    },
-    "players": {
-      "En": "players",
-      "Fr": "joueurs"
-    },
-    "notallowed": {
-      "En": "Not allow to do this command",
-      "Fr": "Pas autorisé à executé cette commande"
-    }
-  },
   "menu": {
     "welcome": {
       "En": "Welcome",

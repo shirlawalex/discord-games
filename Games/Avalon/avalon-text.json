@@ -12,10 +12,6 @@
       "En": "This action is forbiden in private channel",
       "Fr": "Cette action est interdite dans le channel privé"
     },
-    "register": {
-      "En": "players register",
-      "Fr": "joueurs enregistrés"
-    },
     "start": {
       "En": "Start of the game with",
       "Fr": "Lancement de la partie avec"

@@ -81,7 +81,7 @@ module.exports  =  {
       type : "information",
       description: 'Affiche le plateau de jeu',
       execute(bot,game,message,args, settings) {
-        // if( !commandAllow(game,message,"plateau",[4,5,6,7,8,9,10,11,12])) return;
+        // if( !commandAllow(game,settings,"plateau",[4,5,6,7,8,9,10,11,12])) return;
         message.channel.send(this.embed());
 
       }
@@ -164,7 +164,7 @@ module.exports  =  {
       type : "game",
       description: 'During step 2, when the number of players is enough you can start the game',
       execute(bot,game,message,args, settings) {
-        if(!privateAllow(game,message,"start") || !commandAllow(game,message,"start",[2])) return;
+        if(!privateAllow(game,message,"start") || !commandAllow(game,settings,"start",[2])) return;
         game.channel.send("```"+`${game.displayText("log","start")} ${game.players.size} ${game.displayText("log","players")}`+"```");
         game.step = 3;
         game.action();
@@ -179,7 +179,7 @@ module.exports  =  {
       type : "game",
       description: "During step 1, add people to the player's game list",
       execute(bot,game,message,args, settings) {
-        if(!privateAllow(game,message,"add") || !commandAllow(game,message,"add",[1,2])) {return;}
+        if(!privateAllow(game,message,"add") || !commandAllow(game,settings,"add",[1,2])) {return;}
 
         message.mentions.users.forEach( user => {
           if( !game.players.has(user.id)){
@@ -203,7 +203,7 @@ module.exports  =  {
       type : "game",
       description: "During step 1, remove people to the player's game list",
       execute(bot,game,message,args, settings) {
-        if(!privateAllow(game,message,"remove") || !commandAllow(game,message,"remove",[1,2])) return;
+        if(!privateAllow(game,message,"remove") || !commandAllow(game,settings,"remove",[1,2])) return;
 
         message.mentions.users.forEach( user => {
           if(game.players.has(user.id)){
@@ -225,7 +225,7 @@ module.exports  =  {
       type : "game",
       description: "During step 4, choose roles ",
       execute(bot,game,message,args, settings) {
-        if(!privateAllow(game,message,"role") || !commandAllow(game,message,"role",[4])) return;
+        if(!privateAllow(game,message,"role") || !commandAllow(game,settings,"role",[4])) return;
 
         const nb = game.players.size
 
@@ -342,7 +342,7 @@ module.exports  =  {
       type : "game",
       description: "During step 4, choose yourself roles total custom ",
       execute(bot,game,message,args, settings) {
-        if(!privateAllow(game,message,"custom") || !commandAllow(game,message,"custom",[4])) return;
+        if(!privateAllow(game,message,"custom") || !commandAllow(game,settings,"custom",[4])) return;
         //TO DO
         /*
         custom =>
@@ -361,7 +361,7 @@ module.exports  =  {
       type : "information",
       description: "Display the players ",
       execute(bot,game,message,args, settings) {
-        if( !commandAllow(game,message,"custom",[5,6,7,8,9,10,11,12,13,14,15,16,17,18])) return;
+        if( !commandAllow(game,settings,"custom",[5,6,7,8,9,10,11,12,13,14,15,16,17,18])) return;
         game.players.forEach((item, i) => {
           const name = message.channel.members.get(i).user.username;
           const txt = name + " : "+item.toString()
@@ -378,7 +378,7 @@ module.exports  =  {
       type : "cheat",
       description: "change the leader manually",
       execute(bot,game,message,args, settings) {
-        if(!privateAllow(game,message,"leader") || !commandAllow(game,message,"leader",[5,6])) return;
+        if(!privateAllow(game,message,"leader") || !commandAllow(game,settings,"leader",[5,6])) return;
 
         if(args.length == 1){
           const val = parseInt(args[0]);
@@ -404,7 +404,7 @@ module.exports  =  {
       type : "game",
       description: "During step 6, the leader choose the players for the quest ",
       execute(bot,game,message,args, settings) {
-        if(!privateAllow(game,message,"select") || !commandAllow(game,message,"select",[6])) return;
+        if(!privateAllow(game,message,"select") || !commandAllow(game,settings,"select",[6])) return;
 
         game.quest.clear();
 
@@ -452,7 +452,7 @@ module.exports  =  {
       type : "cheat",
       description: 'During step 8, to enter directly the result of the vote',
       execute(bot,game,message,args, settings) {
-        if(!privateAllow(game,message,"vote") || !commandAllow(game,message,"vote",[8])) return;
+        if(!privateAllow(game,message,"vote") || !commandAllow(game,settings,"vote",[8])) return;
 
         if(args.length != 1){
           console.log("nb of arg != 1")
@@ -479,7 +479,7 @@ module.exports  =  {
       type : "cheat",
       description: 'During step 11, to enter directly the result of the quest',
       execute(bot,game,message,args, settings) {
-        if(!privateAllow(game,message,"quest") || !commandAllow(game,message,"vote",[11])) return;
+        if(!privateAllow(game,message,"quest") || !commandAllow(game,settings,"vote",[11])) return;
 
         message.channel.send(" Pour que la quete soit un succes mettre l'emoji :flag_black:, pour la faire perdre mettre l'emoji 🏳 :flag_white:")
         /*
@@ -512,7 +512,7 @@ module.exports  =  {
       type : "game",
       description: 'During step 10, the members of the vote have to succed or failed the quest',
       execute(bot,game,message,args, settings) {
-        if(!privateAllow(game,message,"assassin") || !commandAllow(game,message,"assassin",[14])) return;
+        if(!privateAllow(game,message,"assassin") || !commandAllow(game,settings,"assassin",[14])) return;
 
         const id = message.author.id;
         // if(game.players.get(id).find(e => e == "Assassin") == undefined){ return; }

@@ -35,6 +35,8 @@ module.exports  = class Games {
 
   //Constructor
   constructor(bot,name,jsonfile,promiseChannel){
+    this.step = 0;
+    this.edit = false; //message is sent one after the other
     this.bot = bot;
     this._lang = "Fr"
     promiseChannel.then((channel)=>{
@@ -43,8 +45,8 @@ module.exports  = class Games {
     this._promiseChannel = promiseChannel
     this._name = name //UndefinedGame
     this._jsonFile = jsonfile //'./Games/UndefinedJson.json'
-    this._cacheMessage = new Discord.Collection()
-    this._players = [];
+    this._cacheMessage = new Discord.Collection();
+    this._players = new Discord.Collection(); //Collection of the Object Player (id,user).
   }
 
   //getters
@@ -62,22 +64,24 @@ module.exports  = class Games {
 
   get cache(){ return this._cacheMessage }
 
+  get players(){ return this._players }
+
+
   //Send message
-  async send(content){
-    if(true){
-      this.bot.send(this.channel,content);
-      const data = await this.bot.getGame(this.id);
-      this.editMsgCache(data.mainMsgId,"_");
+  async send(content,main){
+    //if main is true/defined the message will be edited in the main message
+    if(main == undefined || main == false){
+      return this.bot.send(this.channel,content);
     }else{
       const data = await this.bot.getGame(this.id);
-      this.editMsgCache(data.mainMsgId,content);
       this.bot.sendLog(this.channel.guild,content);
+      return this.editMsgCache(data.mainMsgId,content);
     }
   } 
 
   //Set Main Message
   async setNewMainMsg(){
-    const main = await this.channel.send("... main message loading, please wait.").then(async message => {
+    const main = await this.channel.send("`... main message loading, please wait.`").then(async message => {
       await this._cacheMessage.set(message.id,message);    
       await this.bot.updateGame(this.id,{ mainMsgId : message.id});
     })
@@ -94,10 +98,11 @@ module.exports  = class Games {
   //edit content of a message in the cache
   async editMsgCache(msgId,text){
     let message = await this.cache.get(msgId);
-    message.edit(text).then(msg => {
-      console.log(`Updated the content of a message to ${msg.content}`);
+    let m = message.edit(text).then(msg => {
+      // console.log(`Updated the content of a message to ${msg.content}`);
       this._cacheMessage.set(msgId,msg);
     }).catch(console.error);
+    return m;
   }
 
   // displayers of text
@@ -105,19 +110,29 @@ module.exports  = class Games {
     return this.jsonText[context][key][this.lang]
   }
 
-  //display all user of the channel
-  displayUser(channel){
-    // channel.members.forEach((user, i) => {
-    //   console.log(user.name)
-    // });
+  //add player to the collection 
+  addPlayer(user){
+    this.players.set(user.id,new Player(user));
+  }
+  
+  //display all user registered
+  displayUser(settings){
+    if(this.players.size == 0){
+      this.send(`${this.bot.displayText(`text`,"log",`noneRegister`,settings.game.lang)}`);
+    }else{
+      this.players.forEach((player) => {
+        const user = this.channel.members.get(player.id);
+        this.send(user.displayName);
+      });
+    }
   }
 
   //senders of message
   sendDM(user,content){
     const privateChan = this.channel.members.get(user.id);
-    if(!privateChan.user.bot){
+    if(privateChan && !privateChan.user.bot){
       return this.bot.send(privateChan,content);
-    }else return undefined;
+    }else{return undefined;}
   }
 
   //send to all user in the channel a dm to a secret vote

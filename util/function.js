@@ -38,3 +38,14 @@ exports.arrayOfFile = arrayOfFile;
 
 
 
+var commandAllow = function(game,settings,name,curStep) {
+  //check if the commands is call while curStep
+  if(!curStep.includes(game.step)){
+    const msg = `"${name}" : ${game.bot.displayText("text","log","forbiden",settings.game.lang)}`;
+    game.send(msg);
+    return false;
+  }
+  return true;
+}
+
+exports.commandAllow = commandAllow;
