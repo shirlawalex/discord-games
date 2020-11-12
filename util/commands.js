@@ -69,8 +69,8 @@ const add = {
     message.mentions.users.forEach( user => {
       // if(!user.bot && !game.players.has(user.id)){
       if( !game.players.has(user.id)){
-
-        game.addPlayers(user);
+        console.log(user);
+        game.addPlayer(user);
         game.channel.send(`add ${user.username} : ${game.players.size} ${bot.displayText(`text`,"game",`register`,settings.game.lang)}`)
       }else{
         game.channel.send(`not added ${user.username} : ${game.players.size} ${bot.displayText(`text`,"game",`cannotRegister`,settings.game.lang)}`)

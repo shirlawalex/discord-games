@@ -3,6 +3,7 @@ const {add,remove, play, senddm, players} = require("../../util/commands.js");
 const {commandAllow} = require("../../util/function.js");
 const Role = require("../Class/role.js");
 const Avalon = require("./avalon-main.js")
+const AvalonPlayer = require("./avalon-util/avalonPlayer.js")
 
 module.exports  =  {
   commands : [
@@ -50,16 +51,7 @@ module.exports  =  {
       description: 'Show recommended role settings for the games',
       execute(bot,game,message,args, settings) {
         
-        const embed = new MessageEmbed()
-          .setColor("#DC143C")
-          .setTitle("Recommended role settings")
-          .setDescription("There is the recommended role for each number of players")
-          .addField("5 joueurs","3 Bien : Merlin + 2 Serviteur du Bien. \n2 Mal : Mordred + Assassin.")
-          .addField("6 joueurs","4 Bien : Merlin + Perceval + 2 Serviteur du Bien. \n2 Mal : Mordred + Morgane/Assassin.")
-          .addField("7 joueurs","4 Bien : Merlin + Perceval + 2 Serviteur du Bien. \n3 Mal : Mordred + Morgane + Assassin.")
-          .addField("8 joueurs","5 Bien : Merlin + Perceval + 3 Serviteur du Bien. \n3 Mal : Mordred + Morgane + Assassin.")
-          .addField("9 joueurs","5 Bien : Merlin + Perceval + 3 Serviteur du Bien. \n4 Mal : Mordred + Morgane + Assassin + Serviteur du Mal.")
-          .addField("10 joueurs","6 Bien : Merlin + Perceval + 4 Serviteur du Bien. \n4 Mal : Mordred + Morgane + Assassin + Oberon.");
+        let embed = AvalonPlayer.embedRecommendation();
 
         game.send(embed);
       }
@@ -89,28 +81,18 @@ module.exports  =  {
       type : "test",
       description: 'tire un role au hasard',
       execute(bot,game,message,args, settings) {
-        console.log("test");
-        let msg = game.send("🦸‍♂️🦹‍♂️🧙‍♀️🧙‍♂️👹🤡⚔🗡🎎")
-        msg.then( m => {
-          m.react("🦸‍♂️")
-          m.react("🦹‍♂️")
-          m.react("🎎")
-          m.react("🧙‍♀️")
-          m.react("🧙‍♂️")
-          m.react("👹")
-          m.react("🤡")
-          m.react("⚔")
-          m.react("🗡");
-        });
-        // game.tire();
-        // game.nbtire();
-        // console.log("random in all",Avalon.randomRole())
-        // console.log("Avalon role",Avalon.listRole);
-        // console.log("compare",Avalon.compare(1,2));
-        // console.log("roles restant",game.displayLeftRole())
-        // console.log("random in left",game.randomLeftRole())
-        // game.resetRole();
-
+        
+        AvalonPlayer.displayRole(game);
+        let role = ["Merlin","Morgane","Perceval","Assassin","GoodSoldier"];
+        AvalonPlayer.giveRandomRole(game.players,role);
+        AvalonPlayer.revealRole(game);
+        let player1 = game.players.random();
+        let player2 = game.players.random();
+        console.log(player1.roleName,player2.roleName);
+        console.log(AvalonPlayer.compare(player1,player1)); //true
+        console.log(AvalonPlayer.compare(player1,player2)); //False
+        console.log(AvalonPlayer.getRandomRole());
+        
       }
     },
 

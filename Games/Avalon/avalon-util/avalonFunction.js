@@ -41,44 +41,6 @@ var displayRoles = function(game,nb){
 
 exports.displayRoles = displayRoles;
 
-var selectRoles = function(game,nb){
-  const embed = new Discord.MessageEmbed()
-  .setColor("#DC143C")
-  .setTitle("Choix des rôles")
-  .setDescription("Choissisez quels sont les personnages vous souhaitez incarner. Pour voir la liste des rôles recommandés, éxécutez la commande `!recommended` ");
-
-  embed.addField("Merlin","")
-
-  let tmp = 0;
-  game.roleMap.forEach((value,key) => {
-    if(key.startsWith(nb.toString())){
-      tmp ++;
-      let name = `Role "${key}":\n`;
-      let content = "";
-      for(i in value){
-        content += `${value[i]}`
-        if(i!=value.length){
-          content += "\n"
-        }
-      }
-      embed.addField(name,content,true);
-    }
-  });
-        
-  number = ["1️⃣","2️⃣","3️⃣","4️⃣","5️⃣"];
-  // game.bot.send(game.channel,embed)
-  game.send(embed)
-  .then(m => {
-    for(let i = 0;i<tmp;i++){
-      console.log(`${number[i]}`)
-      m.react(number[i]);
-    }
-    m.react("🆕");
-  });
-}
-
-exports.displayRoles = displayRoles;
-
 /* 
 .addFields(
   { value :":x::x::x::x::x:",inline : true},
@@ -90,3 +52,12 @@ exports.displayRoles = displayRoles;
 
 
 
+var addMap = function(map,key,text){
+  map.forEach((value, tabKey) => {
+    if(tabKey.find(e => e == key)){
+      map.set(tabKey, map.get(tabKey) + text)
+    }
+  });
+}
+
+exports.addMap = addMap;

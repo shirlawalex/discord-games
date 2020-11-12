@@ -3,13 +3,14 @@ const { Discord, fs } = require(`../../util/function.js`)
 
 module.exports  = class Player {
   
-    constructor(user){
+    constructor(game,user){
+      this.game = game;
       this.info = user;
       this.id = user.id;
-      this.name = user.displayName;
+      this.points = 0;
     }
 
-    static randomize(players){
+    static randomizeOrder(players){
       let order = []
       players.forEach((k, v) => {
         order.push(v)
@@ -20,5 +21,18 @@ module.exports  = class Player {
       })
 
       return order;
+    }
+
+    addPoint(i){
+      if(i == undefined){
+        this.points += 1;
+      }else{
+        this.points += i;
+      }
+      return this.points;
+    }
+
+    displayName(){
+      return this.game.channel.members.get(this.id).displayName;
     }
 }

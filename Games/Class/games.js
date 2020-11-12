@@ -121,8 +121,8 @@ module.exports  = class Games {
       this.send(`${this.bot.displayText(`text`,"log",`noneRegister`,settings.game.lang)}`);
     }else{
       this.players.forEach((player) => {
-        const user = this.channel.members.get(player.id);
-        this.send(user.displayName);
+        // const user = this.channel.members.get(player.id);
+        this.send(player.displayName());
       });
     }
   }
@@ -132,7 +132,10 @@ module.exports  = class Games {
     const privateChan = this.channel.members.get(user.id);
     if(privateChan && !privateChan.user.bot){
       return this.bot.send(privateChan,content);
-    }else{return undefined;}
+    }else{
+      this.bot.sendLog(this.channel.guild,"BELOW SENT TO A BOT OR AN UNKNOW USER");
+      return this.bot.sendLog(this.channel.guild,content);
+    }
   }
 
   //send to all user in the channel a dm to a secret vote

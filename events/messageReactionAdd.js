@@ -22,60 +22,60 @@ module.exports = async (bot,reaction,user) =>  {
     const settings = await bot.getGuild(guild);
 
     if(idChannel === settings.idMainChannel){
-    // Emoji to start new games
+      // Emoji to start new games
 
-    const listGamesMessage = settings.listGamesMessage;
-    if(listGamesMessage.has(message.id)){
-      const name = listGamesMessage.get(message.id);
-      newGame = launcher(bot,parent,name);
-      if(newGame !== undefined){
-        newGame.promiseChannel.then( async channel => {
-          // add to the Map of the Game Channel
-          bot.gamesOngoing.set(channel.id,newGame)
+      const listGamesMessage = settings.listGamesMessage;
+      if(listGamesMessage.has(message.id)){
+        const name = listGamesMessage.get(message.id);
+        newGame = launcher(bot,parent,name);
+        if(newGame !== undefined){
+          newGame.promiseChannel.then( async channel => {
+            // add to the Map of the Game Channel
+            bot.gamesOngoing.set(channel.id,newGame)
 
-          //Add to the DB 
-          const newGameBD = {
-            guildID : guild.id,
-            guildName: guild.name,
-            gameName: name,
-            channelID : channel.id,
-            default : false
-          };
+            //Add to the DB 
+            const newGameBD = {
+              guildID : guild.id,
+              guildName: guild.name,
+              gameName: name,
+              channelID : channel.id,
+              default : false
+            };
 
-          await bot.saveGame(newGameBD);
-          await newGame.setNewMainMsg();
-          newGame.introduction();
-        const msg = bot.displayText(`text`,bot.main,"channelCreated",settings.lang) +" <#"+ newGame.channel.id +">"
-        bot.send(message.channel,msg);
-      });
-      }else{
-        console.log("game undefined");
+            await bot.saveGame(newGameBD);
+            await newGame.setNewMainMsg();
+            newGame.introduction();
+            const msg = bot.displayText(`text`,bot.main,"channelCreated",settings.lang) +" <#"+ newGame.channel.id +">";
+            bot.send(message.channel,msg);
+          });
+        }else{
+          console.log("game undefined");
+        }
+        reaction.remove();
+        message.react(`🆕`);
+        return;
       }
-      reaction.remove();
-      message.react(`🆕`);
-      return;
-    }
-  }
-}else{
-    // handle a reaction in a Game channel
-    if (bot.gamesOngoing.has(idChannel)){
-      bot.gamesOngoing.get(idChannel).handleReaction(reaction,user)
-    }
+    }else{
+      // handle a reaction in a Game channel
+      if (bot.gamesOngoing.has(idChannel)){
+        bot.gamesOngoing.get(idChannel).handleReaction(reaction,user)
+      }
 
-    // handle reaction in private channel
-    if ( message.channel.type == "dm" ){
-        console.log("emoji detected on private/dm msg");
-        bot.gamesOngoing.forEach((item, i) => {
-          const game = item
-          const name = game.name
-          const cache = game.cache
+      // handle reaction in private channel
+      if ( message.channel.type == "dm" ){
+          console.log("emoji detected on private/dm msg");
+          bot.gamesOngoing.forEach((item, i) => {
+            const game = item
+            const name = game.name
+            const cache = game.cache
 
-          if(cache.has(message.id)){
-            game.handleReaction(reaction,user)
-          }else{
-            console.log("not in cache")
-          }
-      });
+            if(cache.has(message.id)){
+              game.handleReaction(reaction,user)
+            }else{
+              console.log("not in cache")
+            }
+        });
+      }
     }
-  }
+  } 
 }
