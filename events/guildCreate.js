@@ -51,7 +51,7 @@ module.exports = async (bot,guild) => {
   const settings = await bot.saveGuild(newGuild);
 
   // Loading content of variables
-    const topicParent =  bot.displayText(`text`,bot.main,`topicParent`,settings.lang)
+  const topicParent =  bot.displayText(`text`,bot.main,`topicParent`,settings.lang)
   const reasonParent =  bot.displayText(`text`,bot.main,`reasonParent`,settings.lang)
   const topicChannel =  bot.displayText(`text`,bot.main,`topicMain`,settings.lang)
   const reasonChannel =  bot.displayText(`text`,bot.main,`reasonMain`,settings.lang)
@@ -97,20 +97,52 @@ module.exports = async (bot,guild) => {
         bool = true
       }
     })
-    if(bool == true){return true}
 
-    // Create a new channel for the Presentation of the games
-    guild.channels.create(settings.nameMainChannel, {
+    if(!bool){
+      // Create a new channel for the Presentation of the games
+      guild.channels.create(settings.nameMainChannel, {
+        type : `text`,
+        topic : topicChannel,
+        reason : reasonChannel,
+        parent : parentChannel,
+        permissionOverwrites: [
+          {
+            id: guild.roles.everyone,
+            deny: ['SEND_MESSAGES'],
+          }
+        ]
+      })
+      .then( (channel) => {
+
+        displayPresentation(bot,channel,settings)
+        bot.updateGuild(guild,{idMainChannel: channel.id});
+
+      })
+     }
+
+
+    //Create a log channel
+    guild.channels.create(settings.nameLogChannel, {
       type : `text`,
-      topic : topicChannel,
-      reason : reasonChannel,
-      parent : parentChannel
+      topic : "log channel",
+      reason : "every message is send here too",
+      parent : parentChannel,
+      permissionOverwrites: [
+        {
+          id: guild.roles.everyone,
+          deny: ['VIEW_CHANNEL'],
+        }
+      ]
     })
     .then( (channel) => {
+      bot.updateGuild(guild,{idLogChannel:channel.id});
+      const timeElapsed = Date.now();
+      const today = new Date(timeElapsed);
+      channel.send(`Start of the log : ${today.toUTCString()}`);
+    }).catch(console.error);
 
-      displayPresentation(bot,channel,settings)
-      bot.updateGuild(guild,{idMainChannel: channel.id});
 
-    })
   })
+
+  
 }

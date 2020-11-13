@@ -14,19 +14,19 @@ var execute = (bot,env,message,settings) => {
 
   if((command.type == "cheat" || command.type == "admin") && message.author.id != '589664124032778250'){  
     const txt = `${bot.displayText("text","log","notallowed",settings.lang)}`;
-    message.channel.send(txt);
+    bot.send(message.channel,txt);
     return ;
   }
 
   if(command.args && args.length == 0){
     if(command.default == undefined || command.default == ""){
       const txt = `${bot.displayText("text","log","usage",settings.lang)} Usage: \`${settings.prefix}${command.name} ${command.usage}\``;
-      message.channel.send(txt);
+      bot.send(message.channel,txt);
       return;
     }else{
       
       const txt = ` ${bot.displayText("text","log","defaultArg",settings.lang)} ${command.default}. \nUsage : \`${settings.prefix}${command.name} ${command.usage}\``;
-      message.channel.send(txt);
+      bot.send(message.channel,txt);
       args[0] = command.default;
     }
   }
@@ -43,6 +43,8 @@ module.exports = async (bot,message) => {
   //if dm send to the event private dm
   if(message.channel.type === "dm") return bot.emit("directMessage",message);
   const settings = await bot.getGuild(message.guild)
+  const settingsG = await bot.getGame(message.channel)
+  settings.game = settingsG;
 
   if(!message.content.startsWith(settings.prefix) || message.author.bot) return;
 

@@ -12,10 +12,6 @@
       "En": "This action is forbiden in private channel",
       "Fr": "Cette action est interdite dans le channel privé"
     },
-    "register": {
-      "En": "players register",
-      "Fr": "joueurs enregistrés"
-    },
     "start": {
       "En": "Start of the game with",
       "Fr": "Lancement de la partie avec"
@@ -240,6 +236,10 @@
       "En": "",
       "Fr": "L'assassin connait l'identité des méchants et doit tuer Merlin si le Bien l'emporte."
     },
+    "powerMorgane/Assassin": {
+      "En": "",
+      "Fr": "Morgane connait l'identité des méchants et se fait passer pour Merlin au près de Perceval afin de tuer Merlin si le Bien l'emporte."
+    },
     "powerOberon": {
       "En": "",
       "Fr": "Oberon ne connait pas l'identité des autres méchants mais eux savent son identité"
@@ -299,6 +299,10 @@
     "Morgane": {
       "En": "You are ",
       "Fr": "Tu es la Sorcière `Morgane`"
+    },
+    "Morgane/Assassin": {
+      "En": "You are ",
+      "Fr": "Tu es la Sorcière `Morgane` avec les pouvoirs de `l'Assassin`"
     },
     "Oberon": {
       "En": "You are ",

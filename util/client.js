@@ -44,8 +44,16 @@ module.exports = bot => {
 
   /*********  FUNCTION ***********/
 
-  bot.testlog = () => {
-    console.log("test done");
+
+  bot.send =  (channel,content) => {
+    bot.sendLog(channel.guild,content);
+    return channel.send(content);
+  },
+
+  bot.sendLog = async (guild,content) => {
+    const data = await Guild.findOne({guildID: guild.id});
+    const logChannel = guild.channels.cache.get(data.idLogChannel);
+    return logChannel.send(content);
   },
 
   bot.displayText = (name,context,key,lang) =>{
@@ -55,6 +63,9 @@ module.exports = bot => {
   // Display in the channel of the message all commands
   bot.displayCommands = (message,nameGame,nameCommand,settings) => {
     let end = true;
+    let noArg =  nameGame == "main" ? true : false ;
+    let nameContext = nameGame == "main" ?  `${bot.displayText(`text`,"commandHelp",`nameMain`,settings.lang)}` : nameGame;
+
     bot.commands.forEach((k,v) => {
       if(String(v).toLowerCase() === String(nameGame).toLowerCase()){
         const commandMap = bot.commands.get(v); 
@@ -62,7 +73,8 @@ module.exports = bot => {
         let doContinu = true;
         if(nameCommand != ""){
           if(!commandMap.has(nameCommand)){
-            message.channel.send("can't found this commands");
+            bot.send(message.channel,
+              `${bot.displayText(`text`,"commandHelp",`notFound`,settings.lang)}`);
           }else{
             doContinu = false;
             const command = commandMap.get(nameCommand);
@@ -80,7 +92,7 @@ module.exports = bot => {
               }
             });
 
-            message.channel.send(embed); 
+            bot.send(message.channel,embed); 
           }
         }
 
@@ -103,28 +115,29 @@ module.exports = bot => {
           const embed = new Discord.MessageEmbed()
             .setColor("#DC143C")
             .setTitle("Commands")
-            .setDescription("Voici la liste des commandes pour le jeu, classé par type. Pour avoir le detail d'une commande, executé : !commands <game> <command_name>");
+            .setDescription(`${bot.displayText(`text`,"commandHelp",`listPt1`,settings.lang)} ${nameContext} ${bot.displayText(`text`,"commandHelp",`listPt2`,settings.lang)}`);
           
           categories.forEach((commandList,type) => {
             const nameList = Array.prototype.join.call(commandList);
             embed.addField(type,commandList)
           });
       
-          message.channel.send(embed); 
+          bot.send(message.channel,embed); 
         }
       end = false; //no need to check other game
       }
     });
-    if(end){ 
-      message.channel.send("Pas de jeu à ce nom trouvée.");
+    if(end || noArg){ 
+      // bot.send(message.channel,`${bot.displayText(`text`,"commandHelp",`gameNotFound`,settings.lang)}`);
       let map = Array.from(bot.commands);
-      let names = Array.from(map,x => x[0]).join()
-      console.log(names)
-      message.channel.send(`Voici la liste des catégories/jeux disponibles :  \`${names}\``);
+      let names = Array.from(map,x => x[0]).join(", ")
+      bot.send(message.channel,`${bot.displayText(`text`,"commandHelp",`listGamesPt1`,settings.lang)}  \`${names}\`${bot.displayText(`text`,"commandHelp",`listGamesPt2`,settings.lang)}`);
     }
   },
 
-  
+  //** ACCESS TO DATA BASE **/
+  //GUILD 
+
   bot.isSaved = async (guild) => {
     const data = await Guild.findOne({guildID: guild.id});
     return data ? true : false ;
@@ -168,6 +181,8 @@ module.exports = bot => {
     return data.updateOne(settings);
   },
 
+  //GAMES
+
   bot.setListGames = async (guild,key,value) => {
     const data = await Guild.findOne({guildID: guild.id});
     await data.listGamesMessage.set(key,value)
@@ -204,12 +219,70 @@ module.exports = bot => {
     const createGame = new Game(merged);
     await createGame.save().then(g => console.log(`New game -> ${g.gameName} in ${g.guildName}`));
     return createGame;
-  }
+  },
 
   bot.deleteGame = async (channelID) => {
     const res = await Game.deleteOne({channelID: channelID}).then( res => {console.log(`Game in channel ${channelID} deleted : ${res.n == 1 ? "ok":res.n + " documents deleted"}`)});
 
+  },
+
+  bot.isSavedGame = async (channelId) => {
+    const data = await Game.findOne({ channelID: channelId});
+    return data ? true : false ;
+  },
+
+
+  bot.getGame = async (channelId) => {
+    const data = await Game.findOne({ channelID: channelId});
+    if(data) return data;
+    return bot.defaultSettings;
+  },
+
+
+  /* to change data
+    await bot.updateGame(channelId,{ key1 : new_value, key2 : new_value})
+  */
+  bot.updateGame = async (channelId,settings) => {
+    const data = await Game.findOne({ channelID: channelId});
+  
+    if(!await bot.isSavedGame(channelId)){ 
+      console.log("couldnt find data in DB"); return false;
+    }
+
+    
+    if(typeof data !== "object") data = {};
+    for (const key in settings){
+      if (data[key] !== settings[key])  data[key] = settings[key];
+    }
+    return data.updateOne(settings);
   }
+
+   
+  bot.setGamesMap = async (channelId,key,value) => {
+    const data = await Game.findOne({channelID: channelId});
+    await data.map.set(key,value)
+    await data.save();
+    return data.map;
+  },
+
+  bot.getGamesMap = async (channelId,key) => {
+    const data = await Game.findOne({ channelID: channelId});
+    return data.map.get(key);
+  },
+
+  bot.hasGamesMap = async (channelId,key) => {
+    const data = await Game.findOne({ channelID: channelId});
+    return data.map.has(key);
+  },
+
+  bot.clearGamesMap = async (channelId) => {
+    const data = await Game.findOne({ channelID: channelId});
+    data.map.forEach((v,k,m) => { m.delete(k); })
+    // await data.listGamesMessage.clear()
+    await data.save();
+    return data.updateOne(data);
+  }
+  
 }
 
 

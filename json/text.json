@@ -45,6 +45,40 @@
       "Fr": "```Pour avoir la liste des commandes faites !commands. \nPour supprimer toutes les parties !deleteall. \nPour relancer le bot (en cas de bug) !restart ``` "
     }
   },
+  "game":{
+    "nameGame": {
+      "En": "This message is for the game :",
+      "Fr": "Ce message concerne la Partie :"
+    },
+    "register": {
+      "En": "player register",
+      "Fr": "joueur.se enregistré.e"
+    },
+    "noneRegister": {
+      "En": "No player registered yet.",
+      "Fr": "Aucun joueur enregisté actuellement."
+    },
+    "cannotRegister": {
+      "En": "player already added or is a bot.",
+      "Fr": "joueur.se déjà enregistré.e ou est un bot."
+    },
+    "notRegistered": {
+      "En": "player not registered.",
+      "Fr": "joueur.se non enregistré.e."
+    },
+    "remove": {
+      "En": "player removed.",
+      "Fr": "joueur.se retiré.e."
+    },
+    "start": {
+      "En": "Start of the game with",
+      "Fr": "Lancement de la partie avec"
+    },
+    "players": {
+      "En": "players",
+      "Fr": "joueurs"
+    }
+  },
   "log": {
     "prefixUpdate" : {
       "En" : "Prefix updated",
@@ -69,6 +103,44 @@
     ,"defaultArg": {
       "En": "No argument. Default value is :",
       "Fr": "Pas d'argument. Valeur par défault :"
+    },
+    "forbiden": {
+      "En": "This action is forbiden",
+      "Fr": "Cette action est interdite"
+    },
+    "forbidenPrivate": {
+      "En": "This action is forbiden in private channel",
+      "Fr": "Cette action est interdite dans le channel privé"
+    }
+  },
+  "commandHelp":{
+    "nameMain":{
+      "En" : "the main menu", 
+      "Fr" : "le menu principale"
+    },
+    "notFound":{
+      "En" : "can't found this commands.", 
+      "Fr" : "impossible de trouver cette commande."
+    },
+    "listPt1":{
+      "En" : "There is the list of all commands for", 
+      "Fr" : "Voici la liste des commandes pour"
+    },
+    "listPt2":{
+      "En" : ", ordered by type. For more details, use : !commands <Name Game> [<Command Name>]", 
+      "Fr" : ", classé par type. Pour avoir le detail d'une commande, executé : !commands <Nom du Jeu> [<Nom de la commande>]"
+    },
+    "gameNotFound":{
+      "En" : "Any game for this name.", 
+      "Fr" : "Pas de jeu à ce nom trouvée."
+    },
+    "listGamesPt1":{
+      "En" : "There is the list of all the games availables :", 
+      "Fr" : "Voici la liste des catégories/jeux disponibles :"
+    },
+    "listGamesPt2":{
+      "En" : "(main is for the general commands of the main menu.)", 
+      "Fr" : "\n(main représente les commandes générale du menu principale.)"
     }
   }
 }

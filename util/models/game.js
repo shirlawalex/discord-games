@@ -6,7 +6,11 @@ const gameSchema = mongoose.Schema({
   guildID : String,
   guildName : String,
   gameName : String,
-  channelID : Number
+  channelID : Number,
+  mainMsgId : {
+    "type": String,
+    "default": defaults.mainMsgId
+  }
   ,prefix: {
     "type" : String,
     "default": defaults.prefix
@@ -15,11 +19,13 @@ const gameSchema = mongoose.Schema({
     "type": String,
     "default": defaults.lang
   }
-  ,listGamesMessage: {
+  ,map: {
     "type": Map,
     "of" : String,
     "default": {}
   }
+  ,default: {"type" : Boolean, "default":true}
+  
 });
 
 module.exports = mongoose.model("Game",gameSchema);

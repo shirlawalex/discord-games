@@ -23,7 +23,7 @@ module.exports  =  {
         }else{ game = {}}
 
         if(args.length == 0){
-          message.channel.send("language is "+settings.lang);
+          bot.send(message.channel,"language is "+settings.lang);
         }
         else {
           switch(args[0].toLowerCase()){
@@ -38,7 +38,7 @@ module.exports  =  {
             bot.updateGuild(message.guild,{lang:"Fr"});
 
           }
-          message.channel.send(`language set to ${game.lang}`);
+          bot.send(message.channel,`language set to ${game.lang}`);
           // console.log(`language set to ${game.lang}`);
         }
       }
@@ -53,7 +53,7 @@ module.exports  =  {
       description: 'Pong !',
       delete : false,
       execute(bot, game, message,args, settings) {
-        message.channel.send("Pong!");
+        bot.send(message.channel,"Pong!");
 
       }
     } 
@@ -64,7 +64,7 @@ module.exports  =  {
     //   delete : false,
     //   async execute(bot, game, message,args, settings) {
     //     await message.delete();
-    //     await message.channel.send("Le bot s'eteint");
+    //     await bot.send(message.channel,"Le bot s'eteint");
     //     process.exit();
     //   }
     // } 
@@ -78,10 +78,10 @@ module.exports  =  {
       description: 'Display all games on going',
       delete : false,
       execute(bot, game, message,args, settings) {
-        message.channel.send("There is all game on going in the bot");          
-        // message.channel.send(bot.gamesOngoing);          
+        bot.send(message.channel,"There is all game on going in the bot");          
+        // bot.send(message.channel,bot.gamesOngoing);          
         bot.gamesOngoing.forEach((v,k,m) => {
-          message.channel.send(`${v.name} in ${k} at ${v.channel.guild.name}`);          
+          bot.send(message.channel,`${v.name} in ${k} at ${v.channel.guild.name}`);          
         }) 
       }
     } 
@@ -103,16 +103,16 @@ module.exports  =  {
             if(newSetting){
               let found = await bot.updateGuild(message.guild,{prefix:newSetting});
               if(found){
-                message.channel.send(`${bot.displayText("text","log","prefixUpdate",settings.lang)} \`${settings.prefix}\` -> \`${newSetting}\`.`);
+                bot.send(message.channel,`${bot.displayText("text","log","prefixUpdate",settings.lang)} \`${settings.prefix}\` -> \`${newSetting}\`.`);
               }else{
-                message.channel.send(bot.displayText("text","log","errorAction",settings.lang)+bot.displayText("text","log","dbMissing",settings.lang) )
+                bot.send(message.channel,bot.displayText("text","log","errorAction",settings.lang)+bot.displayText("text","log","dbMissing",settings.lang) )
               }
             }else{
-              message.channel.send("prefix : "+settings.prefix);
+              bot.send(message.channel,"prefix : "+settings.prefix);
             }
             break;
           default:
-            message.channel.send("not allowed to change this key or key not valid")
+            bot.send(message.channel,"not allowed to change this key or key not valid")
             break;
         }
       }
@@ -152,7 +152,7 @@ module.exports  =  {
           .addFields(
             { value :":x::x::x::x::x:",inline : true},
             {name : "un champ 2", value :" sa valaue",inline : true},
-            {name : "un champ 3", value :" sa valaue",inline : false},
+            {name : "un champ 3", value :" sa valaue",inline : true},
             {name : "un champ 4", value :" sa valaue",inline : true}
           )
           .setImage(bot.user.displayAvatarURL())
@@ -161,7 +161,7 @@ module.exports  =  {
           .setFooter("Je suis sur le pied du footer",bot.user.displayAvatarURL());
 
 
-        message.channel.send(embed)
+        bot.send(message.channel,embed)
         .then(m => m.react("❌"));
 
       }
@@ -174,7 +174,7 @@ module.exports  =  {
       type : "information",
       description: 'Display Welcome text to a user',
       execute(bot, game, message,args, settings) {
-        message.channel.send(bot.displayText(`text`,bot.main,`welcome`,settings.lang)+" "+args[0]);
+        bot.send(message.channel,bot.displayText(`text`,bot.main,`welcome`,settings.lang)+" "+args[0]);
       }
     }
     ,{
@@ -182,7 +182,7 @@ module.exports  =  {
       parent : 'main',
       default : "main", 
       args : true,
-      usage :  '<Name Game> <Command name>',
+      usage :  '<Name Game> [<Command name>]',
       type : "information",
       description: 'Display all commands from a Game. If you want main commands put \"main\" for <Name Game>',
       execute(bot, game, message,args, settings) {
@@ -191,6 +191,19 @@ module.exports  =  {
         }else{
           bot.displayCommands(message,args[0],"",settings);
         }
+      }
+    }
+    ,{
+      name : 'help',
+      parent : 'main',
+      default : "", 
+      args : false,
+      usage :  '',
+      type : "information",
+      description: 'aliases for commands',
+      execute(bot, game, message,args, settings) {
+        const e = message.channel.send("For help use !commands");
+        // e.then(e => bot.emit(`message`,e));
       }
     }
     ,{
