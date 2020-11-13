@@ -59,23 +59,33 @@ module.exports = async (bot,reaction,user) =>  {
       // handle a reaction in a Game channel
       if (bot.gamesOngoing.has(idChannel)){
         bot.gamesOngoing.get(idChannel).handleReaction(reaction,user)
-      }
-
-      // handle reaction in private channel
-      if ( message.channel.type == "dm" ){
-          console.log("emoji detected on private/dm msg");
-          bot.gamesOngoing.forEach((item, i) => {
-            const game = item
-            const name = game.name
-            const cache = game.cache
-
-            if(cache.has(message.id)){
-              game.handleReaction(reaction,user)
-            }else{
-              console.log("not in cache")
-            }
+      }else{
+        //if it's in log channel or a bug 
+        bot.gamesOngoing.forEach((item, i) => {
+          const game = item
+          const cache = game.cache
+          
+          if(cache.has(message.id)){
+            game.handleReaction(reaction,user)
+          }else{
+            console.log("not in cache")
+          }
         });
       }
     }
-  } 
-}
+  }
+  // handle reaction in private channel
+  if ( message.channel.type == "dm" ){
+    console.log("emoji detected on private/dm msg");
+    bot.gamesOngoing.forEach((item, i) => {
+      const game = item
+      const cache = game.cache
+
+      if(cache.has(message.id)){
+        game.handleReaction(reaction,user)
+      }else{
+        console.log("not in cache")
+      }
+    });
+  }
+} 

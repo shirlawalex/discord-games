@@ -11,7 +11,11 @@ module.exports  = class Games {
   }
 
   introduction(){
-    this.send("Bienvenu");
+    const embed = this.mainEmbed;
+    embed.setDescription("Bienvenu");
+    embed.addField("Test","texte de test");
+    // this.send(embed,this.edit);
+    this.action();
   }
 
   action(){
@@ -47,6 +51,10 @@ module.exports  = class Games {
     this._jsonFile = jsonfile //'./Games/UndefinedJson.json'
     this._cacheMessage = new Discord.Collection();
     this._players = new Discord.Collection(); //Collection of the Object Player (id,user).
+    this.mainEmbed = new Discord.MessageEmbed()
+    .setColor("#DC143C")
+    .setTitle(`${this.name}`)
+    .setDescription("Partie Crée.");
   }
 
   //getters
@@ -141,30 +149,34 @@ module.exports  = class Games {
   //send to all user in the channel a dm to a secret vote
   // arrayId of type Array
   // context and key of type String
-  vote(arrayUser,content,emojiArray){
-    let arrayIdMessage = new Array();
-    for(let i = 0; i < arrayUser.length; i++){
+  async vote(arrayUser,content,emojiArray){
+    let arrayIdMessage = [];
+    // for await (const user of arrayUser){
+    for (let i = 0; i < arrayUser.length; i++){
       const user = arrayUser[i];
       const msgVote = this.sendDM(user,content);
       if(msgVote != undefined){
         if(emojiArray != undefined){    
-          msgVote.then(m => {
+          await msgVote.then(m => {
+            arrayIdMessage.push(m.id);
             emojiArray.forEach(emoji => {
               m.react(emoji)
             });
-            arrayIdMessage.push(m.id)
-           });
+          });
         }else{
-          msgVote.then(m => {
+          await msgVote.then(m => {
+            arrayIdMessage.push(m.id);
             m.react(`✅`);
             m.react(`❌`)
-            arrayIdMessage.push(m.id)
-
           })
         }
         this.addCache(msgVote);
+      }else{
+        console.log("error in vote : send dm didnt work");
+        return [];
       }
     }
+    console.log("array",arrayIdMessage);
     return arrayIdMessage
   }
 
@@ -185,21 +197,42 @@ module.exports  = class Games {
   )
   if(nbTrue >= result.length / 2){ //to do}
   */
+  /*
+  this.result = [];
+  this.result = this.loadVote(reaction,this.arrayMsg,[`✅`,`❌`,`🏳️`,"🏴"],this.result);
+  
+  console.log(this.result.length)
+  let nb0 = this.result.filter(e => e == 0).length
+  console.log("nbre de 0:",nb0);
+  
+  let nb1 = this.result.filter(e => e == 1).length
+  console.log("nbre de 1:",nb1);
+  */
   loadVote(reaction,arrayIdMessage,emojiArray,result){
     const message = reaction.message;
-
     //Initialisation of the array result
     if(result.length != arrayIdMessage.length){
       result = Array.from({length: arrayIdMessage.length}, e => undefined)
-      console.log("intializating array",result)
     }
 
     const index = arrayIdMessage.indexOf(message.id);
+    console.log("index",index);
     if(index != -1){
       if(this._cacheMessage.has(message.id)){
-        console.log(emojiArray);
         if(emojiArray.find(e => e == reaction.emoji.name)){
           result[index] = emojiArray.indexOf(reaction.emoji.name);
+          this.send("1 vote enregistré");
+          let tmp = result.reduce(
+            (acc,cur) => {
+              // console.log("cur",cur)
+              if(cur != undefined){
+                acc ++;
+              }
+              return acc;
+            }
+          )
+          this.send(`${tmp} vote enregistrés`)
+          
           //can't change your vote is deleted from the cache
           this._cacheMessage.delete(message.id)
         }
@@ -207,6 +240,8 @@ module.exports  = class Games {
         console.log("already vote")
       }
     }
+    // result.then(e => {console.log(e); return e;});
+    console.log(result);
     return result
   }
 

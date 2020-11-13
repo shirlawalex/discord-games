@@ -57,45 +57,109 @@ module.exports  =  {
       }
     }
     ,{
-      name : 'vote',
-      parent : 'avalon',
-      default : "", 
-      args : true,
-      usage :  '<@mention> [<@mention>, ...]',
-      type : "cheat",
-      description: 'créer un vote test',
-      execute(bot,game,message,args, settings) {
-        const arrayUser = Array.from(message.mentions.members).map(x => x[1]);
-        const content = "vote";
-        const emojiArray = [`✅`,`❌`,`🏳️`,"🏴"];
-        game.arrayMsg = game.vote(arrayUser,content,emojiArray);
-        return arrayUser.map(x => x.id);
-      }
-    } 
-    ,{
-      name : 'tire',
+      name : 'leader',
       parent : 'avalon',
       default : "", 
       args : false,
       usage :  '',
-      type : "test",
-      description: 'tire un role au hasard',
+      type : "cheat",
+      description: "change the leader manually",
       execute(bot,game,message,args, settings) {
-        
-        AvalonPlayer.displayRole(game);
-        let role = ["Merlin","Morgane","Perceval","Assassin","GoodSoldier"];
-        AvalonPlayer.giveRandomRole(game.players,role);
-        AvalonPlayer.revealRole(game);
-        let player1 = game.players.random();
-        let player2 = game.players.random();
-        console.log(player1.roleName,player2.roleName);
-        console.log(AvalonPlayer.compare(player1,player1)); //true
-        console.log(AvalonPlayer.compare(player1,player2)); //False
-        console.log(AvalonPlayer.getRandomRole());
-        
-      }
-    },
+        if(!commandAllow(game,settings,"leader",[5,6])) return;
 
+        if(args.length == 1){
+          const val = parseInt(args[0]);
+          const nb = game.order.length;
+          if(!isNaN(val)){
+            if(val >= 0 && val <= nb){
+              game.leaderId = (val+nb-2)%nb
+              game.step = 5;
+              game.action();
+            }
+          }
+        }else{
+          console.log("error commande leader")
+        }
+      }
+    }
+    ,{
+      name : 'select',
+      parent : 'avalon',
+      default : "", 
+      args : false,
+      usage :  '',
+      type : "game",
+      description: "During step 6, the leader choose the players for the quest ",
+      execute(bot,game,message,args, settings) {
+        if( !commandAllow(game,settings,"select",[6])) return;
+
+        game.quest.clear();
+
+        const id = game.order[game.leaderId];
+        if(message.member.id != game.channel.members.get(id)){
+          game.channel.send(game.displayText("log","notallowed"))
+          return;
+        }
+        const nb = game.board[`${game.round}`][2];
+        if(message.mentions.users.size != nb){
+          const txt = "not the right number of players, need "+nb+" players";
+          game.channel.send(txt)
+          return;
+        }
+        game.namesQuest = ""
+        let check = true;
+        message.mentions.users.forEach( user => {
+          if(!user.bot && !game.players.has(user.id)){
+            check = false;
+          }else{
+            game.quest.set(user.id,undefined);
+            game.namesQuest += user.toString()+" ";
+          }
+        });
+        if(!check){
+          game.channel.send(game.displayText("log","notallowed"))
+          game.quest.clear()
+          return;
+        }
+
+        game.channel.send(game.displayText("gameAction","electTeam"))
+        game.channel.send(game.namesQuest)
+
+        game.step = 7;
+        game.action()
+
+      }
+    }
+    ,{
+      name : 'assassin',
+      parent : 'avalon',
+      default : "", 
+      args : false,
+      usage :  '',
+      type : "game",
+      description: 'During step 10, the members of the vote have to succed or failed the quest',
+      execute(bot,game,message,args, settings) {
+        if(!privateAllow(game,message,"assassin") || !commandAllow(game,settings,"assassin",[14])) return;
+
+        const id = message.author.id;
+        // if(game.players.get(id).find(e => e == "Assassin") == undefined){ return; }
+        if(args.length != 1){ return; }
+        const nb = parseInt(args[0]);
+        if(isNaN(nb)){ return ;}
+
+        const target_id = game.order[nb-1];
+
+        if(game.players.get(target_id).find(e => e == "Merlin") != undefined){
+          game.step = 15 //find Merlin
+          game.channel.send(game.displayText("gameAction","merlinFound"))
+        }else{
+          game.step = 16 // not find Merlin
+          game.channel.send(game.displayText("gameAction","merlinNotFound"))
+
+        }
+        game.action()
+      }
+    }
   ]
 }
 

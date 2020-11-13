@@ -53,7 +53,7 @@ module.exports = bot => {
   bot.sendLog = async (guild,content) => {
     const data = await Guild.findOne({guildID: guild.id});
     const logChannel = guild.channels.cache.get(data.idLogChannel);
-    logChannel.send(content);
+    return logChannel.send(content);
   },
 
   bot.displayText = (name,context,key,lang) =>{

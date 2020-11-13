@@ -26,26 +26,30 @@ module.exports = class AvalonPlayer extends Role(Player) {
   .set("Morgane/Assassin","🎎")
   ;
   
-  static setConfigRole(game,reaction){
-    if(reaction.emoji.name == "🔄"){
-      game.send("Restart! 🔄 Liste des roles remise à zéro.");
-      game.role = [];
-    }
-    const role = this.emojiRole.findKey(emoji => emoji == reaction.emoji.name);
-    if(role){
-      game.role.push(this.emojiRole.findKey(emoji => emoji == reaction.emoji.name));
-      
-      game.send(`Role selectionné : ${role} ${reaction.emoji.name}. ${game.role.length} rôle.s enregistré.s.`);
+  // static setConfigRole(game,reaction){
+  //   if(reaction.message.id == this.configMsg.id){
 
-      if(game.role.length == game.players.size){ //give Role to players
-        this.sendRoles(game)
-        game.step = 5;
-        game.action();
-      }
-    }
-  }
+  //     if(reaction.emoji.name == "🔄"){
+  //       game.send("Restart! 🔄 Liste des roles remise à zéro.");
+  //       game.role = [];
+  //     }
+  //     const role = this.emojiRole.findKey(emoji => emoji == reaction.emoji.name);
+  //     if(role){
+  //       game.role.push(this.emojiRole.findKey(emoji => emoji == reaction.emoji.name));
+        
+  //       game.send(`Role selectionné : ${role} ${reaction.emoji.name}. ${game.role.length} rôle.s enregistré.s.`);
+
+  //       if(game.role.length == game.players.size){ //give Role to players
+  //         this.sendRoles(game)
+  //         game.step = 5;
+  //         game.action();
+  //       }
+  //     }
+  //   }
+  // }
 
   static sendRoles(game){
+    game.step = 5;
     const players = game.players;
     const nb = game.players.size
     const role = game.role;
