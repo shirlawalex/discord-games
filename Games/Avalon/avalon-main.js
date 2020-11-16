@@ -1,7 +1,8 @@
 const {fs, Discord } = require(`../../util/function.js`)
 const AvalonPlayer = require("./avalon-util/avalonPlayer.js")
 const Games = require("../Class/games.js")
-const {displayRoles } = require(`./avalon-util/avalonFunction.js`)
+const {displayRoles, getBoard } = require(`./avalon-util/avalonFunction.js`)
+const game = require("../../util/models/game.js")
 
 
 const nameGame = "Avalon"
@@ -133,7 +134,17 @@ module.exports  = class Avalon extends Games {
             msg += `${i}: ${channel.members.get(this.order[i-1]).toString()}\n`;
           }
           this.send(msg,this.edit);
+
+          const nb = this.players.size.toString();
+          this.board =  JSON.parse(JSON.stringify(this.boardData[nb]));
+          const embedExplainBoard = new Discord.MessageEmbed()
+          .setTitle("Explication tour")
+          .setDescription("A chacun des 5 tours, le leader devra choisir les joueurs qui iront en quête et le nombre est indiqué sur le tableau de jeux.")
+          .addField("Board",getBoard(this))
+          this.send(embedExplainBoard);
+          
           this.step = 4;
+
           
         case 4: // Select Role to play 
           AvalonPlayer.displayRole(this);
@@ -175,9 +186,11 @@ module.exports  = class Avalon extends Games {
         case 8: //check the result
           console.log(this.resultVote);
           if(!this.resultVote.includes(undefined)){
-            const yes = this.resultVote.reduce((acc,cur) => {if(cur == 0){acc ++;}return acc;});
-            const no = this.resultVote.reduce((acc,cur) => {if(cur == 1){acc ++;}return acc;});
-            const txt = `\`Resultat : yes = ${yes}, no = ${no}\``;
+            console.log("test des 0");
+            const yes = this.resultVote.reduce((acc,cur) => {if(cur == 0){acc ++;} console.log(cur,acc); return acc;},0);
+            console.log("test des 1");
+            const no = this.resultVote.reduce((acc,cur) => {if(cur == 1){acc ++;} console.log(cur,acc); return acc;},0);
+            const txt = `\`\`\`Resultat : \nyes = ${yes} \nno = ${no}\`\`\``;
             this.send(txt);
             if(yes > no) this.step = 10;
             else this.step = 9;
@@ -189,22 +202,25 @@ module.exports  = class Avalon extends Games {
         case 9: // Majority of No : Quest doesnt go !
           this.step = 5;
           this.countDenied ++;
-          channel.send(this.displayText("gameAction","noWin"))
-          channel.send(this.displayText("gameAction","teamDenied"))
+          this.send(this.displayText("gameAction","noWin"))
+          this.send(this.displayText("gameAction","teamDenied"))
           this.action()
           break;
 
         case 10: // Majority of Yes : Quest go !
           this.countDenied = 0;
-          channel.send(this.displayText("gameAction","yesWin"))
-          channel.send(this.displayText("gameAction","teamAccept"))
+          this.send(this.displayText("gameAction","yesWin"))
+          this.send(this.displayText("gameAction","teamAccept"))
 
           let content2 = new Discord.MessageEmbed()
           .setTitle("Issue de la quête")
           .setDescription(this.displayText("log","game") + this.channel.name)
           .addField("Consigne",this.displayText("private","questEmoji"));
 
-          const arrayUser2 = Array.from(this.players.values());
+          let arrayUser2 = this.quest.keyArray();
+          console.log("user quest id",arrayUser2); 
+          arrayUser2 = arrayUser2.map( e => this.channel.members.get(e));
+          console.log("user quest",arrayUser2); 
           this.arrayVoteMsgId = this.vote(arrayUser2,content2);
 
           this.step = 11;
@@ -218,11 +234,10 @@ module.exports  = class Avalon extends Games {
           });
 
 
-          channel.send(this.displayText("gameAction","voteQuest"));
+          this.send(this.displayText("gameAction","voteQuest"));
 
           if(check == false){
             break;
-            return;
           }
 
           let countFail = 0;
@@ -238,7 +253,6 @@ module.exports  = class Avalon extends Games {
           }else{
             fail = (countFail >= 1)
           }
-          channel.send(countFail+this.displayText("gameAction","countFail"))
           if(fail){
             this.step = 12;
           }else{
@@ -247,19 +261,20 @@ module.exports  = class Avalon extends Games {
 
         case 12: // Quest Failed : 1 point for Evil
         case 13: // Quest Suceed : 1 point for Good
+          let embedResult = new Discord.MessageEmbed().setTitle("Resultat").setDescription(countFail+this.displayText("gameAction","countFail"));
           let emoji = "warning";
           if(this.step == 12){
             this.questFailed ++;
             emoji = "x"
-            channel.send(this.displayText("gameAction","questFailed"))
+            embedResult.addField("Sabotage",this.displayText("gameAction","questFailed"))
           }
 
           if(this.step == 13){
             this.questSucceed ++;
             emoji = "white_check_mark"
-            channel.send(this.displayText("gameAction","questSucceed"))
+            embedResult.addField("Succès",this.displayText("gameAction","questSucceed"))
           }
-
+          this.send(embedResult);
           this.boardProgress += ":"+emoji+":";
 
           // Number of Quest check
@@ -282,8 +297,8 @@ module.exports  = class Avalon extends Games {
 
         case 14: // Assassination of Merlin
           if(this.assassination){
-            channel.send(this.displayText("gameAction","assassination"))
-            channel.send(this.displayText("gameAction","assassinationCommand"))
+            game.send(this.displayText("gameAction","assassination"))
+            game.send(this.displayText("gameAction","assassinationCommand"))
 
           }else{
             this.step = 16;
@@ -294,25 +309,27 @@ module.exports  = class Avalon extends Games {
         case 15: // Evil win
         case 16: // Good win
         //deleting role 
-        if(channel.guild.roles.cache.has(this.leaderRole)){
-          channel.guild.roles.cache.get(this.leaderRole).delete("Deleting role").then(deleted => console.log(`Deleted role ${deleted.name}`))
-        }
+        // if(channel.guild.roles.cache.has(this.leaderRole)){
+        //   channel.guild.roles.cache.get(this.leaderRole).delete("Deleting role").then(deleted => console.log(`Deleted role ${deleted.name}`))
+        // }
        
         if(this.step == 15){
-          channel.send(this.displayText("gameAction","evilWin"))
+          game.send("```"+this.displayText("gameAction","evilWin")+"```")
         }
 
         if(this.step == 16){
-          channel.send(this.displayText("gameAction","goodWin"))
+          game.send("```"+this.displayText("gameAction","goodWin")+"```")
         }
 
         case 17: // Reveal role
+          const embedEnd = new Discord.MessageEmbed().setTitle("Révélation des rôles");
           this.players.forEach((item, i) => {
-            const name = channel.members.get(i).user.username;
-            const txt = name + " : "+item.toString()
-            channel.send(txt)
+            const name = channel.members.get(i).user.displayName;
+            embedEnd.addField(name,item.roleName);
           });
+          game.send(embedEnd);
         case 18: // Credit
+          game.send("Merci d'avoir joué ! Codé par Alex Shirlaw")
           break;
 
         default:
@@ -360,47 +377,8 @@ module.exports  = class Avalon extends Games {
     this.action();
   }
 
-  displayBoard = function (game,board){
-    let msg = "";
-    let info = false;
-    Object.values(board).forEach(val => {
-      msg = msg + ":"+val[0]+":"
-      if(val[1]) {msg = msg + ":pushpin:";info = true;}
-    });
-    game.channel.send(msg)
-    if (info){
-      game.channel.send("\":four::pushpin:\" "+game.displayText("rules","roundPin"))
-    }
-  }
-  
-  // exports.displayBoard = displayBoard;
-  
-  
-  printBoard = function (game) {
-    const nb = game.players.size.toString();
-    game.channel.send("```" +game.displayText("players",nb)+ "```")
-    game.board = JSON.parse(JSON.stringify(game.boardData[nb]))
-    displayBoard(game,game.board)
-    const msgDenied = "```" + game.countDenied +
-    game.displayText("gameAction","countDenied") + "```";
-    game.channel.send(msgDenied);
-    return;
-  }
-  
-  // exports.printBoard = printBoard;
-
   embedNewRound(){
-    const nb = this.players.size.toString();
-    this.board =  JSON.parse(JSON.stringify(this.boardData[nb]))
-    let boardmsg = "";
-    let info = false;
-    Object.values(this.board).forEach(val => {
-      boardmsg = boardmsg + ":"+val[0]+":"
-      if(val[1]) {boardmsg = boardmsg + ":pushpin:";info = true;}
-    });
-    if (info){
-      boardmsg = boardmsg + "\n\":four::pushpin:\" "+this.displayText("rules","roundPin")
-    }
+    let boardmsg = getBoard(this);
 
     const orderName = this.order.map(id => this.channel.members.get(id).user.toString());
     // const pt1 = `Actual leader is: ${orderName[this.leaderId]}`;

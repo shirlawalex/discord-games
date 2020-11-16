@@ -131,30 +131,50 @@ module.exports  =  {
       }
     }
     ,{
-      name : 'assassin',
+      name : 'power',
       parent : 'avalon',
       default : "", 
       args : false,
       usage :  '',
+      type : "information",
+      description: 'Explain all powers !',
+      execute(bot,game,message,args, settings) {
+        const embed = new MessageEmbed()
+        .setTitle(game.displayText("rules","titlepower"))
+        .setDescription(game.displayText("rules","displaypower"))
+        let text = "Power:\n";
+        ["Merlin","Perceval","GoodSoldier","Mordred","Morgane","Assassin","Oberon","EvilSoldier"].forEach(x => {
+          // text += "- "+game.displayText("rules","power"+x)+"\n";
+          embed.addField(x,game.displayText("rules","power"+x))
+        });
+        // message.channel.send(text);
+        message.channel.send(embed);
+      }
+    }
+    ,{
+      name : 'assassin',
+      parent : 'avalon',
+      default : "", 
+      args : true,
+      usage :  '<@mention>',
       type : "game",
       description: 'During step 10, the members of the vote have to succed or failed the quest',
       execute(bot,game,message,args, settings) {
-        if(!privateAllow(game,message,"assassin") || !commandAllow(game,settings,"assassin",[14])) return;
+        if(!commandAllow(game,settings,"assassin",[14])) return;
 
         const id = message.author.id;
-        // if(game.players.get(id).find(e => e == "Assassin") == undefined){ return; }
-        if(args.length != 1){ return; }
-        const nb = parseInt(args[0]);
-        if(isNaN(nb)){ return ;}
+        if(game.players.get(id).roleName == "Assassin" || game.players.get(id).roleName == "Morgane/Assassin" ){ game.send("not allowed"); return; }
+        if(args.length != 1){ game.send("Seulement 1 mention") ; return; }
 
-        const target_id = game.order[nb-1];
+         
+        const target_id = message.mentions.users.firstKey();;
 
-        if(game.players.get(target_id).find(e => e == "Merlin") != undefined){
+        if(game.players.get(target_id) != "Merlin"){
           game.step = 15 //find Merlin
-          game.channel.send(game.displayText("gameAction","merlinFound"))
+          game.send(game.displayText("gameAction","merlinFound"))
         }else{
           game.step = 16 // not find Merlin
-          game.channel.send(game.displayText("gameAction","merlinNotFound"))
+          game.send(game.displayText("gameAction","merlinNotFound"))
 
         }
         game.action()

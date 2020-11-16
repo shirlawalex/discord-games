@@ -61,3 +61,19 @@ var addMap = function(map,key,text){
 }
 
 exports.addMap = addMap;
+
+
+var getBoard = function(game){
+  let info = false;
+  let boardmsg = "";
+    Object.values(game.board).forEach(val => {
+      boardmsg = boardmsg + ":"+val[0]+":"
+      if(val[1]) {boardmsg = boardmsg + ":pushpin:";info = true;}
+    });
+    if (info){
+      boardmsg = boardmsg + "\n\":four::pushpin:\" "+game.displayText("rules","roundPin")
+    }
+  return boardmsg;
+}
+
+exports.getBoard = getBoard;

@@ -231,7 +231,7 @@ module.exports  = class Games {
               return acc;
             }
           )
-          this.send(`${tmp} vote enregistrés`)
+          // this.send(`${tmp} vote enregistrés`)
           
           //can't change your vote is deleted from the cache
           this._cacheMessage.delete(message.id)
