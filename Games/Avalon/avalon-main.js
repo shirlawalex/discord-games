@@ -21,7 +21,6 @@ module.exports  = class Avalon extends Games {
      if(this._cacheMessage.has(message.id)){
       if(this.step == 8){
         this.resultVote = this.loadVote(reaction,this.arrayVoteMsgId,[`✅`,`❌`],this.resultVote);
-        console.log(this.resultVote);
         // if(!this.resultVote.includes(undefined)){
           this.action();
         // }
@@ -184,7 +183,6 @@ module.exports  = class Avalon extends Games {
           this.step = 8;
           break;
         case 8: //check the result
-          console.log(this.resultVote);
           if(!this.resultVote.includes(undefined)){
             console.log("test des 0");
             const yes = this.resultVote.reduce((acc,cur) => {if(cur == 0){acc ++;} console.log(cur,acc); return acc;},0);
@@ -218,9 +216,7 @@ module.exports  = class Avalon extends Games {
           .addField("Consigne",this.displayText("private","questEmoji"));
 
           let arrayUser2 = this.quest.keyArray();
-          console.log("user quest id",arrayUser2); 
           arrayUser2 = arrayUser2.map( e => this.channel.members.get(e));
-          console.log("user quest",arrayUser2); 
           this.arrayVoteMsgId = this.vote(arrayUser2,content2);
 
           this.step = 11;

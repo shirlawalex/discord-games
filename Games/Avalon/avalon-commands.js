@@ -109,7 +109,8 @@ module.exports  =  {
         game.namesQuest = ""
         let check = true;
         message.mentions.users.forEach( user => {
-          if(!user.bot && !game.players.has(user.id)){
+          // if(user.bot || !game.players.has(user.id)){
+          if(!game.players.has(user.id)){
             check = false;
           }else{
             game.quest.set(user.id,undefined);

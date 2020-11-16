@@ -28,11 +28,9 @@ var displayRoles = function(game,nb){
   });
         
   number = ["1️⃣","2️⃣","3️⃣","4️⃣","5️⃣"];
-  // game.bot.send(game.channel,embed)
   game.send(embed)
   .then(m => {
     for(let i = 0;i<tmp;i++){
-      console.log(`${number[i]}`)
       m.react(number[i]);
     }
     m.react("🆕");
