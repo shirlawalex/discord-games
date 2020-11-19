@@ -1,11 +1,3 @@
-const { Discord, displayText } = require(`../util/function.js`)
-const config = require(`../config.json`);
-const mongoose = require("mongoose");
-const { DEFAULTSETTINGS : defaults} = require("../config.json");
-const { Guild } = require("../util/models/index");
-
-
-
 //When Bot add to the guild
 /*
 Create the main Channel
@@ -56,49 +48,37 @@ module.exports = async (bot,guild) => {
   const topicChannel =  bot.displayText(`text`,bot.main,`topicMain`,settings.lang)
   const reasonChannel =  bot.displayText(`text`,bot.main,`reasonMain`,settings.lang)
   await bot.clearlistGames(guild); //empty the Map
-  // Bool test of existing
-  let bool = false
-  let parentChannelPromise;
 
+  
   // Creation of the repository/category for the games
   // If already exist do nothing
+  
+  let parentChannelPromise;
+  let parentChannel = guild.channels.cache.get(settings.idParentChannel);
 
-  guild.channels.cache.each(channel => {
-
-    if(channel.type === `category` && channel.name === settings.nameParentChannel){
-      console.log(`Category already existing`)
-      bool = true
-      parentChannelPromise = new Promise((resolve,reject) => {resolve(channel)});
-    }
-  })
-
-  // Else create the Parent Category
-  if(bool == false){
+  if(parentChannel){
+    console.log(`Category already existing`)
+    parentChannelPromise = new Promise((resolve,reject) => {resolve(parentChannel)});
+  }else{
+    // Else create the Parent Category
     console.log(`Creating category`)
     parentChannelPromise = guild.channels.create(settings.nameParentChannel, {
       type : `category`,
       topic : topicParent,
       reason : reasonParent
-    })
+    }).then( category => bot.updateGuild(guild,{idParentChannel: category.id}) )
   }
-
-  // Reset of bool test of existing
-  bool = false
 
   // Wait for the parent category to be created
   parentChannelPromise.then( parentChannel => {
 
+    let mainChannel = parentChannel.children.get(settings.idMainChannel);
     // If Presentation Channel already exist just clean et display again
-    parentChannel.children.each( channel => {
-      if(channel.name === settings.nameMainChannel ){
-        displayPresentation(bot,channel,settings)
-        bot.updateGuild(guild,{idMainChannel: channel.id});
+    if(mainChannel){
+      displayPresentation(bot,channel,settings)
+      bot.updateGuild(guild,{idMainChannel: channel.id});
+    }else{
 
-        bool = true
-      }
-    })
-
-    if(!bool){
       // Create a new channel for the Presentation of the games
       guild.channels.create(settings.nameMainChannel, {
         type : `text`,
@@ -114,35 +94,23 @@ module.exports = async (bot,guild) => {
       })
       .then( (channel) => {
 
-        displayPresentation(bot,channel,settings)
         bot.updateGuild(guild,{idMainChannel: channel.id});
+        displayPresentation(bot,channel,settings)
 
       })
-     }
-
+    }
 
     //Create a log channel
-    guild.channels.create(settings.nameLogChannel, {
-      type : `text`,
-      topic : "log channel",
-      reason : "every message is send here too",
-      parent : parentChannel,
-      permissionOverwrites: [
-        {
-          id: guild.roles.everyone,
-          deny: ['VIEW_CHANNEL'],
-        }
-      ]
-    })
-    .then( (channel) => {
-      bot.updateGuild(guild,{idLogChannel:channel.id});
-      const timeElapsed = Date.now();
-      const today = new Date(timeElapsed);
-      channel.send(`Start of the log : ${today.toUTCString()}`);
-    }).catch(console.error);
+    if(settings.logActivated){
 
-
+      let logChannel = guild.channels.cache.get(settings.idLogChannel);
+      if( logChannel == undefined){
+        logChannel = await bot.createLogChannel(guild,data);
+      }else{
+        const timeElapsed = Date.now();
+        const today = new Date(timeElapsed);
+        logChannel.send(`Start of the log : ${today.toUTCString()}`);
+      }
+    }
   })
-
-  
 }

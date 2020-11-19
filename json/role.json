@@ -1,0 +1,86 @@
+{
+  "main": {
+    "selectRole" : {
+      "En" : "Choice of roles",
+      "Fr" : "Choix des rôles"
+    },
+    "selectRoleExplain" :{
+      "En" : "Select yours roles by clicking on the emoji.\nTo see power, do !power.\n To see recommended settings, do !recommended",
+      "Fr": "Choissisez quels sont les personnages vous souhaitez incarner en cliquant sur l'emoji correspondant. \nPour voir la liste des rôles recommandés selon le nombre de joueurs, éxécutez la commande `!recommended`.\n Pour voir la liste des pouvoirs, éxécutez la commande `!power`."
+    },
+    "recommendedRoleTitle" : {
+      "En": "Recommended role settings",
+      "Fr": "Paramètre de rôle recommandé"
+    },
+    "recommendedRole" : {
+      "En": "There is the recommended role for each number of players",
+      "Fr": "Voici les paramètres recommandés selon le nombre de joueur"
+    },
+    "resetTitle" : {
+      "En" : "Reset", 
+      "Fr" : "Reset"
+    },
+    "reset" : {
+      "En" : "To reset, click on : 🔄",
+      "Fr" : "Pour remettre à zéro la liste des rôles, cliquez sur : 🔄"
+    },
+    "isReset" : {
+      "En" : "Restart! 🔄 List of roles reset.",
+      "Fr" : "Restart! 🔄 Liste des roles remise à zéro."
+    },
+    "roleSelected" : {
+      "En" : "Role selected :",
+      "Fr" : "Role selectionné :"
+    },
+    "nbRoleSelected" : {
+      "En" : "role.s selected.",
+      "Fr" : "rôle.s enregistré.s."
+    },
+    "giveInfo" : {
+      "En" : "Information for",
+      "Fr" : "Information pour"
+    },
+    "role" :{
+      "En" : "Role",
+      "Fr" : "Rôle"
+    },
+    "giveRole": {
+      "En": "",
+      "Fr": "Les rôles vous ont été attribués aléatoirement par message privé. Veuillez prendre connaissance de votre rôle par message privé."
+    },
+    "power" : {
+      "En" : "Power",
+      "Fr" : "Pouvoir"
+    },
+    "information" : {
+      "En" : "Information",
+      "Fr" : "Information"
+    }
+  },
+  "example" : {
+    "powerMechant" : {
+      "En" : "Power of the Vilan",
+      "Fr" : "Pouvoir du Méchant"
+    },
+    "powerGentil" : {
+      "En" : "Power of the Good",
+      "Fr" : "Pouvoir du Gentil"
+    },
+    "powerNeutre" : {
+      "En" : "Power of the Neutral",
+      "Fr" : "Pouvoir du Neutre"
+    },
+    "Vilain": {
+      "En": "You are the `Vilain`",
+      "Fr": "Tu es le `Vilain`"
+    },
+    "Good": {
+      "En": "You are the `Good`",
+      "Fr": "\nTu es le `Gentil`"
+    },
+    "Neutral": {
+      "En": "You are the `Neutral`",
+      "Fr": "Tu es le `Neutre`"
+    }
+  }
+}

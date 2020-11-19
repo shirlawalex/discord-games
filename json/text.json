@@ -111,6 +111,18 @@
     "forbidenPrivate": {
       "En": "This action is forbiden in private channel",
       "Fr": "Cette action est interdite dans le channel privé"
+    },
+    "game": {
+      "En": "This message is for the game :",
+      "Fr": "Ce message concerne la Partie :"
+    },
+    "start": {
+      "En": "Start of the game with",
+      "Fr": "Lancement de la partie avec"
+    },
+    "players": {
+      "En": "players",
+      "Fr": "joueurs"
     }
   },
   "commandHelp":{

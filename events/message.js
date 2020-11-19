@@ -1,11 +1,8 @@
-const config = require(`../config.json`);
-const { commands } = require("../Games/Avalon/avalon-commands");
-
 //When User send a message
 
 var execute = (bot,env,message,settings) => {
   const args = env.args ;
-  const id = env.id ;
+  // const id = env.id ;
   const commandName = env.commandName ;
   const game = env.game ;
   const name = env.name ;

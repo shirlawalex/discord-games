@@ -28,10 +28,18 @@ const guildSchema = mongoose.Schema({
   ,idLogChannel: {
     "type": String,
     "default": defaults.idLogChannel
+  },
+  logActivate : {
+    "type": Boolean,
+    "default": defaults.logActivate
   }
   ,nameParentChannel: {
     "type": String,
     "default": defaults.nameParentChannel
+  }
+  ,idParentChannel: {
+    "type": String,
+    "default": defaults.idParentChannel
   }
   ,listGamesMessage: {
     "type": Map,

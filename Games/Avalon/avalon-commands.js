@@ -1,24 +1,22 @@
-const {MessageEmbed} = require("discord.js")
 const {add,remove, play, senddm, players} = require("../../util/commands.js");
 const {commandAllow} = require("../../util/function.js");
-const Role = require("../Class/role.js");
 const Avalon = require("./avalon-main.js")
 const AvalonPlayer = require("./avalon-util/avalonPlayer.js")
 
 module.exports  =  {
   commands : [
     {
-      name : 'pingavalon',
+      name : 'rules',
       parent : 'avalon',
       default : "", 
-      args : true,
-      usage :  '<word>',
+      args : false,
+      usage :  '',
       type : "information",
-      description: 'Pong !',
+      description: 'Display rules',
       execute(bot,game,message,args, settings) {
-        game.send("Pong!");
-        game.send(args[0]);
+        game.send(game.displayText("menu","summary"));
       }
+
     }
     ,play
     ,senddm
@@ -41,21 +39,8 @@ module.exports  =  {
         game.action();
       }
     }
-    ,{
-      name : 'recommended',
-      parent : 'avalon',
-      default : "", 
-      args : false,
-      usage :  '',
-      type : "information",
-      description: 'Show recommended role settings for the games',
-      execute(bot,game,message,args, settings) {
-        
-        let embed = AvalonPlayer.embedRecommendation();
-
-        game.send(embed);
-      }
-    }
+    ,AvalonPlayer.recommendedCommand
+    ,AvalonPlayer.powerCommand
     ,{
       name : 'leader',
       parent : 'avalon',
@@ -132,27 +117,6 @@ module.exports  =  {
       }
     }
     ,{
-      name : 'power',
-      parent : 'avalon',
-      default : "", 
-      args : false,
-      usage :  '',
-      type : "information",
-      description: 'Explain all powers !',
-      execute(bot,game,message,args, settings) {
-        const embed = new MessageEmbed()
-        .setTitle(game.displayText("rules","titlepower"))
-        .setDescription(game.displayText("rules","displaypower"))
-        let text = "Power:\n";
-        ["Merlin","Perceval","GoodSoldier","Mordred","Morgane","Assassin","Oberon","EvilSoldier"].forEach(x => {
-          // text += "- "+game.displayText("rules","power"+x)+"\n";
-          embed.addField(x,game.displayText("rules","power"+x))
-        });
-        // message.channel.send(text);
-        message.channel.send(embed);
-      }
-    }
-    ,{
       name : 'assassin',
       parent : 'avalon',
       default : "", 
@@ -164,7 +128,7 @@ module.exports  =  {
         if(!commandAllow(game,settings,"assassin",[14])) return;
 
         const id = message.author.id;
-        if(game.players.get(id).roleName != "Assassin" || game.players.get(id).roleName != "Morgane/Assassin" ){ game.send("not allowed"); return; }
+        if(game.players.get(id).roleName != "Assassin" && game.players.get(id).roleName != "Morgane/Assassin"){ game.send("not allowed"); return; }
         if(args.length != 1){ game.send("Seulement 1 mention") ; return; }
 
          

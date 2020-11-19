@@ -1,70 +1,78 @@
-/*let calculetteMixin = Base => class extends Base {
-  calc() { }
-};
-
-let aleatoireMixin = Base => class extends Base {
-  randomiseur() { }
-};
-Une classe utilisant ces mix-ins peut alors être écrite de cette façon :
-
-class Toto { }
-class Truc extends calculetteMixin(aleatoireMixin(Toto)) { }
-
-*/
-
-class Jeux {
+class Games {
   constructor(name)
-    {
-      this.name = name;
-      this.joueurs = 2;
-    }
+  {
+    this.name = name;
+    this.joueurs = 2;
+  }
 
-    nom(){
-      console.log(this.name);
-    }
+  name(){
+    console.log(this.name);
+  }
 
-    nombre(){
-      console.log(this.joueurs);
-    }
+  nombre(){
+    console.log(this.joueurs);
+  }
 }
 
-let Cartes = Base => class extends Base {
-  constructor(name){
+let Cards = Base => class extends Base {
+constructor(name){
     super(name);
-    this.carte = 44;
+    this.best = "King Heart";
   }
 
-  tire(){
-    console.log(this.carte );
+  static number = 44;
+
+  draw(){
+    console.log("7 Heart");
+  }
+
+  static info = {
+    name : "Games",
+    function : (game) => {
+      console.log("fonction");
+      console.log("best card is "+game.best);
+      game.draw();
+      console.log(Cards.number); //undefined
+      console.log(this.number); //undefined
+    }
   }
 }
 
-let Des = Base => class extends Base {
+
+let Dices = Base => class extends Base {
   constructor(name){
     this.name = name;
-    this.des = [1,2,3,4,5,6];
+    this.Dices = [1,2,3,4,5,6];
   }
 }
 
 
-class President extends Cartes(Jeux){
+class President extends Cards(Games){
   constructor(){
     super("President");
+    this.best = "2 Heart";
   }
   
-  static best(){
-    console.log("2");
+  static drawBest(game){
+    console.log(game.best);
   }
 
 }
 
 
-let duel = new Jeux("duel");
-duel.nom();
-duel.nombre();
-
+let duel = new Games("duel");
+duel.nombre(); // 2
 
 let partie1 = new President();
-partie1.tire();
-President.best();
-partie1.nom();
+President.drawBest(partie1); 
+//2 Heart
+
+//partie1.name(); 
+//TypeError: partie1.name is not a function 
+
+President.info.function(partie1); 
+// function 
+// best card is 2 Heart
+// 7 Heart
+// undefined ??? 
+

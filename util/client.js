@@ -13,13 +13,6 @@ const { DEFAULTSETTINGS : defaults} = require("../config.json");
 const { Guild, Game } = require("./models/index");
 
 
-/* to launch these function: 
-
-require("./util/test")(bot);
-bot.testlog()
-bot.guildName("test")
-
-*/
 
 
 module.exports = bot => {
@@ -52,8 +45,39 @@ module.exports = bot => {
 
   bot.sendLog = async (guild,content) => {
     const data = await Guild.findOne({guildID: guild.id});
-    const logChannel = guild.channels.cache.get(data.idLogChannel);
+    if(data == null || !data.logActivate) return null;
+
+    let logChannel = guild.channels.cache.get(data.idLogChannel);
+
+    //need to factorize this code
+    if(logChannel == undefined){
+        logChannel = await bot.createLogChannel(guild,data);
+    }
+    
     return logChannel.send(content);
+  },
+
+  bot.createLogChannel = (guild,data) => {
+    guild.channels.create(data.nameLogChannel, {
+      type : `text`,
+      topic : "log channel",
+      reason : "every message is send here too",
+      parent : guild.channels.cache.get(data.idParentChannel), //NOT THE RIGHT PARENT
+    permissionOverwrites: [
+      {
+        id: guild.roles.everyone,
+        deny: ['VIEW_CHANNEL'],
+      }
+    ]
+  })
+  .then( (channel) => {
+    bot.updateGuild(guild,{idLogChannel:channel.id});
+    const timeElapsed = Date.now();
+    const today = new Date(timeElapsed);
+    channel.send(`Start of the log : ${today.toUTCString()}`);
+    channel.send(`Not implemented yet`);
+    return channel;
+  }).catch(console.error);
   },
 
   bot.displayText = (name,context,key,lang) =>{
