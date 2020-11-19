@@ -293,8 +293,8 @@ module.exports  = class Avalon extends Games {
 
         case 14: // Assassination of Merlin
           if(this.assassination){
-            game.send(this.displayText("gameAction","assassination"))
-            game.send(this.displayText("gameAction","assassinationCommand"))
+            this.send(this.displayText("gameAction","assassination"))
+            this.send(this.displayText("gameAction","assassinationCommand"))
 
           }else{
             this.step = 16;
@@ -310,11 +310,11 @@ module.exports  = class Avalon extends Games {
         // }
        
         if(this.step == 15){
-          game.send("```"+this.displayText("gameAction","evilWin")+"```")
+          this.send("```"+this.displayText("gameAction","evilWin")+"```")
         }
 
         if(this.step == 16){
-          game.send("```"+this.displayText("gameAction","goodWin")+"```")
+          this.send("```"+this.displayText("gameAction","goodWin")+"```")
         }
 
         case 17: // Reveal role
@@ -323,9 +323,9 @@ module.exports  = class Avalon extends Games {
             const name = channel.members.get(i).user.displayName;
             embedEnd.addField(name,item.roleName);
           });
-          game.send(embedEnd);
+          this.send(embedEnd);
         case 18: // Credit
-          game.send("Merci d'avoir joué ! Codé par Alex Shirlaw")
+          this.send("Merci d'avoir joué ! Codé par Alex Shirlaw")
           break;
 
         default:

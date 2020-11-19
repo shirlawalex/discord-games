@@ -162,7 +162,7 @@
     },
     "assassinationCommand": {
       "En": "",
-      "Fr": "Pour tuer Merlin, tapez la commande `!assassin` suivie du numéro d'ordre du joueur"
+      "Fr": "Pour tuer Merlin, tapez la commande `!assassin` suivie de la mention du joueur"
     },
     "merlinFound": {
       "En": "",

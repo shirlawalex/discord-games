@@ -176,7 +176,6 @@ module.exports  = class Games {
         return [];
       }
     }
-    console.log("array",arrayIdMessage);
     return arrayIdMessage
   }
 
@@ -216,7 +215,6 @@ module.exports  = class Games {
     }
 
     const index = arrayIdMessage.indexOf(message.id);
-    console.log("index",index);
     if(index != -1){
       if(this._cacheMessage.has(message.id)){
         if(emojiArray.find(e => e == reaction.emoji.name)){
@@ -224,7 +222,6 @@ module.exports  = class Games {
           this.send("1 vote enregistré");
           let tmp = result.reduce(
             (acc,cur) => {
-              // console.log("cur",cur)
               if(cur != undefined){
                 acc ++;
               }
@@ -240,8 +237,6 @@ module.exports  = class Games {
         console.log("already vote")
       }
     }
-    // result.then(e => {console.log(e); return e;});
-    console.log(result);
     return result
   }
 

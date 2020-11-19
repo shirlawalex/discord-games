@@ -164,13 +164,13 @@ module.exports  =  {
         if(!commandAllow(game,settings,"assassin",[14])) return;
 
         const id = message.author.id;
-        if(game.players.get(id).roleName == "Assassin" || game.players.get(id).roleName == "Morgane/Assassin" ){ game.send("not allowed"); return; }
+        if(game.players.get(id).roleName != "Assassin" || game.players.get(id).roleName != "Morgane/Assassin" ){ game.send("not allowed"); return; }
         if(args.length != 1){ game.send("Seulement 1 mention") ; return; }
 
          
         const target_id = message.mentions.users.firstKey();;
 
-        if(game.players.get(target_id) != "Merlin"){
+        if(game.players.get(target_id) == "Merlin"){
           game.step = 15 //find Merlin
           game.send(game.displayText("gameAction","merlinFound"))
         }else{

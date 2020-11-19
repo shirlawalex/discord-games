@@ -13,7 +13,7 @@ var execute = (bot,env,message,settings) => {
   const command = bot.commands.get(name).get(commandName);
 
   if((command.type == "cheat" || command.type == "admin") && message.author.id != '589664124032778250'){  
-    const txt = `${bot.displayText("text","log","notallowed",settings.lang)}`;
+    const txt = `COMMAND ADMIN: ${bot.displayText("text","log","notallowed",settings.lang)}`;
     bot.send(message.channel,txt);
     return ;
   }
@@ -48,6 +48,7 @@ module.exports = async (bot,message) => {
 
   if(!message.content.startsWith(settings.prefix) || message.author.bot) return;
 
+  bot.sendLog(message.guild,message.author.toString()+" send : `"+message.content+"`");
   //all variables in one environnement call "env"
   const env = new Object()
   env.args = message.content.slice(settings.prefix.length).split(/ +/);
