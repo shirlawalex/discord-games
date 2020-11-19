@@ -115,7 +115,7 @@ let Role = Base => class Role extends Base {
       info.set(role[i],"");
     }
 
-    this.informationRole(players,info);
+    this.informationRole(game,players,info);
 
     //send information in DM
     players.forEach((player) => {
@@ -138,7 +138,7 @@ let Role = Base => class Role extends Base {
     }); 
   }
 
-  static informationRole(players,info){
+  static informationRole(game,players,info){
 
     players.forEach((player) => {
       const roleName = player.roleName;

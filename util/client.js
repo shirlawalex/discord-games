@@ -47,37 +47,36 @@ module.exports = bot => {
     const data = await Guild.findOne({guildID: guild.id});
     if(data == null || !data.logActivate) return null;
 
-    let logChannel = guild.channels.cache.get(data.idLogChannel);
+    let logChannel = await guild.channels.cache.get(data.idLogChannel);
 
     //need to factorize this code
     if(logChannel == undefined){
-        logChannel = await bot.createLogChannel(guild,data);
+        return bot.createLogChannel(guild,data,content);
+    }else{
+      return logChannel.send(content);
     }
-    
-    return logChannel.send(content);
   },
 
-  bot.createLogChannel = (guild,data) => {
-    guild.channels.create(data.nameLogChannel, {
+  bot.createLogChannel = async (guild,data,content) => {
+    return guild.channels.create(data.nameLogChannel, {
       type : `text`,
       topic : "log channel",
       reason : "every message is send here too",
       parent : guild.channels.cache.get(data.idParentChannel), //NOT THE RIGHT PARENT
-    permissionOverwrites: [
-      {
-        id: guild.roles.everyone,
-        deny: ['VIEW_CHANNEL'],
-      }
-    ]
-  })
-  .then( (channel) => {
-    bot.updateGuild(guild,{idLogChannel:channel.id});
-    const timeElapsed = Date.now();
-    const today = new Date(timeElapsed);
-    channel.send(`Start of the log : ${today.toUTCString()}`);
-    channel.send(`Not implemented yet`);
-    return channel;
-  }).catch(console.error);
+      permissionOverwrites: [
+        {
+          id: guild.roles.everyone,
+          deny: ['VIEW_CHANNEL'],
+        }
+      ]
+    })
+    .then( (channel) => {
+      bot.updateGuild(guild,{idLogChannel:channel.id});
+      const timeElapsed = Date.now();
+      const today = new Date(timeElapsed);
+      channel.send(`Start of the log : ${today.toUTCString()}`);
+      return channel.send(content);
+    }).catch(console.error);
   },
 
   bot.displayText = (name,context,key,lang) =>{

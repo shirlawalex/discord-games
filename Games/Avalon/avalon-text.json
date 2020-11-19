@@ -238,6 +238,30 @@
     }
   },
   "role": {
+    "thisPlayer" : {
+      "En" : "This player",
+      "Fr" : "Ce joueur"
+    },
+    "seePlayer" : {
+      "En" : "You can see this player",
+      "Fr" : "Tu vois ce joueur"
+    },
+    "VilainWithU" : {
+      "En" : "is vilain with you",
+      "Fr" : "est méchant avec toi"
+    },
+    "GoodWithU" : {
+      "En" : "is good with you",
+      "Fr" : "est gentil avec toi"
+    },
+    "VilainAgainstU" : {
+      "En" : "is vilain against you",
+      "Fr" : "est méchant contre toi"
+    },
+    "GoodAgainstU" : {
+      "En" : "is good against you",
+      "Fr" : "est gentil contre toi"
+    },
     "5PlayersName":{
       "En": "5 players",
       "Fr" : "5 joueurs"
