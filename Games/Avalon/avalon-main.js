@@ -33,6 +33,8 @@ module.exports  = class Avalon extends Games {
     this.quest = new Discord.Collection(); // {id : boolean}
     this.resultVote = [];
     this.boardProgress = "";
+    this.minPlayer = 5;
+    this.maxPlayer = 10;
   }
 
   //add player to the collection 
@@ -153,7 +155,7 @@ module.exports  = class Avalon extends Games {
           !add @mention [@mention ...] to add one or sevreal players to the partie
           check if number of players is between 5 and 10
           */
-          if(this.players.size >= game.minPlayer && this.players.size <= game.maxPlayer){
+          if(this.players.size >= this.minPlayer && this.players.size <= this.maxPlayer){
             this.step = 2;
           }else{
             this.step = 1;

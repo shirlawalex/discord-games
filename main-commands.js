@@ -234,10 +234,24 @@ module.exports  =  {
       args : false,
       usage :  '',
       type : "information",
-      description: 'Restart the Main Channel Presentation Text and create it if needed',
+      description: 'Restart the DB initialisation and send explication',
       execute(bot, game, message,args, settings) {
         if(message.channel.type == "text"){
           bot.emit(`guildCreate`,message.guild);
+        }
+      }
+    }
+    ,{
+      name : 'launch',
+      parent : 'main',
+      default : "", 
+      args : false,
+      usage :  '',
+      type : "information",
+      description: 'Restart the Main Channel Presentation Text and create it if needed',
+      execute(bot, game, message,args, settings) {
+        if(message.channel.type == "text"){
+          bot.createNew(message.guild);
         }
       }
     }

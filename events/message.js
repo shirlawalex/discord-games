@@ -45,7 +45,7 @@ module.exports = async (bot,message) => {
 
   if(!message.content.startsWith(settings.prefix) || message.author.bot) return;
 
-  bot.sendLog(message.guild,message.author.toString()+" send : `"+message.content+"`");
+  bot.sendLog(message.guild,message.author.toString()+" send : `"+message.cleanContent+"`");
   //all variables in one environnement call "env"
   const env = new Object()
   env.args = message.content.slice(settings.prefix.length).split(/ +/);
