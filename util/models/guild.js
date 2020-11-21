@@ -13,17 +13,33 @@ const guildSchema = mongoose.Schema({
     "type": String,
     "default": defaults.lang
   }
+  ,nameMainChannel: {
+    "type": String,
+    "default": defaults.nameMainChannel
+  }
   ,idMainChannel: {
     "type": String,
     "default": defaults.idMainChannel
+  }
+  ,nameLogChannel: {
+    "type": String,
+    "default": defaults.nameLogChannel
+  }
+  ,idLogChannel: {
+    "type": String,
+    "default": defaults.idLogChannel
+  },
+  logActivate : {
+    "type": Boolean,
+    "default": defaults.logActivate
   }
   ,nameParentChannel: {
     "type": String,
     "default": defaults.nameParentChannel
   }
-  ,nameMainChannel: {
+  ,idParentChannel: {
     "type": String,
-    "default": defaults.nameMainChannel
+    "default": defaults.idParentChannel
   }
   ,listGamesMessage: {
     "type": Map,

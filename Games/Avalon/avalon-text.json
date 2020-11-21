@@ -12,10 +12,6 @@
       "En": "This action is forbiden in private channel",
       "Fr": "Cette action est interdite dans le channel privé"
     },
-    "register": {
-      "En": "players register",
-      "Fr": "joueurs enregistrés"
-    },
     "start": {
       "En": "Start of the game with",
       "Fr": "Lancement de la partie avec"
@@ -30,6 +26,10 @@
     }
   },
   "menu": {
+    "presentation" : {
+      "En" :"Presentation",
+      "Fr" :"Présenation"
+    },
     "welcome": {
       "En": "Welcome",
       "Fr": "Avalon est un jeu de loyauté à identité cachée. \n Les joueurs sont : \n- soit des serviteurs Loyaux d’Arthur qui se battent pour le Bien et l’honneur, \n- soit des laquais de Mordred œuvrant pour le Mal.\n\nUne partie se joue entre 5 à 10 personnes."
@@ -38,43 +38,47 @@
       "En": "introduction",
       "Fr": "Avalon est un jeu de bluff et de fourberie. Le Mal contre le Bien avec les identités cachées"
     },
+    "registration":{
+      "En":"Player registration",
+      "Fr":"Enregistrement des joueurs"
+    },
     "players": {
       "En": "you want to play ? put a reaction thumbs in the air",
       "Fr": "Vous voulez participer à la partie? tapez la commande `!add` suivi de la mention d'un ou de plusieurs joueurs.\nUne fois les joueurs enregistrés, tapez la commande `!start`.\nPour retirer un joueur de la liste, tapez la commande `!remove` suivi de la mention d'un ou de plusieurs joueurs."
+    },
+    "principle":{
+      "En":"Principle of the game",
+      "Fr":"Principe du jeu"
     },
     "summary": {
       "En": "summary",
       "Fr": "Les rôles sont attribués secrètement à chaque Joueur en début de partie. \n Les joueurs sont soit des chevaliers du Bien, soit des adeptes du Mal. \n Chaque tour, les joueurs devront se mettre d'accord pour former une équipe de quelques joueurs afin de les faire partir en quête. \n Le Mal devra s'infiltrer dans l'équipe afin de faire échouer la quête tandis que le Bien devra déduire l'identité des joueurs pour empêcher le mal de s'infiltrer. \n Attention à bien dissimuler sont rôles tout en semant le doute chez l'adversaire. \n Discussion, Accusation, Subterfuge, Logique, Mensonge et Déduction seront les maitres mots pour le Bien comme pour le Mal. \n "
     },
+    "goalsTitle": {
+      "En" : "Goals of the game",
+      "Fr" : "Objectif du jeu"
+    },
     "goals": {
       "En": "goals",
-      "Fr": "But du jeu : \nChaque tour le leader choisira des soldats pour partir en quête. L'ensemble des joueurs devront approuver par un vote à la majorité absolu leur départ.\nSi l'équipe n'est pas approuvée alors c'est un 'refus de départ' et le leader passe la main au prochain. Si l'équipe est approuvée, le sort de la quête est entre leurs mains.\nIl y a en tout 5 quêtes.\n- Le Bien l'emporte en accomplissant trois quêtes. \n- Le Mal l'emporte en faisant échouer trois quêtes. \nLe Mal peut aussi l'emporter en assassinant Merlin en fin de partie ou s'il y a 5 refus de départ en quête consécutifs. \n Règles complètes ici : https://www.regledujeu.fr/avalon/ "
+      "Fr": "But du jeu : \nChaque tour le leader choisira des soldats pour partir en quête. L'ensemble des joueurs devront approuver par un vote à la majorité absolu leur départ.\nSi l'équipe n'est pas approuvée alors c'est un 'refus de départ' et le leader passe la main au prochain. Si l'équipe est approuvée, le sort de la quête est entre leurs mains.\nIl y a en tout 5 quêtes.\n- Le Bien l'emporte en accomplissant trois quêtes. \n- Le Mal l'emporte en faisant échouer trois quêtes. \nLe Mal peut aussi l'emporter en assassinant Merlin en fin de partie ou s'il y a 5 refus de départ en quête consécutifs. \n Pour afficher un résumé des règles, tapez `!rules`\n Règles officielle complètes ici : https://www.regledujeu.fr/avalon/ "
     },
-    "command": {
-      "En": "command",
-      "Fr": "!help : redonne la liste des commandes. \n !restart : relance la partie de zéro (Attention supprime la progression)\n !role : renvoie en message privé son rôle. \n !sayAgain : renvoie le dernier message. \n !rule : donne les règles du jeux. \n !setting : donne les paramètres du jeux. \n !countdown N: décompte N seconde jusqu'a zéro (affiche les multiples de 5). \n !timer N: lance un minuteur de N minutes. \n "
+    "roundTitle": {
+      "En":"Round explanation",
+      "Fr":"Explication de tour"
     },
-    "rules": {
-      "En": "command",
-      "Fr": "!help : redonne la liste des commandes. \n !restart : relance la partie de zéro (Attention, cela supprime la progression)\n !role : renvoie en message privé son rôle. \n !sayAgain : renvoie le dernier message. \n !rule : donne les règles du jeu. \n !setting : donne les paramètres du jeux. \n !countdown N: décompte N seconde jusqu'a zéro (affiche les multiples de 5). \n !timer N: lance un minuteur de N minutes. \n "
+    "roundExplanation" : {
+      "En":"For each of the 5 round the leader must choose the players who will go on the quest according to the number indicated on the game",
+      "Fr":"A chacun des 5 tours, le leader devra choisir les joueurs qui iront en quête selon le nombre indiqué sur le tableau du jeu."
     }
   },
   "gameAction": {
     "board": {
-      "En": "",
-      "Fr": "Voici le plateau pour le nombre de joueurs enregistrés. Pour lancer la partie avec le plateau original, exécutez la commande `!start`. Vous pouvez crée un plateau personnalisé avec la commande `!custom`. Si vous souhaitez supprimer des joueurs de la liste, utilisez la commande `!remove` suivi des mentions des joueurs à retirer"
+      "En": "Game board",
+      "Fr": "Tableau de jeu"
     },
-    "start": {
-      "En": "",
-      "Fr": "Nombre de joueurs suffisant. Pour lancer la partie, tapez `!start`"
-    },
-    "selectRole": {
-      "En": "",
-      "Fr": "Choissiez les rôles pour la partie. \nSelectionnez la config avec la commande `!role <nombre_joueurs> <version>` ou alors créez une config custom avec la commande `!custom`. \nExemple : `!role 5 v2`\nPour avoir les pouvoirs de chaque personnage, tapez la commande `!power`"
-    },
-    "giveRole": {
-      "En": "",
-      "Fr": "Les rôles vous ont été attribués aléatoirement par message privé. Veuillez prendre connaissance de votre rôle par message privé."
+    "nextAction": {
+      "En": "Next action",
+      "Fr": "Prochaine action"
     },
     "leaderOrder": {
       "En": "",
@@ -88,9 +92,33 @@
       "En": "",
       "Fr": "Leader choississez votre équipe avec la commande `!select` suivi des mentions des joueurs"
     },
+    "vote" : {
+      "En":"Vote for the team quest",
+      "Fr":"Vote pour l'équipe"
+    },
+    "selectedPlayer" : {
+      "En" : "Players selected for the quest",
+      "Fr" : "Joueurs selectionné pour la quête"
+    },
+    "instructions" : {
+      "En" : "Instruction",
+      "Fr" : "Consigne"
+    },
+    "resultVote" : {
+      "En" : "Result of the vote",
+      "Fr" : "Résultat du vote"
+    },
+    "yes" : {
+      "En" : "Yes ✅",
+      "Fr" : "Oui ✅"
+    },
+    "no" : {
+      "En" : "No ❌",
+      "Fr" : "Non ❌"
+    },
     "rejectedCount": {
       "En": "",
-      "Fr": "5 refus de quête d'affilés, le Mal l'emporte ! Nous sommes actuellement au refus numéro :"
+      "Fr": "5 refus de quête d'affilés, la partie se finit et le Mal l'emporte ! Nous sommes actuellement au refus numéro :"
     },
     "electTeam": {
       "En": "",
@@ -140,13 +168,33 @@
       "En": "denied of leader ",
       "Fr": "refus de leader consécutifs"
     },
+    "warning": {
+      "En": "Warning ",
+      "Fr": "Attention ! Il est interdit de communiquer de quelconque manière, notamment par message privé et/ou en dehors de la Partie ! Tout ce qui se dit doit l'être publiquement"
+    },
+    "questEmoji": {
+      "En": " ",
+      "Fr": "Vous partez en quête! Pour la faire réussir, cliquez sur ✅ pour la faire échouer tapez ❌"
+    },
     "voteQuest": {
       "En": " ",
       "Fr": "Une intention de quête enregistrée "
     },
+    "resultQuest" : {
+      "En" :"Result of the Quest",
+      "Fr" : "Résultat de la quête"
+    },
     "countFail": {
       "En": " ",
       "Fr": " échec a été mis dans la quête."
+    },
+    "failed" : {
+      "En" : "Failed",
+      "Fr" : "Sabotage échec!"
+    },
+    "success" : {
+      "En" : "Success",
+      "Fr" : "Succès"
     },
     "questSucceed": {
       "En": "",
@@ -166,7 +214,7 @@
     },
     "assassinationCommand": {
       "En": "",
-      "Fr": "Pour tuer Merlin, tapez la commande `!assassin` suivie du numéro d'ordre du joueur"
+      "Fr": "Pour tuer Merlin, tapez la commande `!assassin` suivie de la mention du joueur"
     },
     "merlinFound": {
       "En": "",
@@ -180,33 +228,159 @@
       "En": "",
       "Fr": "Bravo au Mal, vous avez su manipuler et éliminer la vermine. J'espère que vous n'avez pas détruit des amitiés en cours de partie ! "
     },
+    "reveal" : {
+      "En" : "Reveal of roles", 
+      "Fr" : "Révélation des rôles"
+    },
     "end": {
       "En": "",
       "Fr": "La partie est dorénavant terminée, j'espère que vous avez apprécié \"Discord-Games Avalon\". À bientôt pour une nouvelle partie !"
     }
   },
-  "setting": {
-    "count": {
-      "En": "",
-      "Fr": ""
+  "role": {
+    "thisPlayer" : {
+      "En" : "This player",
+      "Fr" : "Ce joueur"
     },
-    "board": {
-      "En": "List of board",
-      "Fr": "Voici les configurations originales selon le nombre de joueurs"
+    "seePlayer" : {
+      "En" : "You can see this player",
+      "Fr" : "Tu vois ce joueur"
     },
-    "predefinedRole": {
-      "En": "",
-      "Fr": "Voici des rôles prédéfinis pour votre nombre de joueurs, si vous voulez changer les rôles, tapez la commande `!custom`, sinon pour selectionner une des combinaisons tapez !role \"nom combinaison\""
+    "VilainWithU" : {
+      "En" : "is vilain with you",
+      "Fr" : "est méchant avec toi"
     },
-    "election": {
+    "GoodWithU" : {
+      "En" : "is good with you",
+      "Fr" : "est gentil avec toi"
+    },
+    "VilainAgainstU" : {
+      "En" : "is vilain against you",
+      "Fr" : "est méchant contre toi"
+    },
+    "GoodAgainstU" : {
+      "En" : "is good against you",
+      "Fr" : "est gentil contre toi"
+    },
+    "5PlayersName":{
+      "En": "5 players",
+      "Fr" : "5 joueurs"
+    },
+    "6PlayersName":{
+      "En": "6 players",
+      "Fr" :"6 joueurs"
+    },
+    "7PlayersName":{
+      "En": "7 players",
+      "Fr" :"7 joueurs"
+    },
+    "8PlayersName":{
+      "En": "8 players",
+      "Fr" :"8 joueurs"
+    },
+    "9PlayersName":{
+      "En": "9 players",
+      "Fr" :"9 joueurs"
+    },
+    "10PlayersName":{
+      "En": "10 players",
+      "Fr" :"10 joueurs"
+    },
+    "5Players":{
+      "En": "3 Good: Merlin + 2 Servant of the Good. \n2 Evil: Mordred + Assassin",
+      "Fr" : "3 Bien: Merlin + 2 Serviteur du Bien. \n2 Mal : Mordred + Assassin"
+    },
+    "6Players":{
+      "En": "4 Good : Merlin + Perceval + 2 Servant of the Good. \n2 Mal : Mordred + Morgane/Assassin.",
+      "Fr" :"4 Bien : Merlin + Perceval + 2 Serviteur du Bien. \n2 Mal : Mordred + Morgane/Assassin."
+    },
+    "7Players":{
+      "En": "4 Good : Merlin + Perceval + 2 Servant of the Good. \n3 Mal : Mordred + Morgane + Assassin.",
+      "Fr" :"4 Bien : Merlin + Perceval + 2 Serviteur du Bien. \n3 Mal : Mordred + Morgane + Assassin."
+    },
+    "8Players":{
+      "En": "5 Good : Merlin + Perceval + 3 Servant of the Good. \n3 Mal : Mordred + Morgane + Assassin.",
+      "Fr" :"5 Bien : Merlin + Perceval + 3 Serviteur du Bien. \n3 Mal : Mordred + Morgane + Assassin."
+    },
+    "9Players":{
+      "En": "5 Good : Merlin + Perceval + 3 Servant of the Good. \n4 Mal : Mordred + Morgane + Assassin + Servant of the Evil.",
+      "Fr" :"5 Bien : Merlin + Perceval + 3 Serviteur du Bien. \n4 Mal : Mordred + Morgane + Assassin + Serviteur du Mal."
+    },
+    "10Players":{
+      "En": "6 Good : Merlin + Perceval + 4 Servant of the Good. \n4 Mal : Mordred + Morgane + Assassin + Oberon.",
+      "Fr" :"6 Bien : Merlin + Perceval + 4 Serviteur du Bien. \n4 Mal : Mordred + Morgane + Assassin + Oberon."
+    },
+    "Mordred": {
+      "En": "You are the terrifying `Mordred`",
+      "Fr": "Tu es le terrifiant `Mordred`"
+    },
+    "Assassin": {
+      "En": "You are the ruthless `Assassin`",
+      "Fr": "\nTu es l'impitoyable `Assassin`"
+    },
+    "Morgane": {
+      "En": "You are the witch `Morgane`",
+      "Fr": "Tu es la Sorcière `Morgane`"
+    },
+    "Morgane/Assassin": {
+      "En": "You are the witch `Morgane` with the powers of the `Assassin`",
+      "Fr": "Tu es la Sorcière `Morgane` avec les pouvoirs de `l'Assassin`"
+    },
+    "Oberon": {
+      "En": "You are the crazy `Oberon`",
+      "Fr": "Tu es le fou `Oberon`"
+    },
+    "EvilSoldier": {
+      "En": "You are an `Servant of the Evil`",
+      "Fr": "Tu es un `Serviteur du Mal` (sans pouvoir)"
+    },
+    "Merlin": {
+      "En": "You are the mage `Merlin`",
+      "Fr": "Tu es le Sorcier `Merlin`"
+    },
+    "Perceval": {
+      "En": "You are the brave  `Perceval`",
+      "Fr": "Tu es le vaillant `Perceval`"
+    },
+    "GoodSoldier": {
+      "En": "You are an `Servant of the Good`",
+      "Fr": "Tu es un `serviteur du Bien` (sans pouvoir)"
+    },
+    "powerMerlin": {
       "En": "",
-      "Fr": ""
-    }
-  },
-  "rules": {
-    "roundPin": {
-      "En": ": 2 failed required to failed the quest.",
-      "Fr": ": 2 échecs requis pour faire échouer la quête."
+      "Fr": "[Gentil 😇] Merlin connaît l'identité des méchants sauf Mordred."
+    },
+    "powerPerceval": {
+      "En": "",
+      "Fr": "[Gentil 😇] Perceval connaît l'identité de Merlin et de Morgane mais ne sait pas qui est lequel."
+    },
+    "powerGoodSoldier": {
+      "En": "",
+      "Fr": "[Gentil 😇] Le Serviteur du Bien ne connait l'identité de personne."
+    },
+    "powerMordred": {
+      "En": "",
+      "Fr": "[Méchant 😈] Mordred connait l'identité des méchants et son identité est cachée de Merlin."
+    },
+    "powerMorgane": {
+      "En": "",
+      "Fr": "[Méchant 😈] Morgane connait l'identité des méchants et se fait passer pour Merlin au près de Perceval."
+    },
+    "powerAssassin": {
+      "En": "",
+      "Fr": "[Méchant 😈] L'assassin connait l'identité des méchants et doit tuer Merlin si le Bien l'emporte."
+    },
+    "powerMorgane/Assassin": {
+      "En": "",
+      "Fr": "[Méchant 😈] Morgane connait l'identité des méchants et se fait passer pour Merlin au près de Perceval afin de tuer Merlin si le Bien l'emporte."
+    },
+    "powerOberon": {
+      "En": "",
+      "Fr": "[Méchant 😈] Oberon ne connait pas l'identité des autres méchants mais eux savent son identité"
+    },
+    "powerEvilSoldier": {
+      "En": "",
+      "Fr": "[Méchant 😈] Le Seviteur du Mal connait l'identité des méchants, sans pouvoir particulier."
     },
     "titlepower": {
       "En": " ",
@@ -215,38 +389,12 @@
     "displaypower": {
       "En": " ",
       "Fr": "Voici la liste de chaque pouvoir"
-    },
-    "powerMerlin": {
-      "En": "",
-      "Fr": "Merlin connaît l'identité des méchants sauf Mordred."
-    },
-    "powerPerceval": {
-      "En": "",
-      "Fr": "Perceval connaît l'identité de Merlin et de Morgane mais ne sait pas qui est lequel."
-    },
-    "powerGoodSoldier": {
-      "En": "",
-      "Fr": "Le Serviteur du Bien ne connait l'identité de personne."
-    },
-    "powerMordred": {
-      "En": "",
-      "Fr": "Mordred connait l'identité des méchants et son identité est cachée de Merlin."
-    },
-    "powerMorgane": {
-      "En": "",
-      "Fr": "Morgane connait l'identité des méchants et se fait passer pour Merlin au près de Perceval."
-    },
-    "powerAssassin": {
-      "En": "",
-      "Fr": "L'assassin connait l'identité des méchants et doit tuer Merlin si le Bien l'emporte."
-    },
-    "powerOberon": {
-      "En": "",
-      "Fr": "Oberon ne connait pas l'identité des autres méchants mais eux savent son identité"
-    },
-    "powerEvilSoldier": {
-      "En": "",
-      "Fr": "Le Seviteur du Mal connait l'identité des méchants, sans pouvoir particulier."
+    }
+  },
+  "rules": {
+    "roundPin": {
+      "En": ": 2 failed required to failed the quest.",
+      "Fr": ": 2 échecs requis pour faire échouer la quête."
     }
   },
   "players": {
@@ -273,64 +421,6 @@
     "10": {
       "En": "10 players (6 Good, 4 Bad)",
       "Fr": "10 joueurs (6 Bien, 4 Mal)"
-    }
-  },
-  "private": {
-    "warning": {
-      "En": "You are ",
-      "Fr": "Attention ! Il est interdit de communiquer de quelconque manière, notamment par message privé et/ou en dehors de la Partie ! Tout ce qui se dit doit l'être publiquement"
-    },
-    "quest": {
-      "En": " ",
-      "Fr": "Vous partez en quête! Pour la faire réussir, tapez \"!quest succes\" pour la faire échouer tapez \"!quest fail\""
-    },
-    "questEmoji": {
-      "En": " ",
-      "Fr": "Vous partez en quête! Pour la faire réussir, cliquez sur ✅ pour la faire échouer tapez ❌"
-    },
-    "Mordred": {
-      "En": "You are ",
-      "Fr": "Tu es le terrifiant `Mordred`"
-    },
-    "Assassin": {
-      "En": "You are ",
-      "Fr": "\nTu es l'impitoyable `Assassin`"
-    },
-    "Morgane": {
-      "En": "You are ",
-      "Fr": "Tu es la Sorcière `Morgane`"
-    },
-    "Oberon": {
-      "En": "You are ",
-      "Fr": "Tu es le fou `Oberon`"
-    },
-    "EvilSoldier": {
-      "En": "You are ",
-      "Fr": "Tu es un `serviteur du Mal` (sans pouvoir)"
-    },
-    "Merlin": {
-      "En": "You are ",
-      "Fr": "Tu es le Sorcier `Merlin`"
-    },
-    "Perceval": {
-      "En": "You are ",
-      "Fr": "Tu es le vaillant `Perceval`"
-    },
-    "GoodSoldier": {
-      "En": "You are ",
-      "Fr": "Tu es un `serviteur du Bien` (sans pouvoir)"
-    },
-    "1role": {
-      "En": "You have 1 role",
-      "Fr": "Tu as 1 rôle"
-    },
-    "2role": {
-      "En": "You have 2 roles",
-      "Fr": "Tu as 2 rôles"
-    },
-    "3role": {
-      "En": "You have 3 roles",
-      "Fr": "Tu as 3 rôles"
     }
   },
   "punchline": {

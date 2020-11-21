@@ -5,20 +5,9 @@ const fs = require(`fs`)
 exports.fs = fs;
 
 
-const mongoose = require("mongoose");
-const { DEFAULTSETTINGS : defaults} = require("../config.json");
-const { Guild } = require("./models/index");
 
 
 /*********  FUNCTION ***********/
-
-const displayTextMain = function (client,name,context,key,lang){
-  return client.jsonFiles.get(name)[context][key][lang]
-}
-
-
-
-exports.displayText = displayTextMain;
 
 // Auxiliary function to extract file name with the extension from directory. (boolean recursive)
 var arrayOfFile = function (directory,extension,recursive) {
@@ -38,3 +27,14 @@ exports.arrayOfFile = arrayOfFile;
 
 
 
+var commandAllow = function(game,settings,name,curStep) {
+  //check if the commands is call while curStep
+  if(!curStep.includes(game.step)){
+    const msg = `"${name}" : ${game.bot.displayText("text","log","forbiden",settings.game.lang)}`;
+    game.send(msg);
+    return false;
+  }
+  return true;
+}
+
+exports.commandAllow = commandAllow;

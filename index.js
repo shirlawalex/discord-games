@@ -27,7 +27,5 @@ loadCommands(bot);
 bot.mongoose.init(bot.dblocal)
 
 
-bot.testlog()
-
 //Connect bot
 bot.login(config.token)

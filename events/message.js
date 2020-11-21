@@ -1,11 +1,8 @@
-const config = require(`../config.json`);
-const { commands } = require("../Games/Avalon/avalon-commands");
-
 //When User send a message
 
 var execute = (bot,env,message,settings) => {
   const args = env.args ;
-  const id = env.id ;
+  // const id = env.id ;
   const commandName = env.commandName ;
   const game = env.game ;
   const name = env.name ;
@@ -13,20 +10,20 @@ var execute = (bot,env,message,settings) => {
   const command = bot.commands.get(name).get(commandName);
 
   if((command.type == "cheat" || command.type == "admin") && message.author.id != '589664124032778250'){  
-    const txt = `${bot.displayText("text","log","notallowed",settings.lang)}`;
-    message.channel.send(txt);
+    const txt = `COMMAND ADMIN: ${bot.displayText("text","log","notallowed",settings.lang)}`;
+    bot.send(message.channel,txt);
     return ;
   }
 
   if(command.args && args.length == 0){
     if(command.default == undefined || command.default == ""){
       const txt = `${bot.displayText("text","log","usage",settings.lang)} Usage: \`${settings.prefix}${command.name} ${command.usage}\``;
-      message.channel.send(txt);
+      bot.send(message.channel,txt);
       return;
     }else{
       
       const txt = ` ${bot.displayText("text","log","defaultArg",settings.lang)} ${command.default}. \nUsage : \`${settings.prefix}${command.name} ${command.usage}\``;
-      message.channel.send(txt);
+      bot.send(message.channel,txt);
       args[0] = command.default;
     }
   }
@@ -43,9 +40,12 @@ module.exports = async (bot,message) => {
   //if dm send to the event private dm
   if(message.channel.type === "dm") return bot.emit("directMessage",message);
   const settings = await bot.getGuild(message.guild)
+  const settingsG = await bot.getGame(message.channel)
+  settings.game = settingsG;
 
   if(!message.content.startsWith(settings.prefix) || message.author.bot) return;
 
+  bot.sendLog(message.guild,message.author.toString()+" send : `"+message.cleanContent+"`");
   //all variables in one environnement call "env"
   const env = new Object()
   env.args = message.content.slice(settings.prefix.length).split(/ +/);
